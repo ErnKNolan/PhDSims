@@ -59,7 +59,7 @@ power_plot <- outsim3 %>%
          test = paste0(icc,ctrl_prop))
 
 #the plot code
-png(filename=here("Output","power_nonadapt.png"),width=6,height=4,res=300,units="in")
+png(filename=here("Output","power_nonadapt.png"),width=8,height=4,res=300,units="in")
 ggplot(data=power_plot,aes(y = bayesr,x = sample_n)) +
   geom_point(aes(color = ctrlpf))+
   geom_line(aes(linetype = iccf,color = ctrlpf)) + 

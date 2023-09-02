@@ -7,7 +7,7 @@
 #rho = intra-cluster correlation
 #mod = model set by cmdstan_model
 #... = the proportion for each treatment group i.e t1=0.2, t2=0.5 etc
-testss <- function(t,expdat,rho,mod,...){
+testss <- function(t,expdat,rho,mod,outdir,...){
   tic()
   prop <- list(...)
   comp <- (1:t)
@@ -53,7 +53,7 @@ testss <- function(t,expdat,rho,mod,...){
       adapt_delta = 0.8,
       refresh = 0, 
       max_treedepth=12,
-      output_dir="C:/Users/Enolan/Simulations"
+      output_dir=outdir
       
     )
     time <- toc()

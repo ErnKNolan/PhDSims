@@ -29,19 +29,27 @@ outdat <- list()
 for(j in 1:nrow(properties)){
   outdat[[j]] <- makeClusters(t=4,nid=properties$n_per_k[j],t1=properties$k[j],t2=properties$k[j],t3=properties$k[j],t4=properties$k[j])
 }
+#set how many workers you want to use
+plan(multisession,workers=20) 
+#Work comp (comment out the irrelevant one)
+#Sys.setenv(Home="C:/Users/Enolan")
+#path <- "C:/Users/ENolan/Simulations/runbae.stan"
+#set_cmdstan_path("C:/Users/ENolan/.cmdstan/cmdstan-2.32.2")
+#outdir <- 
+#Home comp (comment out the irrelevant one)
+Sys.setenv(Home="D:/Programs")
+path <- "D:/Programs/PhDProject2/Programs/runbae.stan"
+set_cmdstan_path(path="D:/Programs/.cmdstan/cmdstan-2.32.2")
+outdir <- "F:/Simulations"
 
-plan(multisession,workers=15) 
-tic()
+#run the code
 test <- list()
-Sys.setenv(Home="C:/Users/Enolan")
-path <- "C:/Users/ENolan/Simulations/runbae.stan"
-set_cmdstan_path("C:/Users/ENolan/.cmdstan/cmdstan-2.32.2")
+tic()
 mod <- cmdstan_model(path, pedantic = F, compile=T)
-
 for(j in 1:48){
-  test[[j]] <- future_replicate(100,testss(expdat=outdat[[j]],t=4,mod=mod,rho=properties$icc[j],t1=properties$t1[j],t2=properties$t2[j],t3=properties$t3[j],t4=properties$t4[j]),
+  test[[length(test)+1]] <- future_replicate(100,testss(expdat=outdat[[j]],t=4,mod=mod,outdir=outdir,
+                                           rho=properties$icc[j],t1=properties$t1[j],t2=properties$t2[j],t3=properties$t3[j],t4=properties$t4[j]),
                                  future.seed = 42L)
-
 }
 toc(quiet=FALSE)
 
@@ -58,4 +66,4 @@ outsim <- bind_rows(tempd)
 
 properties2 <- properties %>% mutate(row = row_number()) 
 outsim2 <- merge(outsim,properties2,by.y=c("row"),by.x="property")
-saveRDS(outsim2,file=here("testsim.RDS"))
+#saveRDS(outsim2,file=here("testsim.RDS"))
