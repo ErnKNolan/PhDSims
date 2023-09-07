@@ -46,7 +46,7 @@ testss <- function(t,expdat,rho,mod,outdir,...){
     res <- mod$sample(
       data = data, 
       init = 0,
-      iter_warmup = 500,
+      iter_warmup = 250,
       iter_sampling = 250,
       chains = 4, 
       parallel_chains = 1,
@@ -56,6 +56,7 @@ testss <- function(t,expdat,rho,mod,outdir,...){
       output_dir=outdir
       
     )
+    print(j)
     time <- toc()
     time <- time$toc - time$tic
     results <- list(data.frame(res$summary(variables=c("pred_prob_trt","diff")),time=time))

@@ -60,10 +60,13 @@ power_plot <- outsim3 %>%
 
 #the plot code
 png(filename=here("Output","power_nonadapt.png"),width=8,height=4,res=300,units="in")
-ggplot(data=power_plot,aes(y = bayesr,x = sample_n)) +
+power_plot %>% mutate(trteff = case_when(trt_eff_scen == 1 ~ "Scenario 1",
+                                         trt_eff_scen == 2 ~ "Scenario 2",
+                                         trt_eff_scen == 3 ~ "Scenario 3")) %>%
+ggplot(aes(y = bayesr,x = sample_n)) +
   geom_point(aes(color = ctrlpf))+
   geom_line(aes(linetype = iccf,color = ctrlpf)) + 
-  facet_wrap(~trt_eff_scen) + 
+  facet_wrap(~trteff) + 
   geom_hline(yintercept = 0.8) + 
   geom_hline(yintercept = 0.05, linetype="dashed") +
   theme_light() + 
@@ -101,7 +104,3 @@ for(i in 1:n_pages(p)){
   ggsave(plot = p_save, filename = paste0('Output/zip_page_', i, '.jpg'),
          width=12,height=8,dpi=150,units="in")
 }
-
-
-#protocol for replacing lost simulations
-#run the whole thing, count how many failed - run back up to 10k for each.
