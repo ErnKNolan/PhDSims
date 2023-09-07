@@ -42,7 +42,7 @@ testss <- function(t,expdat,rho,mod,outdir,...){
     N_trt_groups <- length(unique(expdat$trt))
     data <- list(N_obs = N_obs, N_site = N_site, N_trt_groups = N_trt_groups, 
                  site = expdat$site, trt = as.numeric(expdat$trt), resp = resp)
-
+    
     res <- mod$sample(
       data = data, 
       init = 0,
@@ -64,7 +64,7 @@ testss <- function(t,expdat,rho,mod,outdir,...){
   },
   
   error=function(e) { message(conditionMessage(e)) 
-    res <- data.frame(variable=NA,mean=NA,sd=NA,q5=NA,q95=NA,rhat=NA,ess_bulk=NA,ess_tail=NA)
+    res <- data.frame(variable=NA,mean=NA,median=NA,sd=NA,mad=NA,q5=NA,q95=NA,rhat=NA,ess_bulk=NA,ess_tail=NA,time=NA)
     results <- list(res)
   })
   

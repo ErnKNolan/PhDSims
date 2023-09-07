@@ -4,11 +4,17 @@ output: html_document
 date: "2023-09-05"
 ---
 
+DATE CREATED: 05 SEP 2023
+AUTHOR: Erin Nolan
+PURPOSE: Create traceplots for the pilot non-adaptive Bayesian simulations
+
 ```{r setup, include=FALSE}
 pacman::p_load(rstan,cmdstanr)
 ```
+
+For the pilot:
 seed = 668958149
-future seed=64L in pilot
+future package seed=64L
 
 j=1
 ```{r}
@@ -537,9 +543,6 @@ png(filename=here("Output","traceplot_j24s3.png"),width=8,height=3,res=180,units
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
 ```
-
-__________________________________________________
-
 
 j=25
 ```{r}

@@ -31,6 +31,7 @@ for(j in 1:nrow(properties)){
 }
 #set how many workers you want to use
 plan(multisession,workers=20) 
+rstan_options(auto_write = TRUE)
 #Work comp (comment out the irrelevant one)
 #Sys.setenv(Home="C:/Users/Enolan")
 #path <- "C:/Users/ENolan/Simulations/runbae.stan"
