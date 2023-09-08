@@ -61,6 +61,10 @@ generated quantities {
     vector[N_trt_groups] pred_prob_trt;
         pred_prob_trt = inv_logit(mean(b0_site) + beta_trt);
 
+array[N_obs] int ypred;
+
+ypred = bernoulli_logit_rng(mean(b0_site) + Q_ast * theta_trt);
+
 	int diff;
 		if(max(beta_trt) == beta_trt[1]) diff=1;
 		else diff=0;
