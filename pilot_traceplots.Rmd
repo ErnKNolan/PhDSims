@@ -9,7 +9,7 @@ AUTHOR: Erin Nolan
 PURPOSE: Create traceplots for the pilot non-adaptive Bayesian simulations
 
 ```{r setup, include=FALSE}
-pacman::p_load(rstan,cmdstanr)
+pacman::p_load(rstan,cmdstanr,bayesplot)
 ```
 
 For the pilot:
@@ -24,17 +24,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309051847-1-918dc2.csv","F:/Si
 png(filename=here("Output","traceplot_j1s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j1s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[1]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309051847-1-077991.csv","F:/Simulations/runbae-202309051847-2-077991.csv",
                         "F:/Simulations/runbae-202309051847-3-077991.csv","F:/Simulations/runbae-202309051847-4-077991.csv"))
 png(filename=here("Output","traceplot_j1s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j1s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[1]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309051847-1-35d45b.csv","F:/Simulations/runbae-202309051847-2-35d45b.csv",
                         "F:/Simulations/runbae-202309051847-3-35d45b.csv","F:/Simulations/runbae-202309051847-4-35d45b.csv"))
 png(filename=here("Output","traceplot_j1s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j1s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[1]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -46,17 +61,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309051851-1-35d45b.csv","F:/Si
 png(filename=here("Output","traceplot_j2s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j2s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[2]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309051851-1-918dc2.csv","F:/Simulations/runbae-202309051851-2-918dc2.csv",
                         "F:/Simulations/runbae-202309051851-3-918dc2.csv","F:/Simulations/runbae-202309051851-4-918dc2.csv"))
 png(filename=here("Output","traceplot_j2s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j2s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[2]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309051851-1-077991.csv","F:/Simulations/runbae-202309051851-2-077991.csv",
                         "F:/Simulations/runbae-202309051851-3-077991.csv","F:/Simulations/runbae-202309051851-4-077991.csv"))
 png(filename=here("Output","traceplot_j2s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j2s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[2]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -68,17 +98,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309051953-1-35d45b.csv","F:/Si
 png(filename=here("Output","traceplot_j3s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j3s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[3]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309051953-1-918dc2.csv","F:/Simulations/runbae-202309051953-2-918dc2.csv",
                         "F:/Simulations/runbae-202309051953-3-918dc2.csv","F:/Simulations/runbae-202309051953-4-918dc2.csv"))
 png(filename=here("Output","traceplot_j3s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j3s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[3]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309051953-1-077991.csv","F:/Simulations/runbae-202309051953-2-077991.csv",
                         "F:/Simulations/runbae-202309051953-3-077991.csv","F:/Simulations/runbae-202309051953-4-077991.csv"))
 png(filename=here("Output","traceplot_j3s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j3s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[3]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -90,17 +135,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309051956-1-35d45b.csv","F:/Si
 png(filename=here("Output","traceplot_j4s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j4s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[4]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309051956-1-918dc2.csv","F:/Simulations/runbae-202309051956-2-918dc2.csv",
                         "F:/Simulations/runbae-202309051956-3-918dc2.csv","F:/Simulations/runbae-202309051956-4-918dc2.csv"))
 png(filename=here("Output","traceplot_j4s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j4s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[4]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309051956-1-077991.csv","F:/Simulations/runbae-202309051956-2-077991.csv",
                         "F:/Simulations/runbae-202309051956-3-077991.csv","F:/Simulations/runbae-202309051956-4-077991.csv"))
 png(filename=here("Output","traceplot_j4s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j4s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[4]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -112,17 +172,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309051959-1-35d45b.csv","F:/Si
 png(filename=here("Output","traceplot_j5s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j5s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[5]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309051959-1-918dc2.csv","F:/Simulations/runbae-202309051959-2-918dc2.csv",
                         "F:/Simulations/runbae-202309051959-3-918dc2.csv","F:/Simulations/runbae-202309051959-4-918dc2.csv"))
 png(filename=here("Output","traceplot_j5s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j5s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[5]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309051959-1-077991.csv","F:/Simulations/runbae-202309051959-2-077991.csv",
                         "F:/Simulations/runbae-202309051959-3-077991.csv","F:/Simulations/runbae-202309051959-4-077991.csv"))
 png(filename=here("Output","traceplot_j5s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j5s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[5]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -134,17 +209,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309052003-1-35d45b.csv","F:/Si
 png(filename=here("Output","traceplot_j6s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j6s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[6]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309052003-1-918dc2.csv","F:/Simulations/runbae-202309052003-2-918dc2.csv",
                         "F:/Simulations/runbae-202309052003-3-918dc2.csv","F:/Simulations/runbae-202309052003-4-918dc2.csv"))
 png(filename=here("Output","traceplot_j6s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j6s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[6]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309052003-1-077991.csv","F:/Simulations/runbae-202309052003-2-077991.csv",
                         "F:/Simulations/runbae-202309052003-3-077991.csv","F:/Simulations/runbae-202309052003-4-077991.csv"))
 png(filename=here("Output","traceplot_j6s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j6s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[6]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -156,17 +246,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309052006-1-35d45b.csv","F:/Si
 png(filename=here("Output","traceplot_j7s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j7s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[7]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309052006-1-918dc2.csv","F:/Simulations/runbae-202309052006-2-918dc2.csv",
                         "F:/Simulations/runbae-202309052006-3-918dc2.csv","F:/Simulations/runbae-202309052006-4-918dc2.csv"))
 png(filename=here("Output","traceplot_j7s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j7s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[7]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309052006-1-077991.csv","F:/Simulations/runbae-202309052006-2-077991.csv",
                         "F:/Simulations/runbae-202309052006-3-077991.csv","F:/Simulations/runbae-202309052006-4-077991.csv"))
 png(filename=here("Output","traceplot_j7s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j7s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[7]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -178,17 +283,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309052008-1-35d45b.csv","F:/Si
 png(filename=here("Output","traceplot_j8s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j8s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[8]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309052008-1-918dc2.csv","F:/Simulations/runbae-202309052008-2-918dc2.csv",
                         "F:/Simulations/runbae-202309052008-3-918dc2.csv","F:/Simulations/runbae-202309052008-4-918dc2.csv"))
 png(filename=here("Output","traceplot_j8s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j8s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[8]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309052008-1-077991.csv","F:/Simulations/runbae-202309052008-2-077991.csv",
                         "F:/Simulations/runbae-202309052008-3-077991.csv","F:/Simulations/runbae-202309052008-4-077991.csv"))
 png(filename=here("Output","traceplot_j8s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j8s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[8]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -200,17 +320,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309052010-1-35d45b.csv","F:/Si
 png(filename=here("Output","traceplot_j9s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j9s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[9]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309052010-1-918dc2.csv","F:/Simulations/runbae-202309052010-2-918dc2.csv",
                         "F:/Simulations/runbae-202309052010-3-918dc2.csv","F:/Simulations/runbae-202309052010-4-918dc2.csv"))
 png(filename=here("Output","traceplot_j9s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j9s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[9]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309052010-1-077991.csv","F:/Simulations/runbae-202309052010-2-077991.csv",
                         "F:/Simulations/runbae-202309052010-3-077991.csv","F:/Simulations/runbae-202309052010-4-077991.csv"))
 png(filename=here("Output","traceplot_j9s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j9s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[9]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -222,17 +357,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309052012-1-35d45b.csv","F:/Si
 png(filename=here("Output","traceplot_j10s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j10s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[10]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309052012-1-918dc2.csv","F:/Simulations/runbae-202309052012-2-918dc2.csv",
                         "F:/Simulations/runbae-202309052012-3-918dc2.csv","F:/Simulations/runbae-202309052012-4-918dc2.csv"))
 png(filename=here("Output","traceplot_j10s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j10s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[10]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309052012-1-077991.csv","F:/Simulations/runbae-202309052012-2-077991.csv",
                         "F:/Simulations/runbae-202309052012-3-077991.csv","F:/Simulations/runbae-202309052012-4-077991.csv"))
 png(filename=here("Output","traceplot_j10s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j10s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[10]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -244,17 +394,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309052014-1-35d45b.csv","F:/Si
 png(filename=here("Output","traceplot_j11s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j11s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[11]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309052014-1-918dc2.csv","F:/Simulations/runbae-202309052014-2-918dc2.csv",
                         "F:/Simulations/runbae-202309052014-3-918dc2.csv","F:/Simulations/runbae-202309052014-4-918dc2.csv"))
 png(filename=here("Output","traceplot_j11s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j11s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[11]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309052014-1-077991.csv","F:/Simulations/runbae-202309052014-2-077991.csv",
                         "F:/Simulations/runbae-202309052014-3-077991.csv","F:/Simulations/runbae-202309052014-4-077991.csv"))
 png(filename=here("Output","traceplot_j11s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j11s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[11]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -266,17 +431,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309052017-1-35d45b.csv","F:/Si
 png(filename=here("Output","traceplot_j12s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j12s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[12]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309052017-1-918dc2.csv","F:/Simulations/runbae-202309052017-2-918dc2.csv",
                         "F:/Simulations/runbae-202309052017-3-918dc2.csv","F:/Simulations/runbae-202309052017-4-918dc2.csv"))
 png(filename=here("Output","traceplot_j12s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j12s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[12]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309052017-1-077991.csv","F:/Simulations/runbae-202309052017-2-077991.csv",
                         "F:/Simulations/runbae-202309052017-3-077991.csv","F:/Simulations/runbae-202309052017-4-077991.csv"))
 png(filename=here("Output","traceplot_j12s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j12s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[12]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -288,17 +468,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309052020-1-1f88a5.csv","F:/Si
 png(filename=here("Output","traceplot_j13s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j13s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[13]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309052020-1-090238.csv","F:/Simulations/runbae-202309052020-2-090238.csv",
                         "F:/Simulations/runbae-202309052020-3-090238.csv","F:/Simulations/runbae-202309052020-4-090238.csv"))
 png(filename=here("Output","traceplot_j13s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j13s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[13]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309052020-1-68efed.csv","F:/Simulations/runbae-202309052020-2-68efed.csv",
                         "F:/Simulations/runbae-202309052020-3-68efed.csv","F:/Simulations/runbae-202309052020-4-68efed.csv"))
 png(filename=here("Output","traceplot_j13s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j13s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[13]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -310,17 +505,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309052023-1-1f88a5.csv","F:/Si
 png(filename=here("Output","traceplot_j14s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j14s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[14]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309052023-1-090238.csv","F:/Simulations/runbae-202309052023-2-090238.csv",
                         "F:/Simulations/runbae-202309052023-3-090238.csv","F:/Simulations/runbae-202309052023-4-090238.csv"))
 png(filename=here("Output","traceplot_j14s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j14s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[14]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309052023-1-68efed.csv","F:/Simulations/runbae-202309052023-2-68efed.csv",
                         "F:/Simulations/runbae-202309052023-3-68efed.csv","F:/Simulations/runbae-202309052023-4-68efed.csv"))
 png(filename=here("Output","traceplot_j14s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j14s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[14]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -332,17 +542,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309052026-1-1f88a5.csv","F:/Si
 png(filename=here("Output","traceplot_j15s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j15s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[15]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309052026-1-090238.csv","F:/Simulations/runbae-202309052026-2-090238.csv",
                         "F:/Simulations/runbae-202309052026-3-090238.csv","F:/Simulations/runbae-202309052026-4-090238.csv"))
 png(filename=here("Output","traceplot_j15s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j15s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[15]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309052026-1-68efed.csv","F:/Simulations/runbae-202309052026-2-68efed.csv",
                         "F:/Simulations/runbae-202309052026-3-68efed.csv","F:/Simulations/runbae-202309052026-4-68efed.csv"))
 png(filename=here("Output","traceplot_j15s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j15s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[15]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -354,17 +579,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309052028-1-1f88a5.csv","F:/Si
 png(filename=here("Output","traceplot_j16s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j16s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[16]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309052028-1-090238.csv","F:/Simulations/runbae-202309052028-2-090238.csv",
                         "F:/Simulations/runbae-202309052028-3-090238.csv","F:/Simulations/runbae-202309052028-4-090238.csv"))
 png(filename=here("Output","traceplot_j16s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j16s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[16]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309052028-1-68efed.csv","F:/Simulations/runbae-202309052028-2-68efed.csv",
                         "F:/Simulations/runbae-202309052028-3-68efed.csv","F:/Simulations/runbae-202309052028-4-68efed.csv"))
 png(filename=here("Output","traceplot_j16s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j16s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[16]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -376,17 +616,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070849-1-1f88a5.csv","F:/Si
 png(filename=here("Output","traceplot_j17s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j17s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[17]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070849-1-090238.csv","F:/Simulations/runbae-202309070849-2-090238.csv",
                         "F:/Simulations/runbae-202309070849-3-090238.csv","F:/Simulations/runbae-202309070849-4-090238.csv"))
 png(filename=here("Output","traceplot_j17s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j17s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[17]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070849-1-68efed.csv","F:/Simulations/runbae-202309070849-2-68efed.csv",
                         "F:/Simulations/runbae-202309070849-3-68efed.csv","F:/Simulations/runbae-202309070849-4-68efed.csv"))
 png(filename=here("Output","traceplot_j17s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j17s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[17]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -398,17 +653,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070852-1-1f88a5.csv","F:/Si
 png(filename=here("Output","traceplot_j18s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j18s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[18]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070852-1-090238.csv","F:/Simulations/runbae-202309070852-2-090238.csv",
                         "F:/Simulations/runbae-202309070852-3-090238.csv","F:/Simulations/runbae-202309070852-4-090238.csv"))
 png(filename=here("Output","traceplot_j18s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j18s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[18]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070852-1-68efed.csv","F:/Simulations/runbae-202309070852-2-68efed.csv",
                         "F:/Simulations/runbae-202309070852-3-68efed.csv","F:/Simulations/runbae-202309070852-4-68efed.csv"))
 png(filename=here("Output","traceplot_j18s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j18s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[18]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -420,17 +690,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070854-1-1f88a5.csv","F:/Si
 png(filename=here("Output","traceplot_j19s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j19s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[19]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070854-1-090238.csv","F:/Simulations/runbae-202309070854-2-090238.csv",
                         "F:/Simulations/runbae-202309070854-3-090238.csv","F:/Simulations/runbae-202309070854-4-090238.csv"))
 png(filename=here("Output","traceplot_j19s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j19s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[19]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070854-1-68efed.csv","F:/Simulations/runbae-202309070854-2-68efed.csv",
                         "F:/Simulations/runbae-202309070854-3-68efed.csv","F:/Simulations/runbae-202309070854-4-68efed.csv"))
 png(filename=here("Output","traceplot_j19s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j19s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[19]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -442,17 +727,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070859-1-1f88a5.csv","F:/Si
 png(filename=here("Output","traceplot_j20s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j20s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[20]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070859-1-090238.csv","F:/Simulations/runbae-202309070859-2-090238.csv",
                         "F:/Simulations/runbae-202309070859-3-090238.csv","F:/Simulations/runbae-202309070859-4-090238.csv"))
 png(filename=here("Output","traceplot_j20s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j20s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[20]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070859-1-68efed.csv","F:/Simulations/runbae-202309070859-2-68efed.csv",
                         "F:/Simulations/runbae-202309070859-3-68efed.csv","F:/Simulations/runbae-202309070859-4-68efed.csv"))
 png(filename=here("Output","traceplot_j20s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j20s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[20]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -464,17 +764,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070902-1-1f88a5.csv","F:/Si
 png(filename=here("Output","traceplot_j21s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j21s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[21]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070902-1-090238.csv","F:/Simulations/runbae-202309070902-2-090238.csv",
                         "F:/Simulations/runbae-202309070902-3-090238.csv","F:/Simulations/runbae-202309070902-4-090238.csv"))
 png(filename=here("Output","traceplot_j21s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j21s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[21]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070902-1-68efed.csv","F:/Simulations/runbae-202309070902-2-68efed.csv",
                         "F:/Simulations/runbae-202309070902-3-68efed.csv","F:/Simulations/runbae-202309070902-4-68efed.csv"))
 png(filename=here("Output","traceplot_j21s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j21s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[21]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -486,17 +801,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070907-1-1f88a5.csv","F:/Si
 png(filename=here("Output","traceplot_j22s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j22s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[22]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070907-1-090238.csv","F:/Simulations/runbae-202309070907-2-090238.csv",
                         "F:/Simulations/runbae-202309070907-3-090238.csv","F:/Simulations/runbae-202309070907-4-090238.csv"))
 png(filename=here("Output","traceplot_j22s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j22s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[22]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070907-1-68efed.csv","F:/Simulations/runbae-202309070907-2-68efed.csv",
                         "F:/Simulations/runbae-202309070907-3-68efed.csv","F:/Simulations/runbae-202309070907-4-68efed.csv"))
 png(filename=here("Output","traceplot_j22s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j22s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[22]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -508,17 +838,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070915-1-1f88a5.csv","F:/Si
 png(filename=here("Output","traceplot_j23s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j23s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[23]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070915-1-090238.csv","F:/Simulations/runbae-202309070915-2-090238.csv",
                         "F:/Simulations/runbae-202309070915-3-090238.csv","F:/Simulations/runbae-202309070915-4-090238.csv"))
 png(filename=here("Output","traceplot_j23s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j23s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[23]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070915-1-68efed.csv","F:/Simulations/runbae-202309070915-2-68efed.csv",
                         "F:/Simulations/runbae-202309070915-3-68efed.csv","F:/Simulations/runbae-202309070915-4-68efed.csv"))
 png(filename=here("Output","traceplot_j23s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j23s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[23]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -530,17 +875,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070917-1-1f88a5.csv","F:/Si
 png(filename=here("Output","traceplot_j24s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j24s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[24]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070917-1-090238.csv","F:/Simulations/runbae-202309070917-2-090238.csv",
                         "F:/Simulations/runbae-202309070917-3-090238.csv","F:/Simulations/runbae-202309070917-4-090238.csv"))
 png(filename=here("Output","traceplot_j24s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j24s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[24]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070917-1-68efed.csv","F:/Simulations/runbae-202309070917-2-68efed.csv",
                         "F:/Simulations/runbae-202309070917-3-68efed.csv","F:/Simulations/runbae-202309070917-4-68efed.csv"))
 png(filename=here("Output","traceplot_j24s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j24s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[24]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -552,17 +912,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070929-1-938416.csv","F:/Si
 png(filename=here("Output","traceplot_j25s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j25s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[25]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070929-1-7b1242.csv","F:/Simulations/runbae-202309070929-2-7b1242.csv",
                         "F:/Simulations/runbae-202309070929-3-7b1242.csv","F:/Simulations/runbae-202309070929-4-7b1242.csv"))
 png(filename=here("Output","traceplot_j25s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j25s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[25]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070929-1-258069.csv","F:/Simulations/runbae-202309070929-2-258069.csv",
                         "F:/Simulations/runbae-202309070929-3-258069.csv","F:/Simulations/runbae-202309070929-4-258069.csv"))
 png(filename=here("Output","traceplot_j25s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j25s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[25]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -574,17 +949,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070934-1-938416.csv","F:/Si
 png(filename=here("Output","traceplot_j26s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j26s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[26]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070934-1-258069.csv","F:/Simulations/runbae-202309070934-2-258069.csv",
                         "F:/Simulations/runbae-202309070934-3-258069.csv","F:/Simulations/runbae-202309070934-4-258069.csv"))
 png(filename=here("Output","traceplot_j26s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j26s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[26]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070934-1-7b1242.csv","F:/Simulations/runbae-202309070934-2-7b1242.csv",
                         "F:/Simulations/runbae-202309070934-3-7b1242.csv","F:/Simulations/runbae-202309070934-4-7b1242.csv"))
 png(filename=here("Output","traceplot_j26s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j26s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[26]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -596,17 +986,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070938-1-938416.csv","F:/Si
 png(filename=here("Output","traceplot_j27s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j27s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[27]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070938-1-7b1242.csv","F:/Simulations/runbae-202309070938-2-7b1242.csv",
                         "F:/Simulations/runbae-202309070938-3-7b1242.csv","F:/Simulations/runbae-202309070938-4-7b1242.csv"))
 png(filename=here("Output","traceplot_j27s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j27s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[27]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070938-1-258069.csv","F:/Simulations/runbae-202309070938-2-258069.csv",
                         "F:/Simulations/runbae-202309070938-3-258069.csv","F:/Simulations/runbae-202309070938-4-258069.csv"))
 png(filename=here("Output","traceplot_j27s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j27s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[27]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -618,17 +1023,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070942-1-938416.csv","F:/Si
 png(filename=here("Output","traceplot_j28s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j28s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[28]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070942-1-258069.csv","F:/Simulations/runbae-202309070942-2-258069.csv",
                         "F:/Simulations/runbae-202309070942-3-258069.csv","F:/Simulations/runbae-202309070942-4-258069.csv"))
 png(filename=here("Output","traceplot_j28s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j28s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[28]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070942-1-7b1242.csv","F:/Simulations/runbae-202309070942-2-7b1242.csv",
                         "F:/Simulations/runbae-202309070942-3-7b1242.csv","F:/Simulations/runbae-202309070942-4-7b1242.csv"))
 png(filename=here("Output","traceplot_j28s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j28s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[28]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -640,17 +1060,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070950-1-258069.csv","F:/Si
 png(filename=here("Output","traceplot_j29s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j29s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[1]][[3]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070950-1-258069.csv","F:/Simulations/runbae-202309070950-2-258069.csv",
                         "F:/Simulations/runbae-202309070950-3-258069.csv","F:/Simulations/runbae-202309070950-4-258069.csv"))
 png(filename=here("Output","traceplot_j29s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j29s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[29]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070950-1-938416.csv","F:/Simulations/runbae-202309070950-2-938416.csv",
                         "F:/Simulations/runbae-202309070950-3-938416.csv","F:/Simulations/runbae-202309070950-4-938416.csv"))
 png(filename=here("Output","traceplot_j29s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j29s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[29]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -662,17 +1097,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070953-1-7b1242.csv","F:/Si
 png(filename=here("Output","traceplot_j30s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j30s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[30]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070953-1-7b1242.csv","F:/Simulations/runbae-202309070953-2-7b1242.csv",
                         "F:/Simulations/runbae-202309070953-3-7b1242.csv","F:/Simulations/runbae-202309070953-4-7b1242.csv"))
 png(filename=here("Output","traceplot_j30s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j30s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[30]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070953-1-938416.csv","F:/Simulations/runbae-202309070953-2-938416.csv",
                         "F:/Simulations/runbae-202309070953-3-938416.csv","F:/Simulations/runbae-202309070953-4-938416.csv"))
 png(filename=here("Output","traceplot_j30s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j30s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[30]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -684,17 +1134,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070955-1-258069.csv","F:/Si
 png(filename=here("Output","traceplot_j31s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j31s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[31]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070955-1-938416.csv","F:/Simulations/runbae-202309070955-2-938416.csv",
                         "F:/Simulations/runbae-202309070955-3-938416.csv","F:/Simulations/runbae-202309070955-4-938416.csv"))
 png(filename=here("Output","traceplot_j31s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j31s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[31]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070955-1-7b1242.csv","F:/Simulations/runbae-202309070955-2-7b1242.csv",
                         "F:/Simulations/runbae-202309070955-3-7b1242.csv","F:/Simulations/runbae-202309070955-4-7b1242.csv"))
 png(filename=here("Output","traceplot_j31s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j31s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[31]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -706,17 +1171,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070958-1-7b1242.csv","F:/Si
 png(filename=here("Output","traceplot_j32s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j32s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[32]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070958-1-938416.csv","F:/Simulations/runbae-202309070958-2-938416.csv",
                         "F:/Simulations/runbae-202309070958-3-938416.csv","F:/Simulations/runbae-202309070958-4-938416.csv"))
 png(filename=here("Output","traceplot_j32s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j32s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[32]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309070958-1-7b1242.csv","F:/Simulations/runbae-202309070958-2-7b1242.csv",
                         "F:/Simulations/runbae-202309070958-3-7b1242.csv","F:/Simulations/runbae-202309070958-4-7b1242.csv"))
 png(filename=here("Output","traceplot_j32s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j32s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[32]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -728,17 +1208,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071001-1-7b1242.csv","F:/Si
 png(filename=here("Output","traceplot_j33s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j33s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[33]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071001-1-258069.csv","F:/Simulations/runbae-202309071001-2-258069.csv",
                         "F:/Simulations/runbae-202309071001-3-258069.csv","F:/Simulations/runbae-202309071001-4-258069.csv"))
 png(filename=here("Output","traceplot_j33s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j33s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[33]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071001-1-938416.csv","F:/Simulations/runbae-202309071001-2-938416.csv",
                         "F:/Simulations/runbae-202309071001-3-938416.csv","F:/Simulations/runbae-202309071001-4-938416.csv"))
 png(filename=here("Output","traceplot_j33s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j33s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[33]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -750,17 +1245,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071003-1-7b1242.csv","F:/Si
 png(filename=here("Output","traceplot_j34s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j34s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[34]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071003-1-938416.csv","F:/Simulations/runbae-202309071003-2-938416.csv",
                         "F:/Simulations/runbae-202309071003-3-938416.csv","F:/Simulations/runbae-202309071003-4-938416.csv"))
 png(filename=here("Output","traceplot_j34s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j34s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[34]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071003-1-258069.csv","F:/Simulations/runbae-202309071003-2-258069.csv",
                         "F:/Simulations/runbae-202309071003-3-258069.csv","F:/Simulations/runbae-202309071003-4-258069.csv"))
 png(filename=here("Output","traceplot_j34s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j34s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[34]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -772,17 +1282,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071012-1-258069.csv","F:/Si
 png(filename=here("Output","traceplot_j35s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j35s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[35]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071012-1-7b1242.csv","F:/Simulations/runbae-202309071012-2-7b1242.csv",
                         "F:/Simulations/runbae-202309071012-3-7b1242.csv","F:/Simulations/runbae-202309071012-4-7b1242.csv"))
 png(filename=here("Output","traceplot_j35s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j35s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[35]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071012-1-938416.csv","F:/Simulations/runbae-202309071012-2-938416.csv",
                         "F:/Simulations/runbae-202309071012-3-938416.csv","F:/Simulations/runbae-202309071012-4-938416.csv"))
 png(filename=here("Output","traceplot_j35s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j35s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[35]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -794,17 +1319,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071015-1-258069.csv","F:/Si
 png(filename=here("Output","traceplot_j36s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j36s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[36]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071015-1-938416.csv","F:/Simulations/runbae-202309071015-2-938416.csv",
                         "F:/Simulations/runbae-202309071015-3-938416.csv","F:/Simulations/runbae-202309071015-4-938416.csv"))
 png(filename=here("Output","traceplot_j36s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j36s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[36]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071015-1-7b1242.csv","F:/Simulations/runbae-202309071015-2-7b1242.csv",
                         "F:/Simulations/runbae-202309071015-3-7b1242.csv","F:/Simulations/runbae-202309071015-4-7b1242.csv"))
 png(filename=here("Output","traceplot_j36s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j36s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[36]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -816,17 +1356,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071017-1-2d92c7.csv","F:/Si
 png(filename=here("Output","traceplot_j37s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j37s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[37]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071017-1-581c17.csv","F:/Simulations/runbae-202309071017-2-581c17.csv",
                         "F:/Simulations/runbae-202309071017-3-581c17.csv","F:/Simulations/runbae-202309071017-4-581c17.csv"))
 png(filename=here("Output","traceplot_j37s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j37s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[37]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071017-1-44b87a.csv","F:/Simulations/runbae-202309071017-2-44b87a.csv",
                         "F:/Simulations/runbae-202309071017-3-44b87a.csv","F:/Simulations/runbae-202309071017-4-44b87a.csv"))
 png(filename=here("Output","traceplot_j37s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j37s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[37]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -838,17 +1393,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071020-1-2d92c7.csv","F:/Si
 png(filename=here("Output","traceplot_j38s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j38s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[38]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071020-1-44b87a.csv","F:/Simulations/runbae-202309071020-2-44b87a.csv",
                         "F:/Simulations/runbae-202309071020-3-44b87a.csv","F:/Simulations/runbae-202309071020-4-44b87a.csv"))
 png(filename=here("Output","traceplot_j38s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j38s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[38]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071020-1-581c17.csv","F:/Simulations/runbae-202309071020-2-581c17.csv",
                         "F:/Simulations/runbae-202309071020-3-581c17.csv","F:/Simulations/runbae-202309071020-4-581c17.csv"))
 png(filename=here("Output","traceplot_j38s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j38s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[38]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -860,17 +1430,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071029-1-2d92c7.csv","F:/Si
 png(filename=here("Output","traceplot_j39s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j39s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[39]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071029-1-581c17.csv","F:/Simulations/runbae-202309071029-2-581c17.csv",
                         "F:/Simulations/runbae-202309071029-3-581c17.csv","F:/Simulations/runbae-202309071029-4-581c17.csv"))
 png(filename=here("Output","traceplot_j39s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j39s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[39]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071029-1-44b87a.csv","F:/Simulations/runbae-202309071029-2-44b87a.csv",
                         "F:/Simulations/runbae-202309071029-3-44b87a.csv","F:/Simulations/runbae-202309071029-4-44b87a.csv"))
 png(filename=here("Output","traceplot_j39s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j39s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[39]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -882,17 +1467,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071032-1-2d92c7.csv","F:/Si
 png(filename=here("Output","traceplot_j40s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j40s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[40]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071032-1-44b87a.csv","F:/Simulations/runbae-202309071032-2-44b87a.csv",
                         "F:/Simulations/runbae-202309071032-3-44b87a.csv","F:/Simulations/runbae-202309071032-4-44b87a.csv"))
 png(filename=here("Output","traceplot_j40s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j40s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[40]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071032-1-581c17.csv","F:/Simulations/runbae-202309071032-2-581c17.csv",
                         "F:/Simulations/runbae-202309071032-3-581c17.csv","F:/Simulations/runbae-202309071032-4-581c17.csv"))
 png(filename=here("Output","traceplot_j40s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j40s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[40]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -904,17 +1504,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071035-1-2d92c7.csv","F:/Si
 png(filename=here("Output","traceplot_j41s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j41s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[41]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071035-1-581c17.csv","F:/Simulations/runbae-202309071035-2-581c17.csv",
                         "F:/Simulations/runbae-202309071035-3-581c17.csv","F:/Simulations/runbae-202309071035-4-581c17.csv"))
 png(filename=here("Output","traceplot_j41s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j41s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[41]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071035-1-44b87a.csv","F:/Simulations/runbae-202309071035-2-44b87a.csv",
                         "F:/Simulations/runbae-202309071035-3-44b87a.csv","F:/Simulations/runbae-202309071035-4-44b87a.csv"))
 png(filename=here("Output","traceplot_j41s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j41s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[41]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -926,17 +1541,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071038-1-2d92c7.csv","F:/Si
 png(filename=here("Output","traceplot_j42s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j42s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[42]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071038-1-581c17.csv","F:/Simulations/runbae-202309071038-2-581c17.csv",
                         "F:/Simulations/runbae-202309071038-3-581c17.csv","F:/Simulations/runbae-202309071038-4-581c17.csv"))
 png(filename=here("Output","traceplot_j42s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j42s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[42]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071038-1-44b87a.csv","F:/Simulations/runbae-202309071038-2-44b87a.csv",
                         "F:/Simulations/runbae-202309071038-3-44b87a.csv","F:/Simulations/runbae-202309071038-4-44b87a.csv"))
 png(filename=here("Output","traceplot_j42s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j42s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[42]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -948,17 +1578,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071046-1-2d92c7.csv","F:/Si
 png(filename=here("Output","traceplot_j43s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j43s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[43]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071046-1-44b87a.csv","F:/Simulations/runbae-202309071046-2-44b87a.csv",
                         "F:/Simulations/runbae-202309071046-3-44b87a.csv","F:/Simulations/runbae-202309071046-4-44b87a.csv"))
 png(filename=here("Output","traceplot_j43s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j43s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[43]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071046-1-581c17.csv","F:/Simulations/runbae-202309071046-2-581c17.csv",
                         "F:/Simulations/runbae-202309071046-3-581c17.csv","F:/Simulations/runbae-202309071046-4-581c17.csv"))
 png(filename=here("Output","traceplot_j43s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j43s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[43]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -970,17 +1615,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071049-1-2d92c7.csv","F:/Si
 png(filename=here("Output","traceplot_j44s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j44s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[44]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071049-1-581c17.csv","F:/Simulations/runbae-202309071049-2-581c17.csv",
                         "F:/Simulations/runbae-202309071049-3-581c17.csv","F:/Simulations/runbae-202309071049-4-581c17.csv"))
 png(filename=here("Output","traceplot_j44s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j44s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[44]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071049-1-44b87a.csv","F:/Simulations/runbae-202309071049-2-44b87a.csv",
                         "F:/Simulations/runbae-202309071049-3-44b87a.csv","F:/Simulations/runbae-202309071049-4-44b87a.csv"))
 png(filename=here("Output","traceplot_j44s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j44s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[44]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -992,17 +1652,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071054-1-2d92c7.csv","F:/Si
 png(filename=here("Output","traceplot_j45s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j45s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[45]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071054-1-581c17.csv","F:/Simulations/runbae-202309071054-2-581c17.csv",
                         "F:/Simulations/runbae-202309071054-3-581c17.csv","F:/Simulations/runbae-202309071054-4-581c17.csv"))
 png(filename=here("Output","traceplot_j45s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j45s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[45]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071054-1-44b87a.csv","F:/Simulations/runbae-202309071054-2-44b87a.csv",
                         "F:/Simulations/runbae-202309071054-3-44b87a.csv","F:/Simulations/runbae-202309071054-4-44b87a.csv"))
 png(filename=here("Output","traceplot_j45s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j45s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[45]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -1014,17 +1689,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071057-1-2d92c7.csv","F:/Si
 png(filename=here("Output","traceplot_j46s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j46s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[46]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071057-1-44b87a.csv","F:/Simulations/runbae-202309071057-2-44b87a.csv",
                         "F:/Simulations/runbae-202309071057-3-44b87a.csv","F:/Simulations/runbae-202309071057-4-44b87a.csv"))
 png(filename=here("Output","traceplot_j46s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j46s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[46]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071057-1-581c17.csv","F:/Simulations/runbae-202309071057-2-581c17.csv",
                         "F:/Simulations/runbae-202309071057-3-581c17.csv","F:/Simulations/runbae-202309071057-4-581c17.csv"))
 png(filename=here("Output","traceplot_j46s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j46s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[46]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -1036,17 +1726,32 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071101-1-2d92c7.csv","F:/Si
 png(filename=here("Output","traceplot_j47s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j47s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[47]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071101-1-44b87a.csv","F:/Simulations/runbae-202309071101-2-44b87a.csv",
                         "F:/Simulations/runbae-202309071101-3-44b87a.csv","F:/Simulations/runbae-202309071101-4-44b87a.csv"))
 png(filename=here("Output","traceplot_j47s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j47s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[47]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071101-1-581c17.csv","F:/Simulations/runbae-202309071101-2-581c17.csv",
                         "F:/Simulations/runbae-202309071101-3-581c17.csv","F:/Simulations/runbae-202309071101-4-581c17.csv"))
 png(filename=here("Output","traceplot_j47s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j47s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[47]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
 
@@ -1058,16 +1763,31 @@ fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071104-1-2d92c7.csv","F:/Si
 png(filename=here("Output","traceplot_j48s1.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j48s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[48]][[1]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim2
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071104-1-44b87a.csv","F:/Simulations/runbae-202309071104-2-44b87a.csv",
                         "F:/Simulations/runbae-202309071104-3-44b87a.csv","F:/Simulations/runbae-202309071104-4-44b87a.csv"))
 png(filename=here("Output","traceplot_j48s2.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
 dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j48s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[48]][[2]][["resp"]],yrep=y.rep[1:1000, ])
+dev.off()
 #Sim3
 fit1 <- read_stan_csv(c("F:/Simulations/runbae-202309071104-1-581c17.csv","F:/Simulations/runbae-202309071104-2-581c17.csv",
                         "F:/Simulations/runbae-202309071104-3-581c17.csv","F:/Simulations/runbae-202309071104-4-581c17.csv"))
 png(filename=here("Output","traceplot_j48s3.png"),width=8,height=3,res=180,units="in")
 traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- extract(fit1)[["ypred"]]
+png(filename=here("Output","ppcbar_j48s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[48]][[3]][["resp"]],yrep=y.rep[1:1000, ])
 dev.off()
 ```
