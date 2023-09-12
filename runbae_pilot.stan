@@ -69,5 +69,24 @@ ypred = bernoulli_logit_rng(mean(b0_site) + Q_ast * theta_trt);
 		if(max(beta_trt) == beta_trt[1]) diff=1;
 		else diff=0;
 	
+//prior predictive check;
+real b0_rep =normal_rng(0,2);
+vector[N_site] alpha_site_raw_rep;
+for (j in 1:N_site){
+	 alpha_site_raw_rep[j]=std_normal_rng();
+}
+
+vector[N_trt_groups-1] theta_trt_rep;
+for (j in 1:N_trt_groups-1){
+	 theta_trt_rep[j]=normal_rng(0,2);;
+}
+
+matrix[N_site, N_site] lkj_corr_rep=lkj_corr_cholesky_rng(N_site,5);
+
+vector[N_site] b0_site_rep = b0_rep + 0.2*lkj_corr_rep * alpha_site_raw_rep;
+
+
+array[N_obs] int prior_yrep;
+  prior_yrep = bernoulli_logit_rng(mean(b0_site_rep) + Q_ast * theta_trt_rep );
 
 }
