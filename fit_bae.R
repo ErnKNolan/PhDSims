@@ -59,7 +59,7 @@ testss <- function(t,expdat,rho,mod,outdir,...){
     print(j)
     time <- toc()
     time <- time$toc - time$tic
-    results <- list(data.frame(res$summary(variables=c("pred_prob_trt","diff")),time=time,resp=resp))
+    results <- list(data.frame(res$summary(variables=c("pred_prob_trt","diff")),time=time))
     
   },
   

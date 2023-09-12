@@ -41,14 +41,14 @@ rstan_options(auto_write = TRUE)
 Sys.setenv(Home="D:/Programs")
 path <- "D:/Programs/PhDProject2/Programs/runbae.stan"
 set_cmdstan_path(path="D:/Programs/.cmdstan/cmdstan-2.32.2")
-outdir <- "F:/Simulations"
+outdir <- "D:/Programs/Simulations"
 
 #run the code
 test <- list()
 tic()
 mod <- cmdstan_model(path, pedantic = F, compile=T)
-for(j in 1:48){
-  test[[length(test)+1]] <- future_replicate(100,testss(expdat=outdat[[j]],t=4,mod=mod,outdir=outdir,
+for(j in 1){
+  test[[length(test)+1]] <- future_replicate(2400,testss(expdat=outdat[[j]],t=4,mod=mod,outdir=outdir,
                                            rho=properties$icc[j],t1=properties$t1[j],t2=properties$t2[j],t3=properties$t3[j],t4=properties$t4[j]),
                                  future.seed = 42L)
 }
