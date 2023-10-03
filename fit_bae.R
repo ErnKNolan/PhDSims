@@ -52,8 +52,7 @@ testss <- function(t,expdat,rho,mod,outdir,...){
       parallel_chains = 1,
       adapt_delta = 0.8,
       refresh = 0, 
-      max_treedepth=12,
-      output_dir=outdir
+      max_treedepth=12
       
     )
     print(j)

@@ -22,7 +22,7 @@ scale_downR <- outsim2 %>%
   group_by(property) %>%
   summarise(m_Rhat = mean(rhat,na.rm=TRUE))
 ## chain number, length, burn-ins
-### 4 chains, per chain: 750 total, 500 burn-ins
+### 4 chains, per chain: 500 total, 250 burn-ins
 
 ## MC Error of each iteration for parameters of interest
 ###simsum
@@ -32,8 +32,9 @@ MCerror <- outsim2 %>%
                          variable == "pred_prob_trt[2]" ~ t2,
                          variable == "pred_prob_trt[3]" ~ t3,
                          variable == "pred_prob_trt[4]" ~ t4)) %>%
-  simsum(estvarname="mean",true="trt",se="sd") 
-kable(MCerror)
+  filter(variable == "diff") %>%
+  simsum(estvarname="mean",true="trt",se="sd",method=c("property")) 
+MCerror[["summ"]] %>% filter(stat == "power") %>% kable(MCerror)
 
 #Power for these sims
 #Power defined as number of sims that the lower CrI of trt 1 greater than all other groups upper CrI
@@ -48,6 +49,9 @@ power <- outsim2 %>%
 outsim3 <- merge(outsim2,power,by="property") %>%
   group_by(property) %>%
   filter(sim == 1, variable == "pred_prob_trt[1]")
+
+#checking that the model output aligns with the true values
+#sums <- outsim2 %>% group_by(property,variable) %>% summarise(mean=mean(mean)) %>% pivot_wider(id_cols=property,names_from=variable,values_from=mean) %>% cbind(properties)
 
 #plot the power over different features
 #setting up the data

@@ -3,7 +3,7 @@
 #PURPOSE: RUNS THE SIMULATIONS FOR MULTIARM cRCT UNDER VARIOUS PROPERTIES
 
 #Run the functions defined in make_clusters and fit_bae
-pacman::p_load(here,future.apply,tictoc,car,ggforce,rsimsum,dplyr,cmdstanr)
+pacman::p_load(here,future.apply,tictoc,car,ggforce,rsimsum,dplyr,cmdstanr,rstan)
 
 source(here("Programs","make_clusters.R"))
 source(here("Programs","fit_bae.R"))
@@ -22,43 +22,46 @@ properties <- properties %>%
          t3 = case_when(trt_eff_scen == 1 ~ ctrl_prop+0.1,
                         trt_eff_scen == 2 ~ ctrl_prop+0.2,
                         trt_eff_scen == 3 ~ ctrl_prop+0),
-         t4 = ctrl_prop)
+         t4 = ctrl_prop,
+         k = ifelse(n_per_k == 75 & k == 20,10,k)) #instead of 20 clusters with 75 per, its 10 clusters
 
 #loop the data generation
 outdat <- list()
 for(j in 1:nrow(properties)){
   outdat[[j]] <- makeClusters(t=4,nid=properties$n_per_k[j],t1=properties$k[j],t2=properties$k[j],t3=properties$k[j],t4=properties$k[j])
 }
+j <- 1
 #set how many workers you want to use
 plan(multisession,workers=20) 
 rstan_options(auto_write = TRUE)
 #Work comp (comment out the irrelevant one)
 #Sys.setenv(Home="C:/Users/Enolan")
-#path <- "C:/Users/ENolan/Simulations/runbae.stan"
-#set_cmdstan_path("C:/Users/ENolan/.cmdstan/cmdstan-2.32.2")
+#baepath <- "C:/Users/ENolan/Simulations/runbae.stan"
+#set_cmdstan_path("C:/Users/ENolan/.cmdstan/cmdstan-2.33.1")
 #outdir <- 
 #Home comp (comment out the irrelevant one)
-Sys.setenv(Home="D:/Programs")
-path <- "D:/Programs/PhDProject2/Programs/runbae.stan"
-set_cmdstan_path(path="D:/Programs/.cmdstan/cmdstan-2.33.0")
-outdir <- "D:/Programs/Simulations"
+#Sys.setenv(Home="D:/Programs")
+baepath <- "D:/Programs/PhDProject2/Programs/runbae.stan"
+set_cmdstan_path(path="C:/Users/nolan/Documents/.cmdstan/cmdstan-2.33.1")
+#outdir <- "D:/Programs/Simulations"
 
 #run the code
-test <- list()
+#test <- list()
 tic()
-mod <- cmdstan_model(path, pedantic = F, compile=T)
+mod <- cmdstan_model(baepath, pedantic = F, compile=T)
+#test <- readRDS(here("simdata.RDS"))
 #THIS IS LEFT ON WHAT I RAN LAST
-for(j in 1){
-  test[[length(test)+1]] <- future_replicate(2400,testss(expdat=outdat[[j]],t=4,mod=mod,outdir=outdir,
+for(j in 40:48){
+  test[[length(test)+1]] <- future_replicate(2500,testss(expdat=outdat[[j]],t=4,mod=mod,
                                            rho=properties$icc[j],t1=properties$t1[j],t2=properties$t2[j],t3=properties$t3[j],t4=properties$t4[j]),
                                  future.seed = 42L)
 }
 toc(quiet=FALSE)
-#saveRDS(test,here("simdata.RDS"))
+#saveRDS(test,here("simdata2.RDS"))
 #Reframe the output for use
 tempd <- test
 for(j in c(1:48)){
-  for(i in 1:2400){
+  for(i in 1:2500){
     tempd[[j]][[i]]$sim <- i
     tempd[[j]][[i]]$property <- j
   }
