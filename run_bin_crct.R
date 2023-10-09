@@ -13,6 +13,20 @@ source(here("Programs","fit_bae.R"))
 set.seed(580208819)
 properties <- expand.grid(trt_eff_scen = c(1,2,3), ctrl_prop = c(0.1,0.35), icc = c(0.05,0.2), n_per_k = c(5,75), k = c(5,20))
 properties <- properties %>%
+  mutate(k = ifelse(n_per_k == 75 & k == 20,10,k)) #instead of 20 clusters with 75 per, its 10 clusters
+
+#4OCT Add in n=5 k=10
+oct_prop <- expand.grid(trt_eff_scen = c(1,2,3), ctrl_prop = c(0.1,0.35), icc = c(0.05,0.2), n_per_k = 5, k = 10)
+
+#5OCT Add in n=50 and n=100 for ctrl prop = 0.1
+oct2_prop <- expand.grid(trt_eff_scen = c(1,2,3), ctrl_prop = c(0.1), icc = c(0.05,0.2), n_per_k = c(50,100), k = 10)
+
+#6OCT Add in n=50 and n=100 for ctrl prop = 0.1 and k=5
+oct3_prop <- expand.grid(trt_eff_scen = c(1,2,3), ctrl_prop = c(0.1), icc = c(0.05,0.2), n_per_k = c(50,100), k = 5)
+
+
+#bind to properties
+properties <- rbind(properties,oct_prop,oct2_prop,oct3_prop) %>%
   mutate(t1 = case_when(trt_eff_scen == 1 ~ ctrl_prop+0.5,
                         trt_eff_scen == 2 ~ ctrl_prop+0.4,
                         trt_eff_scen == 3 ~ ctrl_prop+0),
@@ -22,8 +36,7 @@ properties <- properties %>%
          t3 = case_when(trt_eff_scen == 1 ~ ctrl_prop+0.1,
                         trt_eff_scen == 2 ~ ctrl_prop+0.2,
                         trt_eff_scen == 3 ~ ctrl_prop+0),
-         t4 = ctrl_prop,
-         k = ifelse(n_per_k == 75 & k == 20,10,k)) #instead of 20 clusters with 75 per, its 10 clusters
+         t4 = ctrl_prop)
 
 #loop the data generation
 outdat <- list()
@@ -51,16 +64,16 @@ tic()
 mod <- cmdstan_model(baepath, pedantic = F, compile=T)
 #test <- readRDS(here("simdata.RDS"))
 #THIS IS LEFT ON WHAT I RAN LAST
-for(j in 40:48){
+for(j in 72:84){
   test[[length(test)+1]] <- future_replicate(2500,testss(expdat=outdat[[j]],t=4,mod=mod,
                                            rho=properties$icc[j],t1=properties$t1[j],t2=properties$t2[j],t3=properties$t3[j],t4=properties$t4[j]),
                                  future.seed = 42L)
 }
 toc(quiet=FALSE)
-#saveRDS(test,here("simdata2.RDS"))
+#saveRDS(test,here("simdata.RDS"))
 #Reframe the output for use
 tempd <- test
-for(j in c(1:48)){
+for(j in c(1:72)){
   for(i in 1:2500){
     tempd[[j]][[i]]$sim <- i
     tempd[[j]][[i]]$property <- j

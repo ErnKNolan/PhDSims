@@ -57,10 +57,13 @@ outsim3 <- merge(outsim2,power,by="property") %>%
 #setting up the data
 power_plot <- outsim3 %>%
   mutate(join = paste0("n per k=",n_per_k,", k=",k),
-         sample_n = n_per_k*k,
-         iccf = factor(icc),
+         sample_n = n_per_k*k, #total sample size
+         deff = 1+icc*((n_per_k)-1), #design effect
+         eff_n = sample_n / deff, #effective sample size
+         iccf = paste0("ICC = ",factor(icc)),
          ctrlpf = factor(ctrl_prop),
-         test = paste0(icc,ctrl_prop))
+         test = paste0(icc,ctrl_prop),
+         kf = factor(k))
 
 #the plot code
 png(filename=here("Output","power_nonadapt.png"),width=8,height=4,res=300,units="in")
@@ -81,30 +84,23 @@ ggplot(aes(y = bayesr,x = sample_n)) +
   scale_color_manual(values=c("#48157F","#29AF7F"))
 dev.off()
   
-  
-# zip plot illustrating coverage
-zip_t1t4 <- outsim2 %>% 
-  filter(contrast == "ttt1 - ttt4" & t1 != t4 & warn == "0") %>%
-  group_by(property) %>%
-  mutate(eff = abs(t1-t4),
-         LCL = estimate - (1.96*SE),
-         UCL = estimate + (1.96*SE)) %>%
-  arrange(p.value) %>%
-  mutate(centile = ((1900-row_number())/1900)*100,
-         sig = ifelse(`p.value`< 0.05,"Yes","No"))
 
-#https://osf.io/cbr72/
-#for true eff = 0, you want a zip. For true eff != 0 then you will get a slide to each side.
-p <- ggplot(data=zip_t1t4,aes(y=centile,color=sig)) + 
-  geom_errorbar(aes(xmin=LCL,xmax=UCL,width=0)) + 
-  theme(legend.position = "none") +
-  scale_y_continuous(breaks = c(5,50,95)) +
-  scale_color_manual(values=c("#993999", "#6178F0")) + 
-  facet_wrap_paginate(~ property, ncol = 3, nrow = 2,scales = "free")
 
-for(i in 1:n_pages(p)){
-  p_save <- p + 
-    facet_wrap_paginate(~ property, ncol = 3, nrow = 2, page = i,scales="free")
-  ggsave(plot = p_save, filename = paste0('Output/zip_page_', i, '.jpg'),
-         width=12,height=8,dpi=150,units="in")
-}
+#another plot
+png(filename=here("Output","power_nonadapt.png"),width=8,height=4,res=300,units="in")
+power_plot %>% mutate(trteff = case_when(trt_eff_scen == 1 ~ "Scenario 1",
+                                         trt_eff_scen == 2 ~ "Scenario 2",
+                                         trt_eff_scen == 3 ~ "Scenario 3")) %>%
+  ggplot(aes(y = bayesr,x = n_per_k)) +
+  geom_point(aes(color = kf))+
+  geom_line(aes(linetype = ctrlpf,color = kf)) + 
+  facet_wrap(~trteff+iccf) + 
+  geom_hline(yintercept = 0.8) + 
+  geom_hline(yintercept = 0.05, linetype="dashed") +
+  theme_light() + 
+  xlab("m") + 
+  ylab("Power") + 
+  labs(linetype = "Control proportion",
+       color = "k") +
+  scale_color_manual(values=c("#48157F","#29AF7F","black"))
+dev.off()
