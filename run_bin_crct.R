@@ -24,9 +24,11 @@ oct2_prop <- expand.grid(trt_eff_scen = c(1,2,3), ctrl_prop = c(0.1), icc = c(0.
 #6OCT Add in n=50 and n=100 for ctrl prop = 0.1 and k=5
 oct3_prop <- expand.grid(trt_eff_scen = c(1,2,3), ctrl_prop = c(0.1), icc = c(0.05,0.2), n_per_k = c(50,100), k = 5)
 
+#9OCT Add in n=25 for k=5 and k=10
+oct4_prop <- expand.grid(trt_eff_scen = c(1,2,3), ctrl_prop = c(0.1), icc = c(0.05,0.2), n_per_k = c(25), k = c(5,10))
 
 #bind to properties
-properties <- rbind(properties,oct_prop,oct2_prop,oct3_prop) %>%
+properties <- rbind(properties,oct_prop,oct2_prop,oct3_prop,oct4_prop) %>%
   mutate(t1 = case_when(trt_eff_scen == 1 ~ ctrl_prop+0.5,
                         trt_eff_scen == 2 ~ ctrl_prop+0.4,
                         trt_eff_scen == 3 ~ ctrl_prop+0),
@@ -62,9 +64,9 @@ set_cmdstan_path(path="C:/Users/nolan/Documents/.cmdstan/cmdstan-2.33.1")
 #test <- list()
 tic()
 mod <- cmdstan_model(baepath, pedantic = F, compile=T)
-#test <- readRDS(here("simdata.RDS"))
+#test <- readRDS(here("simdata2.RDS"))
 #THIS IS LEFT ON WHAT I RAN LAST
-for(j in 72:84){
+for(j in 85:96){
   test[[length(test)+1]] <- future_replicate(2500,testss(expdat=outdat[[j]],t=4,mod=mod,
                                            rho=properties$icc[j],t1=properties$t1[j],t2=properties$t2[j],t3=properties$t3[j],t4=properties$t4[j]),
                                  future.seed = 42L)
@@ -73,7 +75,7 @@ toc(quiet=FALSE)
 #saveRDS(test,here("simdata.RDS"))
 #Reframe the output for use
 tempd <- test
-for(j in c(1:72)){
+for(j in c(1:96)){
   for(i in 1:2500){
     tempd[[j]][[i]]$sim <- i
     tempd[[j]][[i]]$property <- j

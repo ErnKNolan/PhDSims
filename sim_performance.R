@@ -44,7 +44,6 @@ power <- outsim2 %>%
   mutate(bayes = ifelse(mean > 0.95,1,0)) %>%
   summarise(bayesr = sum(bayes)/n())
 
-
 #merge back into outsim
 outsim3 <- merge(outsim2,power,by="property") %>%
   group_by(property) %>%
@@ -65,42 +64,21 @@ power_plot <- outsim3 %>%
          test = paste0(icc,ctrl_prop),
          kf = factor(k))
 
-#the plot code
-png(filename=here("Output","power_nonadapt.png"),width=8,height=4,res=300,units="in")
+#plot the power
+png(filename=here("Output","power_nonadapt.png"),width=8,height=6,res=300,units="in")
 power_plot %>% mutate(trteff = case_when(trt_eff_scen == 1 ~ "Scenario 1",
                                          trt_eff_scen == 2 ~ "Scenario 2",
                                          trt_eff_scen == 3 ~ "Scenario 3")) %>%
-ggplot(aes(y = bayesr,x = sample_n)) +
-  geom_point(aes(color = ctrlpf))+
-  geom_line(aes(linetype = iccf,color = ctrlpf)) + 
-  facet_wrap(~trteff) + 
-  geom_hline(yintercept = 0.8) + 
-  geom_hline(yintercept = 0.05, linetype="dashed") +
-  theme_light() + 
-  xlab("Sample size") + 
-  ylab("Power") + 
-  labs(color = "Control proportion",
-       linetype = "ICC") +
-  scale_color_manual(values=c("#48157F","#29AF7F"))
-dev.off()
-  
-
-
-#another plot
-png(filename=here("Output","power_nonadapt.png"),width=8,height=4,res=300,units="in")
-power_plot %>% mutate(trteff = case_when(trt_eff_scen == 1 ~ "Scenario 1",
-                                         trt_eff_scen == 2 ~ "Scenario 2",
-                                         trt_eff_scen == 3 ~ "Scenario 3")) %>%
+  filter(k %in% c(5,10), ctrl_prop == 0.1) %>%
   ggplot(aes(y = bayesr,x = n_per_k)) +
   geom_point(aes(color = kf))+
-  geom_line(aes(linetype = ctrlpf,color = kf)) + 
+  geom_line(aes(color = kf)) + 
   facet_wrap(~trteff+iccf) + 
   geom_hline(yintercept = 0.8) + 
   geom_hline(yintercept = 0.05, linetype="dashed") +
   theme_light() + 
   xlab("m") + 
   ylab("Power") + 
-  labs(linetype = "Control proportion",
-       color = "k") +
-  scale_color_manual(values=c("#48157F","#29AF7F","black"))
+  labs(color = "k") +
+  scale_color_manual(values=c("#48157F","#29AF7F"))
 dev.off()

@@ -1,0 +1,1793 @@
+---
+title: "pilot_plots"
+output: html_document
+date: "2023-09-05"
+---
+
+DATE CREATED: 05 SEP 2023
+AUTHOR: Erin Nolan
+PURPOSE: Create traceplots for the pilot non-adaptive Bayesian simulations
+
+```{r setup, include=FALSE}
+pacman::p_load(here,rstan,cmdstanr,bayesplot)
+```
+
+For the pilot:
+seed = 668958149
+future package seed=64L
+
+j=1
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309120829-1-919a06.csv","D:/Programs/Simulations/runbae-202309120829-2-919a06.csv",
+                        "D:/Programs/Simulations/runbae-202309120829-3-919a06.csv","D:/Programs/Simulations/runbae-202309120829-4-919a06.csv"))
+png(filename=here("Output","traceplot_j1s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j1s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[2]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309120829-1-07818d.csv","D:/Programs/Simulations/runbae-202309120829-2-07818d.csv",
+                        "D:/Programs/Simulations/runbae-202309120829-3-07818d.csv","D:/Programs/Simulations/runbae-202309120829-4-07818d.csv"))
+png(filename=here("Output","traceplot_j1s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j1s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[2]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309120829-1-35cfbb.csv","D:/Programs/Simulations/runbae-202309120829-2-35cfbb.csv",
+                        "D:/Programs/Simulations/runbae-202309120829-3-35cfbb.csv","D:/Programs/Simulations/runbae-202309120829-4-35cfbb.csv"))
+png(filename=here("Output","traceplot_j1s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j1s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[2]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=2
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309120831-1-919a06.csv","D:/Programs/Simulations/runbae-202309120831-2-919a06.csv",
+                        "D:/Programs/Simulations/runbae-202309120831-3-919a06.csv","D:/Programs/Simulations/runbae-202309120831-4-919a06.csv"))
+png(filename=here("Output","traceplot_j2s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j2s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[2]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309120831-1-07818d.csv","D:/Programs/Simulations/runbae-202309120831-2-07818d.csv",
+                        "D:/Programs/Simulations/runbae-202309120831-3-07818d.csv","D:/Programs/Simulations/runbae-202309120831-4-07818d.csv"))
+png(filename=here("Output","traceplot_j2s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j2s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[2]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309120831-1-35cfbb.csv","D:/Programs/Simulations/runbae-202309120831-2-35cfbb.csv",
+                        "D:/Programs/Simulations/runbae-202309120831-3-35cfbb.csv","D:/Programs/Simulations/runbae-202309120831-4-35cfbb.csv"))
+png(filename=here("Output","traceplot_j2s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j2s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[2]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=3
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309120832-1-35cfbb.csv","D:/Programs/Simulations/runbae-202309120832-2-35cfbb.csv",
+                        "D:/Programs/Simulations/runbae-202309120832-3-35cfbb.csv","D:/Programs/Simulations/runbae-202309120832-4-35cfbb.csv"))
+png(filename=here("Output","traceplot_j3s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j3s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[6]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309120832-1-919a06.csv","D:/Programs/Simulations/runbae-202309120832-2-919a06.csv",
+                        "D:/Programs/Simulations/runbae-202309120832-3-919a06.csv","D:/Programs/Simulations/runbae-202309120832-4-919a06.csv"))
+png(filename=here("Output","traceplot_j3s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j3s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[6]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309120832-1-07818d.csv","D:/Programs/Simulations/runbae-202309120832-2-07818d.csv",
+                        "D:/Programs/Simulations/runbae-202309120832-3-07818d.csv","D:/Programs/Simulations/runbae-202309120832-4-07818d.csv"))
+png(filename=here("Output","traceplot_j3s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j3s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[6]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=4
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309120832-1-35cfbb.csv","D:/Programs/Simulations/runbae-202309120832-2-35cfbb.csv",
+                        "D:/Programs/Simulations/runbae-202309120832-3-35cfbb.csv","D:/Programs/Simulations/runbae-202309120832-4-35cfbb.csv"))
+png(filename=here("Output","traceplot_j4s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j4s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[4]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309120832-1-919a06.csv","D:/Programs/Simulations/runbae-202309120832-2-919a06.csv",
+                        "D:/Programs/Simulations/runbae-202309120832-3-919a06.csv","D:/Programs/Simulations/runbae-202309120832-4-919a06.csv"))
+png(filename=here("Output","traceplot_j4s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j4s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[4]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309120832-1-07818d.csv","D:/Programs/Simulations/runbae-202309120832-2-07818d.csv",
+                        "D:/Programs/Simulations/runbae-202309120832-3-07818d.csv","D:/Programs/Simulations/runbae-202309120832-4-07818d.csv"))
+png(filename=here("Output","traceplot_j4s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j4s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[4]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=5
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309120956-1-35cfbb.csv","D:/Programs/Simulations/runbae-202309120956-2-35cfbb.csv",
+                        "D:/Programs/Simulations/runbae-202309120956-3-35cfbb.csv","D:/Programs/Simulations/runbae-202309120956-4-35cfbb.csv"))
+png(filename=here("Output","traceplot_j5s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j5s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[5]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309120956-1-919a06.csv","D:/Programs/Simulations/runbae-202309120956-2-919a06.csv",
+                        "D:/Programs/Simulations/runbae-202309120956-3-919a06.csv","D:/Programs/Simulations/runbae-202309120956-4-919a06.csv"))
+png(filename=here("Output","traceplot_j5s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j5s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[5]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309120956-1-07818d.csv","D:/Programs/Simulations/runbae-202309120956-2-07818d.csv",
+                        "D:/Programs/Simulations/runbae-202309120956-3-07818d.csv","D:/Programs/Simulations/runbae-202309120956-4-07818d.csv"))
+png(filename=here("Output","traceplot_j5s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j5s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[5]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=6
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121007-1-35cfbb.csv","D:/Programs/Simulations/runbae-202309121007-2-35cfbb.csv",
+                        "D:/Programs/Simulations/runbae-202309121007-3-35cfbb.csv","D:/Programs/Simulations/runbae-202309121007-4-35cfbb.csv"))
+png(filename=here("Output","traceplot_j6s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j6s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[6]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121007-1-919a06.csv","D:/Programs/Simulations/runbae-202309121007-2-919a06.csv",
+                        "D:/Programs/Simulations/runbae-202309121007-3-919a06.csv","D:/Programs/Simulations/runbae-202309121007-4-919a06.csv"))
+png(filename=here("Output","traceplot_j6s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j6s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[6]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121007-1-07818d.csv","D:/Programs/Simulations/runbae-202309121007-2-07818d.csv",
+                        "D:/Programs/Simulations/runbae-202309121007-3-07818d.csv","D:/Programs/Simulations/runbae-202309121007-4-07818d.csv"))
+png(filename=here("Output","traceplot_j6s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j6s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[6]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=7
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121010-1-35cfbb.csv","D:/Programs/Simulations/runbae-202309121010-2-35cfbb.csv",
+                        "D:/Programs/Simulations/runbae-202309121010-3-35cfbb.csv","D:/Programs/Simulations/runbae-202309121010-4-35cfbb.csv"))
+png(filename=here("Output","traceplot_j7s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j7s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[7]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121010-1-919a06.csv","D:/Programs/Simulations/runbae-202309121010-2-919a06.csv",
+                        "D:/Programs/Simulations/runbae-202309121010-3-919a06.csv","D:/Programs/Simulations/runbae-202309121010-4-919a06.csv"))
+png(filename=here("Output","traceplot_j7s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j7s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[7]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121010-1-07818d.csv","D:/Programs/Simulations/runbae-202309121010-2-07818d.csv",
+                        "D:/Programs/Simulations/runbae-202309121010-3-07818d.csv","D:/Programs/Simulations/runbae-202309121010-4-07818d.csv"))
+png(filename=here("Output","traceplot_j7s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j7s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[7]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=8
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121013-1-35cfbb.csv","D:/Programs/Simulations/runbae-202309121013-2-35cfbb.csv",
+                        "D:/Programs/Simulations/runbae-202309121013-3-35cfbb.csv","D:/Programs/Simulations/runbae-202309121013-4-35cfbb.csv"))
+png(filename=here("Output","traceplot_j8s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j8s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[8]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121013-1-919a06.csv","D:/Programs/Simulations/runbae-202309121013-2-919a06.csv",
+                        "D:/Programs/Simulations/runbae-202309121013-3-919a06.csv","D:/Programs/Simulations/runbae-202309121013-4-919a06.csv"))
+png(filename=here("Output","traceplot_j8s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j8s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[8]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121013-1-07818d.csv","D:/Programs/Simulations/runbae-202309121013-2-07818d.csv",
+                        "D:/Programs/Simulations/runbae-202309121013-3-07818d.csv","D:/Programs/Simulations/runbae-202309121013-4-07818d.csv"))
+png(filename=here("Output","traceplot_j8s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j8s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[8]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=9
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121020-1-35cfbb.csv","D:/Programs/Simulations/runbae-202309121020-2-35cfbb.csv",
+                        "D:/Programs/Simulations/runbae-202309121020-3-35cfbb.csv","D:/Programs/Simulations/runbae-202309121020-4-35cfbb.csv"))
+png(filename=here("Output","traceplot_j9s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j9s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[9]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121020-1-919a06.csv","D:/Programs/Simulations/runbae-202309121020-2-919a06.csv",
+                        "D:/Programs/Simulations/runbae-202309121020-3-919a06.csv","D:/Programs/Simulations/runbae-202309121020-4-919a06.csv"))
+png(filename=here("Output","traceplot_j9s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j9s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[9]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121020-1-07818d.csv","D:/Programs/Simulations/runbae-202309121020-2-07818d.csv",
+                        "D:/Programs/Simulations/runbae-202309121020-3-07818d.csv","D:/Programs/Simulations/runbae-202309121020-4-07818d.csv"))
+png(filename=here("Output","traceplot_j9s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j9s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[9]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=10
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121022-1-35cfbb.csv","D:/Programs/Simulations/runbae-202309121022-2-35cfbb.csv",
+                        "D:/Programs/Simulations/runbae-202309121022-3-35cfbb.csv","D:/Programs/Simulations/runbae-202309121022-4-35cfbb.csv"))
+png(filename=here("Output","traceplot_j10s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j10s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[10]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121022-1-919a06.csv","D:/Programs/Simulations/runbae-202309121022-2-919a06.csv",
+                        "D:/Programs/Simulations/runbae-202309121022-3-919a06.csv","D:/Programs/Simulations/runbae-202309121022-4-919a06.csv"))
+png(filename=here("Output","traceplot_j10s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j10s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[10]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121022-1-07818d.csv","D:/Programs/Simulations/runbae-202309121022-2-07818d.csv",
+                        "D:/Programs/Simulations/runbae-202309121022-3-07818d.csv","D:/Programs/Simulations/runbae-202309121022-4-07818d.csv"))
+png(filename=here("Output","traceplot_j10s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j10s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[10]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=11
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121025-1-35cfbb.csv","D:/Programs/Simulations/runbae-202309121025-2-35cfbb.csv",
+                        "D:/Programs/Simulations/runbae-202309121025-3-35cfbb.csv","D:/Programs/Simulations/runbae-202309121025-4-35cfbb.csv"))
+png(filename=here("Output","traceplot_j11s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j11s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[11]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121025-1-919a06.csv","D:/Programs/Simulations/runbae-202309121025-2-919a06.csv",
+                        "D:/Programs/Simulations/runbae-202309121025-3-919a06.csv","D:/Programs/Simulations/runbae-202309121025-4-919a06.csv"))
+png(filename=here("Output","traceplot_j11s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j11s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[11]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121025-1-07818d.csv","D:/Programs/Simulations/runbae-202309121025-2-07818d.csv",
+                        "D:/Programs/Simulations/runbae-202309121025-3-07818d.csv","D:/Programs/Simulations/runbae-202309121025-4-07818d.csv"))
+png(filename=here("Output","traceplot_j11s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j11s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[11]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=12
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121028-1-35cfbb.csv","D:/Programs/Simulations/runbae-202309121028-2-35cfbb.csv",
+                        "D:/Programs/Simulations/runbae-202309121028-3-35cfbb.csv","D:/Programs/Simulations/runbae-202309121028-4-35cfbb.csv"))
+png(filename=here("Output","traceplot_j12s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j12s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[12]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121028-1-919a06.csv","D:/Programs/Simulations/runbae-202309121028-2-919a06.csv",
+                        "D:/Programs/Simulations/runbae-202309121028-3-919a06.csv","D:/Programs/Simulations/runbae-202309121028-4-919a06.csv"))
+png(filename=here("Output","traceplot_j12s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j12s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[12]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121028-1-07818d.csv","D:/Programs/Simulations/runbae-202309121028-2-07818d.csv",
+                        "D:/Programs/Simulations/runbae-202309121028-3-07818d.csv","D:/Programs/Simulations/runbae-202309121028-4-07818d.csv"))
+png(filename=here("Output","traceplot_j12s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j12s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[12]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=13
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121030-1-1f90a1.csv","D:/Programs/Simulations/runbae-202309121030-2-1f90a1.csv",
+                        "D:/Programs/Simulations/runbae-202309121030-3-1f90a1.csv","D:/Programs/Simulations/runbae-202309121030-4-1f90a1.csv"))
+png(filename=here("Output","traceplot_j13s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j13s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[13]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121030-1-68eb4d.csv","D:/Programs/Simulations/runbae-202309121030-2-68eb4d.csv",
+                        "D:/Programs/Simulations/runbae-202309121030-3-68eb4d.csv","D:/Programs/Simulations/runbae-202309121030-4-68eb4d.csv"))
+png(filename=here("Output","traceplot_j13s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j13s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[13]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121030-1-090e7c.csv","D:/Programs/Simulations/runbae-202309121030-2-090e7c.csv",
+                        "D:/Programs/Simulations/runbae-202309121030-3-090e7c.csv","D:/Programs/Simulations/runbae-202309121030-4-090e7c.csv"))
+png(filename=here("Output","traceplot_j13s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j13s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[13]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=14
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121035-1-1f90a1.csv","D:/Programs/Simulations/runbae-202309121035-2-1f90a1.csv",
+                        "D:/Programs/Simulations/runbae-202309121035-3-1f90a1.csv","D:/Programs/Simulations/runbae-202309121035-4-1f90a1.csv"))
+png(filename=here("Output","traceplot_j14s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j14s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[14]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121035-1-68eb4d.csv","D:/Programs/Simulations/runbae-202309121035-2-68eb4d.csv",
+                        "D:/Programs/Simulations/runbae-202309121035-3-68eb4d.csv","D:/Programs/Simulations/runbae-202309121035-4-68eb4d.csv"))
+png(filename=here("Output","traceplot_j14s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j14s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[14]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121035-1-090e7c.csv","D:/Programs/Simulations/runbae-202309121035-2-090e7c.csv",
+                        "D:/Programs/Simulations/runbae-202309121035-3-090e7c.csv","D:/Programs/Simulations/runbae-202309121035-4-090e7c.csv"))
+png(filename=here("Output","traceplot_j14s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j14s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[14]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=15
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121036-1-1f90a1.csv","D:/Programs/Simulations/runbae-202309121036-2-1f90a1.csv",
+                        "D:/Programs/Simulations/runbae-202309121036-3-1f90a1.csv","D:/Programs/Simulations/runbae-202309121036-4-1f90a1.csv"))
+png(filename=here("Output","traceplot_j15s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j15s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[15]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121036-1-68eb4d.csv","D:/Programs/Simulations/runbae-202309121036-2-68eb4d.csv",
+                        "D:/Programs/Simulations/runbae-202309121036-3-68eb4d.csv","D:/Programs/Simulations/runbae-202309121036-4-68eb4d.csv"))
+png(filename=here("Output","traceplot_j15s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j15s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[15]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121036-1-090e7c.csv","D:/Programs/Simulations/runbae-202309121036-2-090e7c.csv",
+                        "D:/Programs/Simulations/runbae-202309121036-3-090e7c.csv","D:/Programs/Simulations/runbae-202309121036-4-090e7c.csv"))
+png(filename=here("Output","traceplot_j15s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j15s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[15]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=16
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121039-1-1f90a1.csv","D:/Programs/Simulations/runbae-202309121039-2-1f90a1.csv",
+                        "D:/Programs/Simulations/runbae-202309121039-3-1f90a1.csv","D:/Programs/Simulations/runbae-202309121039-4-1f90a1.csv"))
+png(filename=here("Output","traceplot_j16s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j16s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[16]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121039-1-68eb4d.csv","D:/Programs/Simulations/runbae-202309121039-2-68eb4d.csv",
+                        "D:/Programs/Simulations/runbae-202309121039-3-68eb4d.csv","D:/Programs/Simulations/runbae-202309121039-4-68eb4d.csv"))
+png(filename=here("Output","traceplot_j16s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j16s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[16]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121039-1-090e7c.csv","D:/Programs/Simulations/runbae-202309121039-2-090e7c.csv",
+                        "D:/Programs/Simulations/runbae-202309121039-3-090e7c.csv","D:/Programs/Simulations/runbae-202309121039-4-090e7c.csv"))
+png(filename=here("Output","traceplot_j16s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j16s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[16]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=17
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121042-1-1f90a1.csv","D:/Programs/Simulations/runbae-202309121042-2-1f90a1.csv",
+                        "D:/Programs/Simulations/runbae-202309121042-3-1f90a1.csv","D:/Programs/Simulations/runbae-202309121042-4-1f90a1.csv"))
+png(filename=here("Output","traceplot_j17s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j17s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[17]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121042-1-68eb4d.csv","D:/Programs/Simulations/runbae-202309121042-2-68eb4d.csv",
+                        "D:/Programs/Simulations/runbae-202309121042-3-68eb4d.csv","D:/Programs/Simulations/runbae-202309121042-4-68eb4d.csv"))
+png(filename=here("Output","traceplot_j17s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j17s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[17]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121042-1-090e7c.csv","D:/Programs/Simulations/runbae-202309121042-2-090e7c.csv",
+                        "D:/Programs/Simulations/runbae-202309121042-3-090e7c.csv","D:/Programs/Simulations/runbae-202309121042-4-090e7c.csv"))
+png(filename=here("Output","traceplot_j17s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j17s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[17]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=18
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121046-1-1f90a1.csv","D:/Programs/Simulations/runbae-202309121046-2-1f90a1.csv",
+                        "D:/Programs/Simulations/runbae-202309121046-3-1f90a1.csv","D:/Programs/Simulations/runbae-202309121046-4-1f90a1.csv"))
+png(filename=here("Output","traceplot_j18s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j18s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[18]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121046-1-68eb4d.csv","D:/Programs/Simulations/runbae-202309121046-2-68eb4d.csv",
+                        "D:/Programs/Simulations/runbae-202309121046-3-68eb4d.csv","D:/Programs/Simulations/runbae-202309121046-4-68eb4d.csv"))
+png(filename=here("Output","traceplot_j18s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j18s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[18]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121046-1-090e7c.csv","D:/Programs/Simulations/runbae-202309121046-2-090e7c.csv",
+                        "D:/Programs/Simulations/runbae-202309121046-3-090e7c.csv","D:/Programs/Simulations/runbae-202309121046-4-090e7c.csv"))
+png(filename=here("Output","traceplot_j18s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j18s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[18]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=19
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121049-1-1f90a1.csv","D:/Programs/Simulations/runbae-202309121049-2-1f90a1.csv",
+                        "D:/Programs/Simulations/runbae-202309121049-3-1f90a1.csv","D:/Programs/Simulations/runbae-202309121049-4-1f90a1.csv"))
+png(filename=here("Output","traceplot_j19s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j19s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[19]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121049-1-68eb4d.csv","D:/Programs/Simulations/runbae-202309121049-2-68eb4d.csv",
+                        "D:/Programs/Simulations/runbae-202309121049-3-68eb4d.csv","D:/Programs/Simulations/runbae-202309121049-4-68eb4d.csv"))
+png(filename=here("Output","traceplot_j19s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j19s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[19]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121049-1-090e7c.csv","D:/Programs/Simulations/runbae-202309121049-2-090e7c.csv",
+                        "D:/Programs/Simulations/runbae-202309121049-3-090e7c.csv","D:/Programs/Simulations/runbae-202309121049-4-090e7c.csv"))
+png(filename=here("Output","traceplot_j19s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j19s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[19]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=20
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121053-1-1f90a1.csv","D:/Programs/Simulations/runbae-202309121053-2-1f90a1.csv",
+                        "D:/Programs/Simulations/runbae-202309121053-3-1f90a1.csv","D:/Programs/Simulations/runbae-202309121053-4-1f90a1.csv"))
+png(filename=here("Output","traceplot_j20s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j20s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[20]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121053-1-68eb4d.csv","D:/Programs/Simulations/runbae-202309121053-2-68eb4d.csv",
+                        "D:/Programs/Simulations/runbae-202309121053-3-68eb4d.csv","D:/Programs/Simulations/runbae-202309121053-4-68eb4d.csv"))
+png(filename=here("Output","traceplot_j20s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j20s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[20]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121053-1-090e7c.csv","D:/Programs/Simulations/runbae-202309121053-2-090e7c.csv",
+                        "D:/Programs/Simulations/runbae-202309121053-3-090e7c.csv","D:/Programs/Simulations/runbae-202309121053-4-090e7c.csv"))
+png(filename=here("Output","traceplot_j20s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j20s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[20]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=21
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121055-1-1f90a1.csv","D:/Programs/Simulations/runbae-202309121055-2-1f90a1.csv",
+                        "D:/Programs/Simulations/runbae-202309121055-3-1f90a1.csv","D:/Programs/Simulations/runbae-202309121055-4-1f90a1.csv"))
+png(filename=here("Output","traceplot_j21s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j21s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[21]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121055-1-68eb4d.csv","D:/Programs/Simulations/runbae-202309121055-2-68eb4d.csv",
+                        "D:/Programs/Simulations/runbae-202309121055-3-68eb4d.csv","D:/Programs/Simulations/runbae-202309121055-4-68eb4d.csv"))
+png(filename=here("Output","traceplot_j21s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j21s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[21]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121055-1-090e7c.csv","D:/Programs/Simulations/runbae-202309121055-2-090e7c.csv",
+                        "D:/Programs/Simulations/runbae-202309121055-3-090e7c.csv","D:/Programs/Simulations/runbae-202309121055-4-090e7c.csv"))
+png(filename=here("Output","traceplot_j21s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j21s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[21]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=22
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121058-1-1f90a1.csv","D:/Programs/Simulations/runbae-202309121058-2-1f90a1.csv",
+                        "D:/Programs/Simulations/runbae-202309121058-3-1f90a1.csv","D:/Programs/Simulations/runbae-202309121058-4-1f90a1.csv"))
+png(filename=here("Output","traceplot_j22s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j22s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[22]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121058-1-68eb4d.csv","D:/Programs/Simulations/runbae-202309121058-2-68eb4d.csv",
+                        "D:/Programs/Simulations/runbae-202309121058-3-68eb4d.csv","D:/Programs/Simulations/runbae-202309121058-4-68eb4d.csv"))
+png(filename=here("Output","traceplot_j22s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j22s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[22]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121058-1-090e7c.csv","D:/Programs/Simulations/runbae-202309121058-2-090e7c.csv",
+                        "D:/Programs/Simulations/runbae-202309121058-3-090e7c.csv","D:/Programs/Simulations/runbae-202309121058-4-090e7c.csv"))
+png(filename=here("Output","traceplot_j22s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j22s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[22]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=23
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121102-1-1f90a1.csv","D:/Programs/Simulations/runbae-202309121102-2-1f90a1.csv",
+                        "D:/Programs/Simulations/runbae-202309121102-3-1f90a1.csv","D:/Programs/Simulations/runbae-202309121102-4-1f90a1.csv"))
+png(filename=here("Output","traceplot_j23s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j23s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[23]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121102-1-68eb4d.csv","D:/Programs/Simulations/runbae-202309121102-2-68eb4d.csv",
+                        "D:/Programs/Simulations/runbae-202309121102-3-68eb4d.csv","D:/Programs/Simulations/runbae-202309121102-4-68eb4d.csv"))
+png(filename=here("Output","traceplot_j23s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j23s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[23]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121102-1-090e7c.csv","D:/Programs/Simulations/runbae-202309121102-2-090e7c.csv",
+                        "D:/Programs/Simulations/runbae-202309121102-3-090e7c.csv","D:/Programs/Simulations/runbae-202309121102-4-090e7c.csv"))
+png(filename=here("Output","traceplot_j23s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j23s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[23]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=24
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121105-1-1f90a1.csv","D:/Programs/Simulations/runbae-202309121105-2-1f90a1.csv",
+                        "D:/Programs/Simulations/runbae-202309121105-3-1f90a1.csv","D:/Programs/Simulations/runbae-202309121105-4-1f90a1.csv"))
+png(filename=here("Output","traceplot_j24s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j24s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[24]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121105-1-68eb4d.csv","D:/Programs/Simulations/runbae-202309121105-2-68eb4d.csv",
+                        "D:/Programs/Simulations/runbae-202309121105-3-68eb4d.csv","D:/Programs/Simulations/runbae-202309121105-4-68eb4d.csv"))
+png(filename=here("Output","traceplot_j24s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j24s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[24]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121105-1-090e7c.csv","D:/Programs/Simulations/runbae-202309121105-2-090e7c.csv",
+                        "D:/Programs/Simulations/runbae-202309121105-3-090e7c.csv","D:/Programs/Simulations/runbae-202309121105-4-090e7c.csv"))
+png(filename=here("Output","traceplot_j24s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j24s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[24]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=25
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121109-1-7b0da2.csv","D:/Programs/Simulations/runbae-202309121109-2-7b0da2.csv",
+                        "D:/Programs/Simulations/runbae-202309121109-3-7b0da2.csv","D:/Programs/Simulations/runbae-202309121109-4-7b0da2.csv"))
+png(filename=here("Output","traceplot_j25s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j25s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[25]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121109-1-258cad.csv","D:/Programs/Simulations/runbae-202309121109-2-258cad.csv",
+                        "D:/Programs/Simulations/runbae-202309121109-3-258cad.csv","D:/Programs/Simulations/runbae-202309121109-4-258cad.csv"))
+png(filename=here("Output","traceplot_j25s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j25s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[25]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121109-1-938c12.csv","D:/Programs/Simulations/runbae-202309121109-2-938c12.csv",
+                        "D:/Programs/Simulations/runbae-202309121109-3-938c12.csv","D:/Programs/Simulations/runbae-202309121109-4-938c12.csv"))
+png(filename=here("Output","traceplot_j25s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j25s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[25]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=26
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121119-1-7b0da2.csv","D:/Programs/Simulations/runbae-202309121119-2-7b0da2.csv",
+                        "D:/Programs/Simulations/runbae-202309121119-3-7b0da2.csv","D:/Programs/Simulations/runbae-202309121119-4-7b0da2.csv"))
+png(filename=here("Output","traceplot_j26s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j26s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[26]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121119-1-258cad.csv","D:/Programs/Simulations/runbae-202309121119-2-258cad.csv",
+                        "D:/Programs/Simulations/runbae-202309121119-3-258cad.csv","D:/Programs/Simulations/runbae-202309121119-4-258cad.csv"))
+png(filename=here("Output","traceplot_j26s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j26s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[26]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121119-1-938c12.csv","D:/Programs/Simulations/runbae-202309121119-2-938c12.csv",
+                        "D:/Programs/Simulations/runbae-202309121119-3-938c12.csv","D:/Programs/Simulations/runbae-202309121119-4-938c12.csv"))
+png(filename=here("Output","traceplot_j26s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j26s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[26]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=27
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121124-1-7b0da2.csv","D:/Programs/Simulations/runbae-202309121124-2-7b0da2.csv",
+                        "D:/Programs/Simulations/runbae-202309121124-3-7b0da2.csv","D:/Programs/Simulations/runbae-202309121124-4-7b0da2.csv"))
+png(filename=here("Output","traceplot_j27s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j27s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[27]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121124-1-258cad.csv","D:/Programs/Simulations/runbae-202309121124-2-258cad.csv",
+                        "D:/Programs/Simulations/runbae-202309121124-3-258cad.csv","D:/Programs/Simulations/runbae-202309121124-4-258cad.csv"))
+png(filename=here("Output","traceplot_j27s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j27s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[27]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121124-1-938c12.csv","D:/Programs/Simulations/runbae-202309121124-2-938c12.csv",
+                        "D:/Programs/Simulations/runbae-202309121124-3-938c12.csv","D:/Programs/Simulations/runbae-202309121124-4-938c12.csv"))
+png(filename=here("Output","traceplot_j27s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j27s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[27]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=28
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121128-1-7b0da2.csv","D:/Programs/Simulations/runbae-202309121128-2-7b0da2.csv",
+                        "D:/Programs/Simulations/runbae-202309121128-3-7b0da2.csv","D:/Programs/Simulations/runbae-202309121128-4-7b0da2.csv"))
+png(filename=here("Output","traceplot_j28s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j28s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[28]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121128-1-258cad.csv","D:/Programs/Simulations/runbae-202309121128-2-258cad.csv",
+                        "D:/Programs/Simulations/runbae-202309121128-3-258cad.csv","D:/Programs/Simulations/runbae-202309121128-4-258cad.csv"))
+png(filename=here("Output","traceplot_j28s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j28s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[28]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121128-1-938c12.csv","D:/Programs/Simulations/runbae-202309121128-2-938c12.csv",
+                        "D:/Programs/Simulations/runbae-202309121128-3-938c12.csv","D:/Programs/Simulations/runbae-202309121128-4-938c12.csv"))
+png(filename=here("Output","traceplot_j28s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j28s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[28]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=29
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121204-1-7b0da2.csv","D:/Programs/Simulations/runbae-202309121204-2-7b0da2.csv",
+                        "D:/Programs/Simulations/runbae-202309121204-3-7b0da2.csv","D:/Programs/Simulations/runbae-202309121204-4-7b0da2.csv"))
+png(filename=here("Output","traceplot_j29s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j29s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[29]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121204-1-258cad.csv","D:/Programs/Simulations/runbae-202309121204-2-258cad.csv",
+                        "D:/Programs/Simulations/runbae-202309121204-3-258cad.csv","D:/Programs/Simulations/runbae-202309121204-4-258cad.csv"))
+png(filename=here("Output","traceplot_j29s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j29s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[29]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121204-1-938c12.csv","D:/Programs/Simulations/runbae-202309121204-2-938c12.csv",
+                        "D:/Programs/Simulations/runbae-202309121204-3-938c12.csv","D:/Programs/Simulations/runbae-202309121204-4-938c12.csv"))
+png(filename=here("Output","traceplot_j29s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j29s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[29]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=30
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121331-1-7b0da2.csv","D:/Programs/Simulations/runbae-202309121331-2-7b0da2.csv",
+                        "D:/Programs/Simulations/runbae-202309121331-3-7b0da2.csv","D:/Programs/Simulations/runbae-202309121331-4-7b0da2.csv"))
+png(filename=here("Output","traceplot_j30s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j30s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[30]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121331-1-258cad.csv","D:/Programs/Simulations/runbae-202309121331-2-258cad.csv",
+                        "D:/Programs/Simulations/runbae-202309121331-3-258cad.csv","D:/Programs/Simulations/runbae-202309121331-4-258cad.csv"))
+png(filename=here("Output","traceplot_j30s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j30s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[30]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121331-1-938c12.csv","D:/Programs/Simulations/runbae-202309121331-2-938c12.csv",
+                        "D:/Programs/Simulations/runbae-202309121331-3-938c12.csv","D:/Programs/Simulations/runbae-202309121331-4-938c12.csv"))
+png(filename=here("Output","traceplot_j30s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j30s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[30]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=31
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121339-1-7b0da2.csv","D:/Programs/Simulations/runbae-202309121339-2-7b0da2.csv",
+                        "D:/Programs/Simulations/runbae-202309121339-3-7b0da2.csv","D:/Programs/Simulations/runbae-202309121339-4-7b0da2.csv"))
+png(filename=here("Output","traceplot_j31s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j31s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[31]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121339-1-258cad.csv","D:/Programs/Simulations/runbae-202309121339-2-258cad.csv",
+                        "D:/Programs/Simulations/runbae-202309121339-3-258cad.csv","D:/Programs/Simulations/runbae-202309121339-4-258cad.csv"))
+png(filename=here("Output","traceplot_j31s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j31s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[31]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121339-1-938c12.csv","D:/Programs/Simulations/runbae-202309121339-2-938c12.csv",
+                        "D:/Programs/Simulations/runbae-202309121339-3-938c12.csv","D:/Programs/Simulations/runbae-202309121339-4-938c12.csv"))
+png(filename=here("Output","traceplot_j31s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j31s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[31]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=32
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121345-1-7b0da2.csv","D:/Programs/Simulations/runbae-202309121345-2-7b0da2.csv",
+                        "D:/Programs/Simulations/runbae-202309121345-3-7b0da2.csv","D:/Programs/Simulations/runbae-202309121345-4-7b0da2.csv"))
+png(filename=here("Output","traceplot_j32s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j32s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[32]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121345-1-258cad.csv","D:/Programs/Simulations/runbae-202309121345-2-258cad.csv",
+                        "D:/Programs/Simulations/runbae-202309121345-3-258cad.csv","D:/Programs/Simulations/runbae-202309121345-4-258cad.csv"))
+png(filename=here("Output","traceplot_j32s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j32s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[32]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121345-1-938c12.csv","D:/Programs/Simulations/runbae-202309121345-2-938c12.csv",
+                        "D:/Programs/Simulations/runbae-202309121345-3-938c12.csv","D:/Programs/Simulations/runbae-202309121345-4-938c12.csv"))
+png(filename=here("Output","traceplot_j32s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j32s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[32]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=33
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121350-1-7b0da2.csv","D:/Programs/Simulations/runbae-202309121350-2-7b0da2.csv",
+                        "D:/Programs/Simulations/runbae-202309121350-3-7b0da2.csv","D:/Programs/Simulations/runbae-202309121350-4-7b0da2.csv"))
+png(filename=here("Output","traceplot_j33s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j33s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[33]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121350-1-258cad.csv","D:/Programs/Simulations/runbae-202309121350-2-258cad.csv",
+                        "D:/Programs/Simulations/runbae-202309121350-3-258cad.csv","D:/Programs/Simulations/runbae-202309121350-4-258cad.csv"))
+png(filename=here("Output","traceplot_j33s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j33s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[33]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121350-1-938c12.csv","D:/Programs/Simulations/runbae-202309121350-2-938c12.csv",
+                        "D:/Programs/Simulations/runbae-202309121350-3-938c12.csv","D:/Programs/Simulations/runbae-202309121350-4-938c12.csv"))
+png(filename=here("Output","traceplot_j33s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j33s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[33]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=34
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121355-1-7b0da2.csv","D:/Programs/Simulations/runbae-202309121355-2-7b0da2.csv",
+                        "D:/Programs/Simulations/runbae-202309121355-3-7b0da2.csv","D:/Programs/Simulations/runbae-202309121355-4-7b0da2.csv"))
+png(filename=here("Output","traceplot_j34s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j34s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[34]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121355-1-258cad.csv","D:/Programs/Simulations/runbae-202309121355-2-258cad.csv",
+                        "D:/Programs/Simulations/runbae-202309121355-3-258cad.csv","D:/Programs/Simulations/runbae-202309121355-4-258cad.csv"))
+png(filename=here("Output","traceplot_j34s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j34s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[34]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121355-1-938c12.csv","D:/Programs/Simulations/runbae-202309121355-2-938c12.csv",
+                        "D:/Programs/Simulations/runbae-202309121355-3-938c12.csv","D:/Programs/Simulations/runbae-202309121355-4-938c12.csv"))
+png(filename=here("Output","traceplot_j34s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j34s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[34]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=35
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121400-1-7b0da2.csv","D:/Programs/Simulations/runbae-202309121400-2-7b0da2.csv",
+                        "D:/Programs/Simulations/runbae-202309121400-3-7b0da2.csv","D:/Programs/Simulations/runbae-202309121400-4-7b0da2.csv"))
+png(filename=here("Output","traceplot_j35s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j35s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[35]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121400-1-258cad.csv","D:/Programs/Simulations/runbae-202309121400-2-258cad.csv",
+                        "D:/Programs/Simulations/runbae-202309121400-3-258cad.csv","D:/Programs/Simulations/runbae-202309121400-4-258cad.csv"))
+png(filename=here("Output","traceplot_j35s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j35s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[35]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121400-1-938c12.csv","D:/Programs/Simulations/runbae-202309121400-2-938c12.csv",
+                        "D:/Programs/Simulations/runbae-202309121400-3-938c12.csv","D:/Programs/Simulations/runbae-202309121400-4-938c12.csv"))
+png(filename=here("Output","traceplot_j35s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j35s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[35]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=36
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121406-1-7b0da2.csv","D:/Programs/Simulations/runbae-202309121406-2-7b0da2.csv",
+                        "D:/Programs/Simulations/runbae-202309121406-3-7b0da2.csv","D:/Programs/Simulations/runbae-202309121406-4-7b0da2.csv"))
+png(filename=here("Output","traceplot_j36s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j36s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[36]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121406-1-258cad.csv","D:/Programs/Simulations/runbae-202309121406-2-258cad.csv",
+                        "D:/Programs/Simulations/runbae-202309121406-3-258cad.csv","D:/Programs/Simulations/runbae-202309121406-4-258cad.csv"))
+png(filename=here("Output","traceplot_j36s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j36s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[36]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121406-1-938c12.csv","D:/Programs/Simulations/runbae-202309121406-2-938c12.csv",
+                        "D:/Programs/Simulations/runbae-202309121406-3-938c12.csv","D:/Programs/Simulations/runbae-202309121406-4-938c12.csv"))
+png(filename=here("Output","traceplot_j36s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j36s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[36]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=37
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121411-1-2d9f0b.csv","D:/Programs/Simulations/runbae-202309121411-2-2d9f0b.csv",
+                        "D:/Programs/Simulations/runbae-202309121411-3-2d9f0b.csv","D:/Programs/Simulations/runbae-202309121411-4-2d9f0b.csv"))
+png(filename=here("Output","traceplot_j37s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j37s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[37]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121411-1-44c076.csv","D:/Programs/Simulations/runbae-202309121411-2-44c076.csv",
+                        "D:/Programs/Simulations/runbae-202309121411-3-44c076.csv","D:/Programs/Simulations/runbae-202309121411-4-44c076.csv"))
+png(filename=here("Output","traceplot_j37s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j37s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[37]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121411-1-581777.csv","D:/Programs/Simulations/runbae-202309121411-2-581777.csv",
+                        "D:/Programs/Simulations/runbae-202309121411-3-581777.csv","D:/Programs/Simulations/runbae-202309121411-4-581777.csv"))
+png(filename=here("Output","traceplot_j37s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j37s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[37]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=38
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121424-1-2d9f0b.csv","D:/Programs/Simulations/runbae-202309121424-2-2d9f0b.csv",
+                        "D:/Programs/Simulations/runbae-202309121424-3-2d9f0b.csv","D:/Programs/Simulations/runbae-202309121424-4-2d9f0b.csv"))
+png(filename=here("Output","traceplot_j38s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j38s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[38]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121424-1-44c076.csv","D:/Programs/Simulations/runbae-202309121424-2-44c076.csv",
+                        "D:/Programs/Simulations/runbae-202309121424-3-44c076.csv","D:/Programs/Simulations/runbae-202309121424-4-44c076.csv"))
+png(filename=here("Output","traceplot_j38s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j38s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[38]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121424-1-581777.csv","D:/Programs/Simulations/runbae-202309121424-2-581777.csv",
+                        "D:/Programs/Simulations/runbae-202309121424-3-581777.csv","D:/Programs/Simulations/runbae-202309121424-4-581777.csv"))
+png(filename=here("Output","traceplot_j38s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j38s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[38]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=39
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121434-1-2d9f0b.csv","D:/Programs/Simulations/runbae-202309121434-2-2d9f0b.csv",
+                        "D:/Programs/Simulations/runbae-202309121434-3-2d9f0b.csv","D:/Programs/Simulations/runbae-202309121434-4-2d9f0b.csv"))
+png(filename=here("Output","traceplot_j39s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j39s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[39]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121434-1-44c076.csv","D:/Programs/Simulations/runbae-202309121434-2-44c076.csv",
+                        "D:/Programs/Simulations/runbae-202309121434-3-44c076.csv","D:/Programs/Simulations/runbae-202309121434-4-44c076.csv"))
+png(filename=here("Output","traceplot_j39s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j39s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[39]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121434-1-581777.csv","D:/Programs/Simulations/runbae-202309121434-2-581777.csv",
+                        "D:/Programs/Simulations/runbae-202309121434-3-581777.csv","D:/Programs/Simulations/runbae-202309121434-4-581777.csv"))
+png(filename=here("Output","traceplot_j39s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j39s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[39]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=40
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121445-1-2d9f0b.csv","D:/Programs/Simulations/runbae-202309121445-2-2d9f0b.csv",
+                        "D:/Programs/Simulations/runbae-202309121445-3-2d9f0b.csv","D:/Programs/Simulations/runbae-202309121445-4-2d9f0b.csv"))
+png(filename=here("Output","traceplot_j40s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j40s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[40]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121445-1-44c076.csv","D:/Programs/Simulations/runbae-202309121445-2-44c076.csv",
+                        "D:/Programs/Simulations/runbae-202309121445-3-44c076.csv","D:/Programs/Simulations/runbae-202309121445-4-44c076.csv"))
+png(filename=here("Output","traceplot_j40s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j40s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[40]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121445-1-581777.csv","D:/Programs/Simulations/runbae-202309121445-2-581777.csv",
+                        "D:/Programs/Simulations/runbae-202309121445-3-581777.csv","D:/Programs/Simulations/runbae-202309121445-4-581777.csv"))
+png(filename=here("Output","traceplot_j40s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j40s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[40]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=41
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121453-1-2d9f0b.csv","D:/Programs/Simulations/runbae-202309121453-2-2d9f0b.csv",
+                        "D:/Programs/Simulations/runbae-202309121453-3-2d9f0b.csv","D:/Programs/Simulations/runbae-202309121453-4-2d9f0b.csv"))
+png(filename=here("Output","traceplot_j41s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j41s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[41]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121453-1-44c076.csv","D:/Programs/Simulations/runbae-202309121453-2-44c076.csv",
+                        "D:/Programs/Simulations/runbae-202309121453-3-44c076.csv","D:/Programs/Simulations/runbae-202309121453-4-44c076.csv"))
+png(filename=here("Output","traceplot_j41s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j41s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[41]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121453-1-581777.csv","D:/Programs/Simulations/runbae-202309121453-2-581777.csv",
+                        "D:/Programs/Simulations/runbae-202309121453-3-581777.csv","D:/Programs/Simulations/runbae-202309121453-4-581777.csv"))
+png(filename=here("Output","traceplot_j41s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j41s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[41]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=42
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121500-1-2d9f0b.csv","D:/Programs/Simulations/runbae-202309121500-2-2d9f0b.csv",
+                        "D:/Programs/Simulations/runbae-202309121500-3-2d9f0b.csv","D:/Programs/Simulations/runbae-202309121500-4-2d9f0b.csv"))
+png(filename=here("Output","traceplot_j42s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j42s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[42]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121500-1-44c076.csv","D:/Programs/Simulations/runbae-202309121500-2-44c076.csv",
+                        "D:/Programs/Simulations/runbae-202309121500-3-44c076.csv","D:/Programs/Simulations/runbae-202309121500-4-44c076.csv"))
+png(filename=here("Output","traceplot_j42s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j42s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[42]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121500-1-581777.csv","D:/Programs/Simulations/runbae-202309121500-2-581777.csv",
+                        "D:/Programs/Simulations/runbae-202309121500-3-581777.csv","D:/Programs/Simulations/runbae-202309121500-4-581777.csv"))
+png(filename=here("Output","traceplot_j42s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j42s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[42]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=43
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121508-1-2d9f0b.csv","D:/Programs/Simulations/runbae-202309121508-2-2d9f0b.csv",
+                        "D:/Programs/Simulations/runbae-202309121508-3-2d9f0b.csv","D:/Programs/Simulations/runbae-202309121508-4-2d9f0b.csv"))
+png(filename=here("Output","traceplot_j43s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j43s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[43]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121508-1-44c076.csv","D:/Programs/Simulations/runbae-202309121508-2-44c076.csv",
+                        "D:/Programs/Simulations/runbae-202309121508-3-44c076.csv","D:/Programs/Simulations/runbae-202309121508-4-44c076.csv"))
+png(filename=here("Output","traceplot_j43s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j43s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[43]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121508-1-581777.csv","D:/Programs/Simulations/runbae-202309121508-2-581777.csv",
+                        "D:/Programs/Simulations/runbae-202309121508-3-581777.csv","D:/Programs/Simulations/runbae-202309121508-4-581777.csv"))
+png(filename=here("Output","traceplot_j43s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j43s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[43]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=44
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121516-1-2d9f0b.csv","D:/Programs/Simulations/runbae-202309121516-2-2d9f0b.csv",
+                        "D:/Programs/Simulations/runbae-202309121516-3-2d9f0b.csv","D:/Programs/Simulations/runbae-202309121516-4-2d9f0b.csv"))
+png(filename=here("Output","traceplot_j44s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j44s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[44]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121516-1-44c076.csv","D:/Programs/Simulations/runbae-202309121516-2-44c076.csv",
+                        "D:/Programs/Simulations/runbae-202309121516-3-44c076.csv","D:/Programs/Simulations/runbae-202309121516-4-44c076.csv"))
+png(filename=here("Output","traceplot_j44s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j44s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[44]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121516-1-581777.csv","D:/Programs/Simulations/runbae-202309121516-2-581777.csv",
+                        "D:/Programs/Simulations/runbae-202309121516-3-581777.csv","D:/Programs/Simulations/runbae-202309121516-4-581777.csv"))
+png(filename=here("Output","traceplot_j44s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j44s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[44]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=45
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121524-1-2d9f0b.csv","D:/Programs/Simulations/runbae-202309121524-2-2d9f0b.csv",
+                        "D:/Programs/Simulations/runbae-202309121524-3-2d9f0b.csv","D:/Programs/Simulations/runbae-202309121524-4-2d9f0b.csv"))
+png(filename=here("Output","traceplot_j45s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j45s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[45]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121524-1-44c076.csv","D:/Programs/Simulations/runbae-202309121524-2-44c076.csv",
+                        "D:/Programs/Simulations/runbae-202309121524-3-44c076.csv","D:/Programs/Simulations/runbae-202309121524-4-44c076.csv"))
+png(filename=here("Output","traceplot_j45s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j45s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[45]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121524-1-581777.csv","D:/Programs/Simulations/runbae-202309121524-2-581777.csv",
+                        "D:/Programs/Simulations/runbae-202309121524-3-581777.csv","D:/Programs/Simulations/runbae-202309121524-4-581777.csv"))
+png(filename=here("Output","traceplot_j45s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j45s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[45]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=46
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121532-1-2d9f0b.csv","D:/Programs/Simulations/runbae-202309121532-2-2d9f0b.csv",
+                        "D:/Programs/Simulations/runbae-202309121532-3-2d9f0b.csv","D:/Programs/Simulations/runbae-202309121532-4-2d9f0b.csv"))
+png(filename=here("Output","traceplot_j46s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j46s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[46]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121532-1-44c076.csv","D:/Programs/Simulations/runbae-202309121532-2-44c076.csv",
+                        "D:/Programs/Simulations/runbae-202309121532-3-44c076.csv","D:/Programs/Simulations/runbae-202309121532-4-44c076.csv"))
+png(filename=here("Output","traceplot_j46s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j46s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[46]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121532-1-581777.csv","D:/Programs/Simulations/runbae-202309121532-2-581777.csv",
+                        "D:/Programs/Simulations/runbae-202309121532-3-581777.csv","D:/Programs/Simulations/runbae-202309121532-4-581777.csv"))
+png(filename=here("Output","traceplot_j46s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j46s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[46]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=47
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121545-1-2d9f0b.csv","D:/Programs/Simulations/runbae-202309121545-2-2d9f0b.csv",
+                        "D:/Programs/Simulations/runbae-202309121545-3-2d9f0b.csv","D:/Programs/Simulations/runbae-202309121545-4-2d9f0b.csv"))
+png(filename=here("Output","traceplot_j47s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j47s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[47]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121545-1-44c076.csv","D:/Programs/Simulations/runbae-202309121545-2-44c076.csv",
+                        "D:/Programs/Simulations/runbae-202309121545-3-44c076.csv","D:/Programs/Simulations/runbae-202309121545-4-44c076.csv"))
+png(filename=here("Output","traceplot_j47s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j47s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[47]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121545-1-581777.csv","D:/Programs/Simulations/runbae-202309121545-2-581777.csv",
+                        "D:/Programs/Simulations/runbae-202309121545-3-581777.csv","D:/Programs/Simulations/runbae-202309121545-4-581777.csv"))
+png(filename=here("Output","traceplot_j47s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j47s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[47]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
+
+j=48
+```{r}
+#Sim1
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121553-1-2d9f0b.csv","D:/Programs/Simulations/runbae-202309121553-2-2d9f0b.csv",
+                        "D:/Programs/Simulations/runbae-202309121553-3-2d9f0b.csv","D:/Programs/Simulations/runbae-202309121553-4-2d9f0b.csv"))
+png(filename=here("Output","traceplot_j48s1.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j48s1.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[48]][[2]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim2
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121553-1-44c076.csv","D:/Programs/Simulations/runbae-202309121553-2-44c076.csv",
+                        "D:/Programs/Simulations/runbae-202309121553-3-44c076.csv","D:/Programs/Simulations/runbae-202309121553-4-44c076.csv"))
+png(filename=here("Output","traceplot_j48s2.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j48s2.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[48]][[4]],yrep=y.rep[1:1000, ])
+dev.off()
+#Sim3
+fit1 <- read_stan_csv(c("D:/Programs/Simulations/runbae-202309121553-1-581777.csv","D:/Programs/Simulations/runbae-202309121553-2-581777.csv",
+                        "D:/Programs/Simulations/runbae-202309121553-3-581777.csv","D:/Programs/Simulations/runbae-202309121553-4-581777.csv"))
+png(filename=here("Output","traceplot_j48s3.png"),width=8,height=3,res=180,units="in")
+traceplot(fit1,inc_warmup=TRUE,pars=c("beta_trt[2]","beta_trt[3]","beta_trt[4]"))
+dev.off()
+##posterior predictive check bar
+y.rep <- rstan::extract(fit1)[["prior_yrep"]]
+png(filename=here("Output","ppcbar_j48s3.png"),width=4,height=3,res=180,units="in")
+ppc_bars(y=test[[48]][[6]],yrep=y.rep[1:1000, ])
+dev.off()
+```
