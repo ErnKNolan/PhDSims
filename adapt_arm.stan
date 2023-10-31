@@ -77,4 +77,14 @@ ypred = bernoulli_logit_rng(mean(b0_site) + Q_ast * theta_trt);
 		if(max(beta_trt) == beta_trt[3]) pp_trt3=1;
 		else pp_trt3=0;
 
+	int fu_trt1;
+		if(beta_trt[1] > (beta_trt[4]+beta_trt[1])/2) fu_trt1=1;
+		else fu_trt1=0;
+	int fu_trt2;
+		if(beta_trt[2] > (beta_trt[4]+beta_trt[2])/2) fu_trt2=1;
+		else fu_trt2=0;
+	int fu_trt3;
+		if(beta_trt[3] > (beta_trt[4]+beta_trt[3])/2) fu_trt3=1;
+		else fu_trt3=0;
+
 }
