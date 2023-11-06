@@ -77,6 +77,10 @@ ypred = bernoulli_logit_rng(mean(b0_site) + Q_ast * theta_trt);
 		if(max(beta_trt) == beta_trt[3]) pp_trt3=1;
 		else pp_trt3=0;
 
+  int ov_fut; //overall futility rule
+    if(max(beta_trt) != beta_trt[4]) ov_fut = 1;
+    else ov_fut = 0;
+    
 	int fu_trt1;
 		if(beta_trt[1] > (beta_trt[4]+beta_trt[1])/2) fu_trt1=1;
 		else fu_trt1=0;

@@ -63,7 +63,7 @@ power_plot <- outsim3 %>%
          ctrlpf = factor(ctrl_prop),
          test = paste0(icc,ctrl_prop),
          kf = factor(k))
-
+#saveRDS(power_plot,here("nonadapt_power.RDS"))
 #plot the power
 png(filename=here("Output","power_nonadapt.png"),width=8,height=6,res=300,units="in")
 power_plot %>% mutate(trteff = case_when(trt_eff_scen == 1 ~ "Scenario 1",
