@@ -35,54 +35,30 @@ properties <- rbind(properties) %>%
 plan(multisession,workers=20)
 baepath <- "D:/Programs/PhDProject2/Programs/adapt_arm.stan"
 set_cmdstan_path(path="C:/Users/nolan/Documents/.cmdstan/cmdstan-2.33.1")
-outdir <- "D:/Programs/Simulations"
+outdir <- "E:/Simulations"
 mod <- cmdstan_model(baepath, pedantic = F, compile=T)
 adaption <- "both" #this can be early_stopping, arm_dropping, or both
+drop_cut <- 0.05
+stop_cut <- 0.1
 
 #Run the trial
-test <- list()
-for(j in 1:60){
-  test[[length(test)+1]] <- future_replicate(100,future.seed=42L,runSimTrial(properties,mod,outdir,j,adaption))
+#test <- list()
+for(j in 59){
+  test[[length(test)+1]] <- future_replicate(2500,future.seed=42L,runSimTrial(properties,mod,outdir,j,adaption,drop_cut,stop_cut))
 }
-#saveRDS(test,here("adapt_100sim.RDS"))
+#saveRDS(test,here("Data","adapt_sim.RDS"))
 #Take out the trial properties
 trial_props <- list()
-for(j in 1:60){
-  for(i in seq(3,300,3)){
+for(j in 51:54){
+  for(i in seq(3,7500,3)){
     trial_props[[length(trial_props)+1]] <- test[[j]][[i]]
     trial_props[[length(trial_props)]]$sim <- i/3
     trial_props[[length(trial_props)]]$property <- j
   }
 }
 trial_props <- bind_rows(trial_props)
-#saveRDS(trial_props,"adapt_trial_props.RDS")
+#saveRDS(trial_props,here("Data","adapt_trial_props.RDS"))
 
-stops <- trial_props %>% group_by(property) %>% summarise(stops = (sum(stop)/n()))
-trt1drps <- trial_props %>% group_by(property) %>% summarise(trt1drps = (sum(drop=="trt1")/n()))
-trt2drps <- trial_props %>% group_by(property) %>% summarise(trt2drps = (sum(drop=="trt2")/n()))
-trt3drps <- trial_props %>% group_by(property) %>% summarise(trt3drps = (sum(drop=="trt3")/n()))
-trial_drops <- trial_props %>% group_by(property) %>% filter(row_number() == 1)
-trial_drops <- merge(trial_drops,stops,by="property") %>%
-  merge(trt1drps,by="property") %>%
-  merge(trt2drps,by="property") %>%
-  merge(trt3drps,by="property") %>%
-  select(trt_eff_scen,icc,n_per_k,k,stops,trt1drps,trt2drps,trt3drps)
-
-png(filename=here("Output","trial_drops.png"),width=10,height=6,res=300,units="in")
-nested_loop_plot(resdf = trial_drops, 
-                 x = "n_per_k", steps = c("icc","k","trt_eff_scen"),
-                 steps_y_base = -0.1, steps_y_height = 0.1, steps_y_shift = 0.1,
-                 x_name = "Sample size per cluster", y_name = "Proportion",
-                 spu_x_shift = 50,
-                 steps_values_annotate = TRUE, steps_annotation_size = 2.5, 
-                 hline_intercept = c(0,0.05,0.8), 
-                 post_processing = list(
-                   add_custom_theme = list(
-                     axis.text.x = element_text(angle = -90, 
-                                                vjust = 0.5, 
-                                                size = 5))))+
-  scale_colour_manual(values=c("#48157F","#29AF7F","#f7cb48f9","#a65c85ff"))
-dev.off()
 #Take out the interim analyses
 interim <- list()
 for(j in 1:60){
@@ -93,12 +69,12 @@ for(j in 1:60){
   }
 }
 interim <- bind_rows(interim)
-#saveRDS(interim,"adapt_interim.RDS")
+#saveRDS(interim,here("Data","adapt_interim.RDS"))
 
 #Take out the full analyses
 tempd <- list()
-for(j in c(1:60)){
-  for(i in seq(2,300,3)){
+for(j in c(1:58)){
+  for(i in seq(2,7500,3)){
     tempd[[length(tempd)+1]] <- test[[j]][[i]]
     tempd[[length(tempd)]]$sim <- (i+1)/3
     tempd[[length(tempd)]]$property <- j
@@ -109,6 +85,6 @@ outsim <- bind_rows(tempd)
 #merge in the properties of that simulation
 properties2 <- properties %>% mutate(row = row_number()) 
 outsim2 <- merge(outsim,properties2,by.y=c("row"),by.x="property")
-#saveRDS(outsim2,"adapt_outsim.RDS")
+#saveRDS(outsim2,here("Data","adapt_outsim.RDS"))
 
 #Using https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4319656/pdf/nihms657495.pdf page 5 for adaptive early stopping so far

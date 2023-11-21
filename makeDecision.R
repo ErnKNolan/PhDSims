@@ -1,8 +1,10 @@
 
 
-makeDecision <- function(properties = properties, interim_res = interim_res, j=j,adaption=adaption){
+makeDecision <- function(properties = properties, interim_res = interim_res, j=j,adaption=adaption,drop_cut=drop_cut,stop_cut=stop_cut){
 
-    #Determining what (if any) treatment group to drop
+  #random number for allocation if it happens
+  rand <- as.vector(sample(c(0,1),2,replace=FALSE))
+      #Determining what (if any) treatment group to drop
     int_drop <- interim_res %>% 
       filter(variable %in% c("pp_trt1","pp_trt2","pp_trt3","fu_trt1","fu_trt2","fu_trt3")) %>% 
       dplyr::select(variable,mean) %>%
@@ -11,11 +13,11 @@ makeDecision <- function(properties = properties, interim_res = interim_res, j=j
     #finding the smallest pred prob
     int_drop$drop <- apply(int_drop[,c(1:3)], 1, min, na.rm = TRUE)
     #determine if stopping rule met
-    int_drop$stop <- ifelse(int_drop$fu_trt1 < 0.05 & int_drop$fu_trt2 < 0.05 & int_drop$fu_trt3 < 0.05, 1, 0)
+    int_drop$stop <- ifelse(int_drop$fu_trt1 < stop_cut & int_drop$fu_trt2 < stop_cut & int_drop$fu_trt3 < stop_cut, 1, 0)
     
-    #dropping only if pred prob less than 0.05
+    #dropping only if pred prob less than drop_cut
     int_drop <- int_drop %>%
-      mutate(drop = ifelse(drop > 0.05, NA, drop),
+      mutate(drop = ifelse(drop > drop_cut, NA, drop),
              droptrt = pmap_chr(list(pp_trt1, pp_trt2, pp_trt3, drop), 
                                 ~ifelse(any(c(..1, ..2, ..3) %in% ..4),
                                         c("trt1", "trt2", "trt3")[c(..1, ..2, ..3) %in% ..4],
@@ -24,6 +26,7 @@ makeDecision <- function(properties = properties, interim_res = interim_res, j=j
     properties$drop <- int_drop$droptrt
     properties$stop <- int_drop$stop
     stop <- int_drop$stop
+    
 #This makes decisions for trial properties past the interim based on the adaptions
 #Can either be, early stopping, arm dropping, or both
       if (adaption == "both") {
@@ -34,33 +37,53 @@ makeDecision <- function(properties = properties, interim_res = interim_res, j=j
                  kt3 = interim)
           
         } else if (stop == 0) {
+          if(properties$drop == "trt1"){
+            rand <- append(rand,0,after=0)
+          } else if(properties$drop == "trt2"){
+              rand <- append(rand,0,after=1)
+            } else if(properties$drop == "trt3"){
+              rand <- append(rand,0,after=2)
+            } else{rand <- rand}
+          if((properties$k - properties$interim) %% 2 == 0){
+            rand <- replace(rand,rand==1,0)
+          } else(rand <- rand)
           properties_int <- properties %>% 
           mutate(kt1 = case_when(
               drop == "trt1" ~ interim,
-              drop %in% c("trt2", "trt3") ~ k + ceiling((k - interim) / 2),
+              drop %in% c("trt2", "trt3") ~ k + floor((k-interim)/2) + rand[1],
               drop == "none" ~ k),
             kt2 = case_when(
               drop == "trt2" ~ interim,
-              drop %in% c("trt1", "trt3") ~ k + floor((k - interim) / 2),
+              drop %in% c("trt1", "trt3") ~ k + floor((k-interim)/2) + rand[2],
               drop == "none" ~ k),
             kt3 = case_when(
               drop == "trt3" ~ interim,
-              drop %in% c("trt1", "trt2") ~ k + floor((k - interim) / 2),
+              drop %in% c("trt1", "trt2") ~ k + floor((k-interim)/2) + rand[3],
               drop == "none" ~ k))
         }
       } else if (adaption == "arm_dropping") {
+        if(properties$drop == "trt1"){
+          rand <- append(rand,0,after=0)
+        } else if(properties$drop == "trt2"){
+          rand <- append(rand,0,after=1)
+        } else if(properties$drop == "trt3"){
+          rand <- append(rand,0,after=2)
+        } else{rand <- rand}
+        if((properties$k - properties$interim) %% 2 == 0){
+          rand <- replace(rand,rand==1,0)
+        } else(rand <- rand)
         properties_int <- properties %>% 
         mutate(kt1 = case_when(
             drop == "trt1" ~ interim,
-            drop %in% c("trt2", "trt3") ~ k + ceiling((k - interim) / 2),
+            drop %in% c("trt2", "trt3") ~ k + floor((k-interim)/2) + rand[1],
             drop == "none" ~ k),
           kt2 = case_when(
             drop == "trt2" ~ interim,
-            drop %in% c("trt1", "trt3") ~ k + floor((k - interim) / 2),
+            drop %in% c("trt1", "trt3") ~ k + floor((k-interim)/2) + rand[2],
             drop == "none" ~ k),
           kt3 = case_when(
             drop == "trt3" ~ interim,
-            drop %in% c("trt1", "trt2") ~ k + floor((k - interim) / 2),
+            drop %in% c("trt1", "trt2") ~ k + floor((k-interim)/2) + rand[3],
             drop == "none" ~ k))
         
       } else if (adaption == "early_stopping") {
