@@ -39,17 +39,19 @@ outdir <- "E:/Simulations"
 mod <- cmdstan_model(baepath, pedantic = F, compile=T)
 adaption <- "both" #this can be early_stopping, arm_dropping, or both
 drop_cut <- 0.05
-stop_cut <- 0.1
-
+stop_cut <- 0.15
+#this can be ties_prob or ties_opt. Ties opt drops the highest constraint arm if there is a tie for which has the lowest probability of success
+#ties_prob drops the arm with the lowest pred prob estimate if there is a tie for which has the lowest probability of success
+ties <- "ties_prob" 
 #Run the trial
 #test <- list()
-for(j in 59){
-  test[[length(test)+1]] <- future_replicate(2500,future.seed=42L,runSimTrial(properties,mod,outdir,j,adaption,drop_cut,stop_cut))
+for(j in 1){
+  test[[length(test)+1]] <- future_replicate(2500,future.seed=42L,runSimTrial(properties,mod,outdir,j,adaption,drop_cut,stop_cut,ties))
 }
-#saveRDS(test,here("Data","adapt_sim.RDS"))
+#saveRDS(test,here("Data","adaptprob15_sim.RDS"))
 #Take out the trial properties
 trial_props <- list()
-for(j in 51:54){
+for(j in 1:60){
   for(i in seq(3,7500,3)){
     trial_props[[length(trial_props)+1]] <- test[[j]][[i]]
     trial_props[[length(trial_props)]]$sim <- i/3
@@ -61,8 +63,8 @@ trial_props <- bind_rows(trial_props)
 
 #Take out the interim analyses
 interim <- list()
-for(j in 1:60){
-  for(i in seq(1,300,3)){
+for(j in 1){
+  for(i in seq(1,7500,3)){
     interim[[length(interim)+1]] <- test[[j]][[i]]
     interim[[length(interim)]]$sim <- (i+2)/3
     interim[[length(interim)]]$property <- j
@@ -73,7 +75,7 @@ interim <- bind_rows(interim)
 
 #Take out the full analyses
 tempd <- list()
-for(j in c(1:58)){
+for(j in c(1:60)){
   for(i in seq(2,7500,3)){
     tempd[[length(tempd)+1]] <- test[[j]][[i]]
     tempd[[length(tempd)]]$sim <- (i+1)/3

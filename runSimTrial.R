@@ -1,5 +1,5 @@
 
-runSimTrial <- function(properties = properties, mod = mod, outdir=outdir, j=j, adaption=adaption,drop_cut=drop_cut,stop_cut=stop_cut) {
+runSimTrial <- function(properties = properties, mod = mod, outdir=outdir, j=j, adaption=adaption,drop_cut=drop_cut,stop_cut=stop_cut,ties=ties) {
   
   #making clusters for the interim dataset
   intclusters <- makeClusters(t=4,nid=properties$n_per_k[j],
@@ -17,7 +17,8 @@ runSimTrial <- function(properties = properties, mod = mod, outdir=outdir, j=j, 
   resp_clus <- cbind(intclusters,resp)
   
   #making the decision and getting the clusters
-  properties_int <- makeDecision(properties = properties, interim_res = interim_res, j=j, adaption = adaption,drop_cut = drop_cut,stop_cut=stop_cut)
+  properties_int <- makeDecision(properties = properties, interim_res = interim_res, j=j, adaption = adaption,
+                                 drop_cut = drop_cut, stop_cut = stop_cut, ties = ties)
 
   fullclusters <- makeClusters(t=4,nid=properties_int$n_per_k,
                                t1=properties_int$kt1,t2=properties_int$kt2,

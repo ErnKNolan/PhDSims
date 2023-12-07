@@ -1,27 +1,48 @@
 
 
-makeDecision <- function(properties = properties, interim_res = interim_res, j=j,adaption=adaption,drop_cut=drop_cut,stop_cut=stop_cut){
+makeDecision <- function(properties = properties, interim_res = interim_res, j=j,adaption=adaption,drop_cut=drop_cut,stop_cut=stop_cut,ties=ties){
 
   #random number for allocation if it happens
   rand <- as.vector(sample(c(0,1),2,replace=FALSE))
       #Determining what (if any) treatment group to drop
     int_drop <- interim_res %>% 
-      filter(variable %in% c("pp_trt1","pp_trt2","pp_trt3","fu_trt1","fu_trt2","fu_trt3")) %>% 
+      filter(variable %in% c("pp_trt1","pp_trt2","pp_trt3","fu_trt1","fu_trt2","fu_trt3","pred_prob_trt[1]","pred_prob_trt[2]","pred_prob_trt[3]")) %>% 
       dplyr::select(variable,mean) %>%
-      pivot_wider(names_from = variable, values_from = mean)
+      pivot_wider(names_from = variable, values_from = mean) %>%
+      #I want the columns in a specific order to keep the old code the same
+      dplyr::select(pp_trt1,pp_trt2,pp_trt3,fu_trt1,fu_trt2,fu_trt3,`pred_prob_trt[1]`,`pred_prob_trt[2]`,`pred_prob_trt[3]`)
     
     #finding the smallest pred prob
     int_drop$drop <- apply(int_drop[,c(1:3)], 1, min, na.rm = TRUE)
     #determine if stopping rule met
     int_drop$stop <- ifelse(int_drop$fu_trt1 < stop_cut & int_drop$fu_trt2 < stop_cut & int_drop$fu_trt3 < stop_cut, 1, 0)
     
-    #dropping only if pred prob less than drop_cut
+    #dropping only if pp less than drop_cut
+    #Optimisation option - if tie then drop higher constraint
+    if(ties == "ties_opt"){
     int_drop <- int_drop %>%
       mutate(drop = ifelse(drop > drop_cut, NA, drop),
              droptrt = pmap_chr(list(pp_trt1, pp_trt2, pp_trt3, drop), 
                                 ~ifelse(any(c(..1, ..2, ..3) %in% ..4),
                                         c("trt1", "trt2", "trt3")[c(..1, ..2, ..3) %in% ..4],
                                         "none")))
+    } else{
+    #other option when there's a tie - use lower pred prob
+    int_drop <- int_drop %>%
+      mutate(drop = ifelse(drop > drop_cut, NA, drop),
+             total = rowSums(across(pp_trt1:pp_trt3) == drop),
+             droptrt = ifelse(total <= 1, 
+                              pmap_chr(list(pp_trt1, pp_trt2, pp_trt3, drop), 
+                                       ~ifelse(any(c(..1, ..2, ..3) %in% ..4),
+                                               c("trt1", "trt2", "trt3")[c(..1, ..2, ..3) %in% ..4],
+                                               "none")),
+                              case_when(min(`pred_prob_trt[1]`,`pred_prob_trt[2]`,`pred_prob_trt[3]`) == `pred_prob_trt[1]` ~ "trt1",
+                                        min(`pred_prob_trt[1]`,`pred_prob_trt[2]`,`pred_prob_trt[3]`) == `pred_prob_trt[2]` ~ "trt2",
+                                        min(`pred_prob_trt[1]`,`pred_prob_trt[2]`,`pred_prob_trt[3]`) == `pred_prob_trt[3]` ~ "trt3")),
+             #if none to drop then total and droptrt are NA - so assign it 'none'
+             droptrt = ifelse(is.na(droptrt),"none",droptrt))
+    }
+    
     properties <- properties[j,]
     properties$drop <- int_drop$droptrt
     properties$stop <- int_drop$stop

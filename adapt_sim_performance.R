@@ -4,7 +4,7 @@
 # install.packages("devtools")
 #devtools::install_github("matherealize/looplot")
 
-pacman::p_load(here,future.apply,tictoc,car,ggforce,rsimsum,dplyr,cmdstanr,looplot)
+pacman::p_load(here,future.apply,tictoc,car,ggforce,rsimsum,dplyr,cmdstanr,looplot,forcats)
 
 #read in the data
 #outsim2 <- readRDS(file=here("Data","adapt_outsim.RDS"))
@@ -57,7 +57,7 @@ outsim3 <- merge(outsim2,power,by="property") %>%
 
 #plot the power over different features
 #setting up the data
-power_plot <- outsim3 %>%
+power_plot_prob <- outsim3 %>%
   mutate(join = paste0("n per k=",n_per_k,", k=",k),
          sample_n = n_per_k*k, #total sample size
          deff = 1+icc*((n_per_k)-1), #design effect
@@ -67,25 +67,41 @@ power_plot <- outsim3 %>%
          test = paste0(icc,ctrl_prop),
          kf = factor(k))
 
+#save the power plot
+#saveRDS(power_plot_prob,here("Data","power_plot_prob.RDS"))
+
 #graph comparing adaptive and non-adaptive
 #cleaning the two datasets
+power_plot <- readRDS(here("Data","power_plot.RDS"))
+power_plot_prob <- readRDS(here("Data","power_plot_prob.RDS"))
 nonadapt_power <- readRDS(here("Data","nonadapt_power.RDS"))
 nonadapt_plot <- nonadapt_power %>% ungroup() %>% filter(k %in% c(5,10), ctrl_prop == 0.1) %>%
   dplyr::select(trt_eff_scen,icc,n_per_k,k,bayesr) 
 nest_plot <- power_plot %>% ungroup() %>% dplyr::select(trt_eff_scen,icc,n_per_k,k,bayesr)
+nest_plot_prob <- power_plot_prob %>% ungroup() %>% dplyr::select(trt_eff_scen,icc,n_per_k,k,bayesr)
+
 #combine the two datasets
 loop_plot <- inner_join(nest_plot,nonadapt_plot,by=c("icc","trt_eff_scen","n_per_k","k")) %>%
   rename(nonadapt = bayesr.y,
          both = bayesr.x) %>%
-  mutate(k = fct_rev(factor(k)))
+  inner_join(nest_plot_prob) %>%
+  rename(nonadapt_prob = bayesr) %>%
+  mutate(k = fct_rev(factor(k))) %>%
+  rename(`Early stopping\narm dropping opt` = both,
+         `Non-adpative` = nonadapt,
+         `Early stopping\narm dropping prob` = nonadapt_prob) 
+loop_plot_effs <- loop_plot %>% filter(trt_eff_scen != 3)
+loop_plot_null <- loop_plot %>% filter(trt_eff_scen ==3) %>% dplyr::select(-trt_eff_scen)
 
 #The graph
 png(filename=here("Output","nest_loop.png"),width=10,height=6,res=300,units="in")
-nested_loop_plot(resdf = loop_plot, 
+nested_loop_plot(resdf = loop_plot_effs, 
                      x = "n_per_k", steps = c("icc","k", "trt_eff_scen"),
                      steps_y_base = -0.1, steps_y_height = 0.1, steps_y_shift = 0.1,
                      x_name = "Sample size per cluster", y_name = "Power",
                      spu_x_shift = 50,
+                     line_alpha = 0.6,
+                     point_alpha = 0.6,
                      steps_values_annotate = TRUE, steps_annotation_size = 2.5, 
                      hline_intercept = c(0,0.05,0.8,0.9,1), 
                      post_processing = list(
@@ -93,7 +109,28 @@ nested_loop_plot(resdf = loop_plot,
                          axis.text.x = element_text(angle = -90, 
                                                     vjust = 0.5, 
                                                     size = 5))))+
-  scale_colour_manual(values=c("#48157F","#29AF7F"))
+  scale_colour_manual(values=c("#8D4585","#003151","orange"))+
+  labs(color="Adaptive design",shape="Adaptive design",linetype="Adaptive design",size="Adaptive design")
+dev.off()
+
+#Graph for the null scenario
+png(filename=here("Output","nest_loop_null.png"),width=10,height=6,res=300,units="in")
+nested_loop_plot(resdf = loop_plot_null, 
+                 x = "n_per_k", steps = c("icc","k"),
+                 steps_y_base = -0.025, steps_y_height = 0.025, steps_y_shift = 0.025,
+                 x_name = "Sample size per cluster", y_name = "Power",
+                 spu_x_shift = 50,
+                 line_alpha = 0.6,
+                 point_alpha = 0.6,
+                 steps_values_annotate = TRUE, steps_annotation_size = 2.5, 
+                 hline_intercept = c(0,0.01,0.05,0.1), 
+                 post_processing = list(
+                   add_custom_theme = list(
+                     axis.text.x = element_text(angle = -90, 
+                                                vjust = 0.5, 
+                                                size = 5))))+
+  scale_colour_manual(values=c("#8D4585","#003151","orange"))+
+  labs(color="Adaptive design",shape="Adaptive design",linetype="Adaptive design",size="Adaptive design")
 dev.off()
 
 #Trial properties
@@ -109,9 +146,13 @@ trial_drops <- merge(trial_drops,stops,by="property") %>%
   merge(trt2drps,by="property") %>%
   merge(trt3drps,by="property") %>%
   dplyr::select(trt_eff_scen,icc,n_per_k,k,stops,trt1drps,trt2drps,trt3drps) %>%
-  mutate(k = fct_rev(factor(k)))
+  mutate(k = fct_rev(factor(k))) %>% 
+  rename(`Stop for futility` = stops,
+         `Arm 1 dropped` = trt1drps,
+         `Arm 2 dropped` = trt2drps,
+         `Arm 3 dropped` = trt3drps)
 
-png(filename=here("Output","trial_drops.png"),width=10,height=6,res=300,units="in")
+png(filename=here("Output","trialprob_drops.png"),width=10,height=6,res=300,units="in")
 nested_loop_plot(resdf = trial_drops, 
                  x = "n_per_k", steps = c("icc","k","trt_eff_scen"),
                  steps_y_base = -0.1, steps_y_height = 0.1, steps_y_shift = 0.1,
@@ -124,5 +165,22 @@ nested_loop_plot(resdf = trial_drops,
                      axis.text.x = element_text(angle = -90, 
                                                 vjust = 0.5, 
                                                 size = 5))))+
-  scale_colour_manual(values=c("#48157F","#29AF7F","#f7cb48f9","#a65c85ff"))
+  scale_colour_manual(values=c("#48157F","#29AF7F","#f7cb48f9","#a65c85ff"))+
+  labs(color="Trial outcome",shape="Trial outcome",linetype="Trial outcome",size="Trial outcome")
+
 dev.off()
+
+
+
+##coverage
+coverage <- outsim2 %>% group_by(property,sim,variable) %>% 
+  filter(variable %in% c("pred_prob_trt[1]","pred_prob_trt[2]","pred_prob_trt[3]","pred_prob_trt[4]")) %>%
+  mutate(cov = case_when(variable == "pred_prob_trt[1]" & q5 < t1 & q95 > t1 ~ 1,
+                         variable == "pred_prob_trt[2]" & q5 < t2 & q95 > t2 ~ 1,
+                         variable == "pred_prob_trt[3]" & q5 < t3 & q95 > t3 ~ 1,
+                         variable == "pred_prob_trt[4]" & q5 < t4 & q95 > t4 ~ 1),
+         cov = ifelse(is.na(cov),0,1)) %>%
+  group_by(property,variable) %>%
+  summarise(coverage = sum(cov)/n())
+
+
