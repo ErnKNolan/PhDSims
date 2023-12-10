@@ -42,10 +42,11 @@ MCerror[["summ"]] %>% filter(stat == "power") %>% kable(MCerror)
 #Power for these sims-----------------------------------------------
 #Power defined as number of sims that the lower CrI of trt 1 greater than all other groups upper CrI
 power <- outsim2 %>% 
-  filter(variable == "pp_trt1") %>%
+  filter(variable %in% c("pp_trt2","pp_trt3","pp_trt4")) %>%
+  pivot_wider(id_cols=c(property,sim),names_from=variable,values_from=mean) %>%
+  mutate(bayesr = ifelse(pp_trt2 >= 0.95 | pp_trt3 >= 0.95 | pp_trt4 >= 0.95,1,0)) %>%
   group_by(property) %>%
-  mutate(bayes = ifelse(mean > 0.95,1,0)) %>%
-  summarise(bayesr = sum(bayes)/n())
+  summarise(bayesr = sum(bayesr)/n())
 
 #merge back into outsim
 outsim3 <- merge(outsim2,power,by="property") %>%
@@ -169,18 +170,3 @@ nested_loop_plot(resdf = trial_drops,
   labs(color="Trial outcome",shape="Trial outcome",linetype="Trial outcome",size="Trial outcome")
 
 dev.off()
-
-
-
-##coverage
-coverage <- outsim2 %>% group_by(property,sim,variable) %>% 
-  filter(variable %in% c("pred_prob_trt[1]","pred_prob_trt[2]","pred_prob_trt[3]","pred_prob_trt[4]")) %>%
-  mutate(cov = case_when(variable == "pred_prob_trt[1]" & q5 < t1 & q95 > t1 ~ 1,
-                         variable == "pred_prob_trt[2]" & q5 < t2 & q95 > t2 ~ 1,
-                         variable == "pred_prob_trt[3]" & q5 < t3 & q95 > t3 ~ 1,
-                         variable == "pred_prob_trt[4]" & q5 < t4 & q95 > t4 ~ 1),
-         cov = ifelse(is.na(cov),0,1)) %>%
-  group_by(property,variable) %>%
-  summarise(coverage = sum(cov)/n())
-
-

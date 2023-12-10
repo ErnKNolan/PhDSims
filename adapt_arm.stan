@@ -65,30 +65,21 @@ array[N_obs] int ypred;
 
 ypred = bernoulli_logit_rng(mean(b0_site) + Q_ast * theta_trt);
 	
-	int pp_trt1;
-		if(max(beta_trt) == beta_trt[1]) pp_trt1=1;
-		else pp_trt1=0;
-	
 	int pp_trt2;
 		if(max(beta_trt) == beta_trt[2]) pp_trt2=1;
 		else pp_trt2=0;
-		
+	
 	int pp_trt3;
 		if(max(beta_trt) == beta_trt[3]) pp_trt3=1;
 		else pp_trt3=0;
+		
+	int pp_trt4;
+		if(max(beta_trt) == beta_trt[4]) pp_trt4=1;
+		else pp_trt4=0;
 
   int ov_fut; //overall futility rule
-    if(max(beta_trt) != beta_trt[4]) ov_fut = 1;
+    if(max(beta_trt) == beta_trt[1]) ov_fut = 1;
     else ov_fut = 0;
-    
-	int fu_trt1;
-		if(beta_trt[1] > (beta_trt[4]+beta_trt[1])/2) fu_trt1=1;
-		else fu_trt1=0;
-	int fu_trt2;
-		if(beta_trt[2] > (beta_trt[4]+beta_trt[2])/2) fu_trt2=1;
-		else fu_trt2=0;
-	int fu_trt3;
-		if(beta_trt[3] > (beta_trt[4]+beta_trt[3])/2) fu_trt3=1;
-		else fu_trt3=0;
+
 
 }

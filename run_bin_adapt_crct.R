@@ -19,16 +19,16 @@ properties <- expand.grid(trt_eff_scen = c(1,2,3), ctrl_prop = c(0.1), icc = c(0
 
 #bind to properties
 properties <- rbind(properties) %>%
-  mutate(t1 = case_when(trt_eff_scen == 1 ~ ctrl_prop+0.5,
+  mutate(t4 = case_when(trt_eff_scen == 1 ~ ctrl_prop+0.5,
                         trt_eff_scen == 2 ~ ctrl_prop+0.4,
                         trt_eff_scen == 3 ~ ctrl_prop+0),
-         t2 = case_when(trt_eff_scen == 1 ~ ctrl_prop+0.3,
+         t3 = case_when(trt_eff_scen == 1 ~ ctrl_prop+0.3,
                         trt_eff_scen == 2 ~ ctrl_prop+0.3,
                         trt_eff_scen == 3 ~ ctrl_prop+0),
-         t3 = case_when(trt_eff_scen == 1 ~ ctrl_prop+0.1,
+         t2 = case_when(trt_eff_scen == 1 ~ ctrl_prop+0.1,
                         trt_eff_scen == 2 ~ ctrl_prop+0.2,
                         trt_eff_scen == 3 ~ ctrl_prop+0),
-         t4 = ctrl_prop,
+         t1 = ctrl_prop,
          interim = ifelse(k == 5, 3, 5))
 
 #Put in the paths and options for the trial
@@ -39,14 +39,14 @@ outdir <- "E:/Simulations"
 mod <- cmdstan_model(baepath, pedantic = F, compile=T)
 adaption <- "both" #this can be early_stopping, arm_dropping, or both
 drop_cut <- 0.05
-stop_cut <- 0.15
+stop_cut <- 0.10
 #this can be ties_prob or ties_opt. Ties opt drops the highest constraint arm if there is a tie for which has the lowest probability of success
 #ties_prob drops the arm with the lowest pred prob estimate if there is a tie for which has the lowest probability of success
 ties <- "ties_prob" 
 #Run the trial
-#test <- list()
-for(j in 1){
-  test[[length(test)+1]] <- future_replicate(2500,future.seed=42L,runSimTrial(properties,mod,outdir,j,adaption,drop_cut,stop_cut,ties))
+test <- list()
+for(j in seq(3,60,3)){
+  test[[length(test)+1]] <- future_replicate(100,future.seed=42L,runSimTrial(properties,mod,outdir,j,adaption,drop_cut,stop_cut,ties))
 }
 #saveRDS(test,here("Data","adaptprob15_sim.RDS"))
 #Take out the trial properties
@@ -75,8 +75,8 @@ interim <- bind_rows(interim)
 
 #Take out the full analyses
 tempd <- list()
-for(j in c(1:60)){
-  for(i in seq(2,7500,3)){
+for(j in c(1:20)){
+  for(i in seq(2,300,3)){
     tempd[[length(tempd)+1]] <- test[[j]][[i]]
     tempd[[length(tempd)]]$sim <- (i+1)/3
     tempd[[length(tempd)]]$property <- j

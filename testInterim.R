@@ -53,8 +53,7 @@ testInterim <- function(t,expdat,rho,mod,outdir,int_dat,...){
     time <- toc()
     time <- time$toc - time$tic
     #pp_trt1 etc are the predictive prob that the treatment has the largest beta
-    results <- list(data.frame(res$summary(variables=c("pred_prob_trt","pp_trt1","pp_trt2","pp_trt3","ov_fut",
-                                                       "fu_trt1","fu_trt2","fu_trt3")),time=time),resp=list(resp))
+    results <- list(data.frame(res$summary(variables=c("pred_prob_trt","pp_trt2","pp_trt3","pp_trt4","ov_fut")),time=time),resp=list(resp))
     
   },
   
