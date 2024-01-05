@@ -52,13 +52,14 @@ testss <- function(t,expdat,rho,mod,outdir,...){
       parallel_chains = 1,
       adapt_delta = 0.8,
       refresh = 0, 
-      max_treedepth=12
+      max_treedepth=12,
+      output_dir=outdir
       
     )
     print(j)
     time <- toc()
     time <- time$toc - time$tic
-    results <- list(data.frame(res$summary(variables=c("pred_prob_trt","diff")),time=time))
+    results <- list(data.frame(res$summary(variables=c("pred_prob_trt","pp_trt2","pp_trt3","pp_trt4","beta_trt")),time=time))
     
   },
   

@@ -21,8 +21,10 @@ runSimTrial <- function(properties = properties, mod = mod, outdir=outdir, j=j, 
                                  drop_cut = drop_cut, stop_cut = stop_cut, ties = ties)
 
   fullclusters <- makeClusters(t=4,nid=properties_int$n_per_k,
-                               t2=properties_int$kt2,t3=properties_int$kt3,
-                               t4=properties_int$kt4,t1=properties_int$k)
+                               t1=properties_int$k,
+                               t2=properties_int$kt2,
+                               t3=properties_int$kt3,
+                               t4=properties_int$kt4)
   
   
   #need to append the interim data and new data together

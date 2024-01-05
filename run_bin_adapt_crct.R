@@ -35,23 +35,23 @@ properties <- rbind(properties) %>%
 plan(multisession,workers=20)
 baepath <- "D:/Programs/PhDProject2/Programs/adapt_arm.stan"
 set_cmdstan_path(path="C:/Users/nolan/Documents/.cmdstan/cmdstan-2.33.1")
-outdir <- "E:/Simulations"
+outdir <- "J:/Sims"
 mod <- cmdstan_model(baepath, pedantic = F, compile=T)
 adaption <- "both" #this can be early_stopping, arm_dropping, or both
 drop_cut <- 0.05
-stop_cut <- 0.10
+stop_cut <- 0.15
 #this can be ties_prob or ties_opt. Ties opt drops the highest constraint arm if there is a tie for which has the lowest probability of success
 #ties_prob drops the arm with the lowest pred prob estimate if there is a tie for which has the lowest probability of success
 ties <- "ties_prob" 
 #Run the trial
-test <- list()
-for(j in seq(3,60,3)){
-  test[[length(test)+1]] <- future_replicate(100,future.seed=42L,runSimTrial(properties,mod,outdir,j,adaption,drop_cut,stop_cut,ties))
+#test <- list()
+for(j in 39){
+  test[[length(test)+1]] <- future_replicate(2500,future.seed=42L,runSimTrial(properties,mod,outdir,j,adaption,drop_cut,stop_cut,ties))
 }
 #saveRDS(test,here("Data","adaptprob15_sim.RDS"))
 #Take out the trial properties
 trial_props <- list()
-for(j in 1:60){
+for(j in 1:51){
   for(i in seq(3,7500,3)){
     trial_props[[length(trial_props)+1]] <- test[[j]][[i]]
     trial_props[[length(trial_props)]]$sim <- i/3
@@ -75,8 +75,8 @@ interim <- bind_rows(interim)
 
 #Take out the full analyses
 tempd <- list()
-for(j in c(1:20)){
-  for(i in seq(2,300,3)){
+for(j in c(1:51)){
+  for(i in seq(2,7500,3)){
     tempd[[length(tempd)+1]] <- test[[j]][[i]]
     tempd[[length(tempd)]]$sim <- (i+1)/3
     tempd[[length(tempd)]]$property <- j

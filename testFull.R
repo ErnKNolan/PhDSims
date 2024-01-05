@@ -61,7 +61,7 @@ testFull <- function(t,expdat,rho,mod,outdir,int_dat,...){
     print(j)
     time <- toc()
     time <- time$toc - time$tic
-    results <- list(data.frame(res$summary(variables=c("pred_prob_trt","pp_trt2","pp_trt3","pp_trt4")),time=time))
+    results <- list(data.frame(res$summary(variables=c("pred_prob_trt","beta_trt","pp_trt2","pp_trt3","pp_trt4")),time=time))
   },
   
   error=function(e) { message(conditionMessage(e)) 
