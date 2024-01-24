@@ -31,6 +31,11 @@ ESS <- outsim2 %>%
             m_ess_tail = mean(sess_tail == 1),
             mrhat = mean(srhat == 1))
 
+#Plot of ess
+outsim2 %>% 
+  filter(variable %in% c("beta_trt[2]","beta_trt[3]","beta_trt[4]")) %>% 
+  ggplot(aes(x=ess_bulk,group=n_per_k)) + geom_density(aes(fill=n_per_k),alpha=0.3,position="identity") + 
+  facet_wrap(~variable)
 # MC Error of each iteration for parameters of interest
 #Has to be done after POWER
 
@@ -69,16 +74,17 @@ power_plot_prob <- outsim3 %>%
          kf = factor(k))
 
 #save the power plot
-#saveRDS(power_plot_prob,here("Data","power_plot_prob.RDS"))
+#saveRDS(power_plot_prob,here("Data","power_plot_opt15.RDS"))
 
 #graph comparing adaptive and non-adaptive
 #cleaning the two datasets
-power_plot <- readRDS(here("Data","power_plot.RDS"))
-power_plot_prob <- readRDS(here("Data","power_plot_prob.RDS"))
+#power_plot <- readRDS(here("Data","power_plot.RDS"))
+power_plot_opt <- readRDS(here("Data","power_plot_opt15.RDS"))
+power_plot_prob <- readRDS(here("Data","power_plot_prob15.RDS"))
 nonadapt_power <- readRDS(here("Data","nonadapt_power.RDS"))
 nonadapt_plot <- nonadapt_power %>% ungroup() %>% filter(k %in% c(5,10), ctrl_prop == 0.1) %>%
   dplyr::select(trt_eff_scen,icc,n_per_k,k,bayesr) 
-nest_plot <- power_plot %>% ungroup() %>% dplyr::select(trt_eff_scen,icc,n_per_k,k,bayesr)
+nest_plot <- power_plot_opt %>% ungroup() %>% dplyr::select(trt_eff_scen,icc,n_per_k,k,bayesr)
 nest_plot_prob <- power_plot_prob %>% ungroup() %>% dplyr::select(trt_eff_scen,icc,n_per_k,k,bayesr)
 
 #combine the two datasets
@@ -104,7 +110,7 @@ nested_loop_plot(resdf = loop_plot_effs,
                      line_alpha = 0.6,
                      point_alpha = 0.6,
                      steps_values_annotate = TRUE, steps_annotation_size = 2.5, 
-                     hline_intercept = c(0,0.05,0.8,0.9,1), 
+                     hline_intercept = c(0,0.8,0.9,1), 
                      post_processing = list(
                        add_custom_theme = list(
                          axis.text.x = element_text(angle = -90, 
@@ -119,12 +125,12 @@ png(filename=here("Output","nest_loop_null.png"),width=10,height=6,res=300,units
 nested_loop_plot(resdf = loop_plot_null, 
                  x = "n_per_k", steps = c("icc","k"),
                  steps_y_base = -0.025, steps_y_height = 0.025, steps_y_shift = 0.025,
-                 x_name = "Sample size per cluster", y_name = "Power",
+                 x_name = "Sample size per cluster", y_name = "Type 1 error",
                  spu_x_shift = 50,
                  line_alpha = 0.6,
                  point_alpha = 0.6,
                  steps_values_annotate = TRUE, steps_annotation_size = 2.5, 
-                 hline_intercept = c(0,0.01,0.05,0.1), 
+                 hline_intercept = c(0), 
                  post_processing = list(
                    add_custom_theme = list(
                      axis.text.x = element_text(angle = -90, 
@@ -138,20 +144,20 @@ dev.off()
 #trials_props <- readRDS(here("Data","adapt_trial_props.RDS"))
 
 stops <- trial_props %>% group_by(property) %>% summarise(stops = (sum(stop)/n()))
-trt1drps <- trial_props %>% group_by(property) %>% summarise(trt1drps = (sum(drop=="trt1")/n()))
 trt2drps <- trial_props %>% group_by(property) %>% summarise(trt2drps = (sum(drop=="trt2")/n()))
 trt3drps <- trial_props %>% group_by(property) %>% summarise(trt3drps = (sum(drop=="trt3")/n()))
+trt4drps <- trial_props %>% group_by(property) %>% summarise(trt4drps = (sum(drop=="trt4")/n()))
 trial_drops <- trial_props %>% group_by(property) %>% filter(row_number() == 1)
 trial_drops <- merge(trial_drops,stops,by="property") %>%
-  merge(trt1drps,by="property") %>%
   merge(trt2drps,by="property") %>%
   merge(trt3drps,by="property") %>%
-  dplyr::select(trt_eff_scen,icc,n_per_k,k,stops,trt1drps,trt2drps,trt3drps) %>%
+  merge(trt4drps,by="property") %>%
+  dplyr::select(trt_eff_scen,icc,n_per_k,k,stops,trt2drps,trt3drps,trt4drps) %>%
   mutate(k = fct_rev(factor(k))) %>% 
   rename(`Stop for futility` = stops,
-         `Arm 1 dropped` = trt1drps,
          `Arm 2 dropped` = trt2drps,
-         `Arm 3 dropped` = trt3drps)
+         `Arm 3 dropped` = trt3drps,
+         `Arm 4 dropped` = trt4drps)
 
 png(filename=here("Output","trialprob_drops.png"),width=10,height=6,res=300,units="in")
 nested_loop_plot(resdf = trial_drops, 
@@ -160,7 +166,7 @@ nested_loop_plot(resdf = trial_drops,
                  x_name = "Sample size per cluster", y_name = "Proportion",
                  spu_x_shift = 50,
                  steps_values_annotate = TRUE, steps_annotation_size = 2.5, 
-                 hline_intercept = c(0,0.05,0.8), 
+                 hline_intercept = c(0), 
                  post_processing = list(
                    add_custom_theme = list(
                      axis.text.x = element_text(angle = -90, 
@@ -172,7 +178,7 @@ nested_loop_plot(resdf = trial_drops,
 dev.off()
 
 #PERFORMANCE MEASURES
-icc_perf <- convergence %>% group_by(trt_eff_scen,icc) %>% 
+icc_perf <- convergence %>% group_by(icc) %>% 
   summarise(m_ess_bulk = mean(m_ess_bulk),
             m_ess_tail = mean(m_ess_tail),
             mrhat = mean(mrhat),
@@ -181,7 +187,7 @@ icc_perf <- convergence %>% group_by(trt_eff_scen,icc) %>%
   mutate(property = case_when(property == 0.05 ~ "ICC = 0.05",
                               property == 0.2 ~ "ICC = 0.2"))
 
-k_perf <- convergence %>% group_by(trt_eff_scen,k) %>% 
+k_perf <- convergence %>% group_by(k) %>% 
   summarise(m_ess_bulk = mean(m_ess_bulk),
             m_ess_tail = mean(m_ess_tail),
             mrhat = mean(mrhat),
@@ -190,7 +196,7 @@ k_perf <- convergence %>% group_by(trt_eff_scen,k) %>%
   mutate(property = case_when(property == 5 ~ "k = 5",
                               property == 10 ~ "k = 10"))
 
-n_perf <- convergence %>% group_by(trt_eff_scen,n_per_k) %>% 
+n_perf <- convergence %>% group_by(n_per_k) %>% 
   summarise(m_ess_bulk = mean(m_ess_bulk),
             m_ess_tail = mean(m_ess_tail),
             mrhat = mean(mrhat),
@@ -202,16 +208,27 @@ n_perf <- convergence %>% group_by(trt_eff_scen,n_per_k) %>%
                               property == 75 ~ "n = 75",
                               property == 100 ~ "n = 100"))
 
-ov_perf <- convergence %>% group_by(trt_eff_scen) %>%
+trt_perf <- convergence %>% group_by(trt_eff_scen) %>% 
+  summarise(m_ess_bulk = mean(m_ess_bulk),
+            m_ess_tail = mean(m_ess_tail),
+            mrhat = mean(mrhat),
+            mMCSE = mean(MCSE)) %>%
+  rename(property = trt_eff_scen) %>%
+  mutate(property = case_when(property == 1 ~ "Large effect",
+                              property == 2 ~ "Mid/small effect",
+                              property == 3 ~ "Null scenario"))
+
+ov_perf <- convergence %>% 
+  #group_by(trt_eff_scen) %>%
   summarise(m_ess_bulk = mean(m_ess_bulk),
             m_ess_tail = mean(m_ess_tail),
             mrhat = mean(mrhat),
             mMCSE = mean(MCSE)) %>%
   mutate(property = "Overall") %>%
-  dplyr::select(trt_eff_scen,property,m_ess_bulk,m_ess_tail,mrhat,mMCSE)
+  dplyr::select(property,m_ess_bulk,m_ess_tail,mrhat,mMCSE)
 
 #COMBINE THE PERFORMANCE MEASURES
-performance <- rbind(ov_perf,icc_perf,k_perf,n_perf) %>%
+performance <- rbind(ov_perf,icc_perf,k_perf,n_perf,trt_perf) %>%
   mutate(m_ess_bulk = m_ess_bulk*100,
          m_ess_tail = m_ess_tail*100,
          mrhat = mrhat*100)

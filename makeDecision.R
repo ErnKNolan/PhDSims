@@ -22,9 +22,9 @@ makeDecision <- function(properties = properties, interim_res = interim_res, j=j
     if(ties == "ties_opt"){
     int_drop <- int_drop %>%
       mutate(drop = ifelse(drop > drop_cut, NA, drop),
-             droptrt = pmap_chr(list(pp_trt2, pp_trt3, pp_trt4, drop), 
+             droptrt = pmap_chr(list(pp_trt4, pp_trt3, pp_trt2, drop), 
                                 ~ifelse(any(c(..1, ..2, ..3) %in% ..4),
-                                        c("trt2", "trt3", "trt4")[c(..1, ..2, ..3) %in% ..4],
+                                        c("trt4", "trt3", "trt2")[c(..1, ..2, ..3) %in% ..4],
                                         "none")))
     } else{
     #other option when there's a tie - use lower pred prob
