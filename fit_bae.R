@@ -50,7 +50,7 @@ testss <- function(t,expdat,rho,mod,outdir,...){
       iter_sampling = 250,
       chains = 4, 
       parallel_chains = 1,
-      adapt_delta = 0.8,
+      adapt_delta = 0.99,
       refresh = 0, 
       max_treedepth=12,
       output_dir=outdir

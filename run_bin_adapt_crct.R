@@ -50,13 +50,13 @@ stop_cut <- 0.15
 ties <- "ties_opt" 
 #Run the trial
 #test <- list()
-for(j in 54){
+for(j in 60){
   test[[length(test)+1]] <- future_replicate(2500,future.seed=42L,runSimTrial(properties,mod,outdir,j,adaption,drop_cut,stop_cut,ties))
 }
 #saveRDS(test,here("Data","adaptopt15_sim.RDS"))
 #Take out the trial properties
 trial_props <- list()
-for(j in 1:36){
+for(j in 1:60){
   for(i in seq(3,7500,3)){
     trial_props[[length(trial_props)+1]] <- test[[j]][[i]]
     trial_props[[length(trial_props)]]$sim <- i/3
@@ -64,11 +64,11 @@ for(j in 1:36){
   }
 }
 trial_props <- bind_rows(trial_props)
-#saveRDS(trial_props,here("Data","adapt_trial_props.RDS"))
+#saveRDS(trial_props,here("Data","adaptopt_trial_props.RDS"))
 
 #Take out the interim analyses
 interim <- list()
-for(j in 1){
+for(j in 1:60){
   for(i in seq(1,7500,3)){
     interim[[length(interim)+1]] <- test[[j]][[i]]
     interim[[length(interim)]]$sim <- (i+2)/3
@@ -76,11 +76,13 @@ for(j in 1){
   }
 }
 interim <- bind_rows(interim)
-#saveRDS(interim,here("Data","adapt_interim.RDS"))
+properties2 <- properties %>% mutate(row = row_number()) 
+interim2 <- merge(interim,properties2,by.y=c("row"),by.x="property")
+#saveRDS(interim2,here("Data","adaptopt_interim.RDS"))
 
 #Take out the full analyses
 tempd <- list()
-for(j in c(1:46)){
+for(j in c(1:60)){
   for(i in seq(2,7500,3)){
     tempd[[length(tempd)+1]] <- test[[j]][[i]]
     tempd[[length(tempd)]]$sim <- (i+1)/3
@@ -92,6 +94,7 @@ outsim <- bind_rows(tempd)
 #merge in the properties of that simulation
 properties2 <- properties %>% mutate(row = row_number()) 
 outsim2 <- merge(outsim,properties2,by.y=c("row"),by.x="property")
+#saveRDS(properties2,here("Data","properties2.RDS"))
 #saveRDS(outsim2,here("Data","adapt_outsim.RDS"))
 
 #Using https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4319656/pdf/nihms657495.pdf page 5 for adaptive early stopping so far
