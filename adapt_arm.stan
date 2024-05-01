@@ -45,7 +45,7 @@ transformed parameters {
 }
 model {
   b0~normal(0,2);
-  theta_trt[N_trt_groups-1]~normal(0,2);
+  theta_trt[1:N_trt_groups-1]~normal(0,2);
   lkj_corr ~ lkj_corr_cholesky(5); 
   alpha_site_raw~std_normal();
   

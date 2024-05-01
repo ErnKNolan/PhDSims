@@ -6,15 +6,16 @@
 pacman::p_load(here,future.apply,tictoc,car,ggforce,dplyr,cmdstanr,looplot,forcats,tidyr,gtsummary)
 
 #identify the interim analyses that had poor convergence
-#outsim2 <- readRDS(here("Data","interim_sim.RDS"))
+outsim2 <- readRDS(here("Data","outsim_interim.RDS"))
 int_sens <- outsim2 %>% 
   group_by(property,sim) %>%
-  mutate(converged = max(ifelse(variable %in% c("beta_trt[2]", "beta_trt[3]","beta_trt[4]") & ess_bulk > 400,1,0))) %>%
+  filter(variable %in% c("beta_trt[2]", "beta_trt[3]","beta_trt[4]")) %>%
+  mutate(converged = min(ifelse(variable %in% c("beta_trt[2]", "beta_trt[3]","beta_trt[4]") & ess_bulk > 400,1,0))) %>%
   filter(converged == 1,variable=="beta_trt[4]")%>%
   dplyr::select(property,sim,converged)
 
-#outsim2 <- readRDS(here("Data","outsim_adapt_opt.RDS"))
-#outsim2 <- readRDS(here("Data","outsim_adapt_prob.RDS"))
+#outsim2 <- readRDS(here("Data","adaptopt_outsim.RDS"))
+#outsim2 <- readRDS(here("Data","adaptprob_outsim.RDS"))
 
 #Merge interim with final to keep only the converged well interims
 out_sens <- merge(outsim2,int_sens,by=c("property","sim"))
@@ -24,9 +25,12 @@ out_sens <- merge(outsim2,int_sens,by=c("property","sim"))
 #outsim2 <- readRDS(here("Data","outsim_nonadapt.RDS"))
 #out_sens <- outsim2 %>% 
 #  group_by(property,sim) %>%
-#  mutate(converged = max(ifelse(variable %in% c("beta_trt[2]", "beta_trt[3]","beta_trt[4]") & ess_bulk > 400,1,0))) %>%
-#  filter(converged == 1)
-  
+#  filter(variable %in% c("beta_trt[2]", "beta_trt[3]","beta_trt[4]")) %>%
+#  mutate(converged = min(ifelse(variable %in% c("beta_trt[2]", "beta_trt[3]","beta_trt[4]") & ess_bulk > 400,1,0))) %>%
+#  filter(converged == 1,variable=="beta_trt[4]") %>%
+#  dplyr::select(property,sim,converged)
+#out_sens <- merge(out_sens,outsim2,by=c("property","sim"))
+
 #summarised values
 converge_summ <- out_sens %>%
   group_by(property,sim) %>%
@@ -135,14 +139,14 @@ outsim3 <- merge(outsim2,power,by="property") %>%
   group_by(property) %>%
   filter(sim == 1, variable == "pred_prob_trt[4]")
 
-#saveRDS(outsim3,here("Data","power_plot_prob15_sens.RDS"))
+#saveRDS(outsim3,here("Data","nonadapt_power_sens.RDS"))
 
 #plot the power over different features
 #setting up the data
 
 
-power_plot_opt <- readRDS(here("Data","power_plot_opt15_sens.RDS"))
-power_plot_prob <- readRDS(here("Data","power_plot_prob15_sens.RDS"))
+power_plot_opt <- readRDS(here("Data","power_plot_opt_sens.RDS"))
+power_plot_prob <- readRDS(here("Data","power_plot_prob_sens.RDS"))
 nonadapt_power <- readRDS(here("Data","nonadapt_power_sens.RDS"))
 
 nonadapt_plot <- nonadapt_power %>% ungroup() %>% filter(k %in% c(5,10), ctrl_prop == 0.1) %>%
