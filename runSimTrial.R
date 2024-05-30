@@ -29,9 +29,14 @@ runSimTrial <- function(properties = properties, mod = mod, outdir=outdir, j=j, 
   
   #need to append the interim data and new data together
   #then run the full trial model
-  full <- testFull(expdat=fullclusters,t=4,mod=mod,outdir=outdir,int_dat=resp_clus,
-                 rho=properties_int$icc,t1=properties_int$t1,t2=properties_int$t2,t3=properties_int$t3,t4=properties_int$t4)
-
-  res <- list(interim=interim[[1]],full=full[[1]],properties=properties_int)
-  return(res)
+  if(properties_int$stop==1){
+    res <- list(interim[[1]],properties=properties_int)
+    return(res)
+  }else{
+    full <- testFull(expdat=fullclusters,t=4,mod=mod,outdir=outdir,int_dat=resp_clus,
+                     rho=properties_int$icc,t1=properties_int$t1,t2=properties_int$t2,t3=properties_int$t3,t4=properties_int$t4)
+    
+    res <- list(full[[1]],properties=properties_int)
+    return(res)
+  }
 }

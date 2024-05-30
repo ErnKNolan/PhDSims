@@ -13,7 +13,7 @@ source(here("Programs","runSimTrial.R"))
 
 #PROJECT 2 
 #The different trial properties
-set.seed(580208819) #main seed
+#set.seed(580208819) main seed
 #set.seed(698426789) #seed sensitivity 1
 #set.seed(854187431) #seed sensitivity 2
 
@@ -41,30 +41,25 @@ baepath <- "D:/Programs/PhDProject2/Programs/adapt_arm.stan"
 set_cmdstan_path(path="C:/Users/nolan/Documents/.cmdstan/cmdstan-2.33.1")
 outdir <- "J:/Sims"
 
-#baepath <- "C:/Users/ENolan/OneDrive - HMRI/Documents/PhDProject2/Programs/PhDProject3/Programs/adapt_arm.stan"
-#set_cmdstan_path(path="C:/Users/ENolan/OneDrive - HMRI/Documents/.cmdstan/cmdstan-2.33.1")
-#outdir <- "C:/Users/ENolan/Downloads/Sims"
-
-
 mod <- cmdstan_model(baepath, pedantic = F, compile=T)
 adaption <- "both" #this can be early_stopping, arm_dropping, or both
 drop_cut <- 0.05
 stop_cut <- 0.15
 #this can be ties_prob or ties_opt. Ties opt drops the highest constraint arm if there is a tie for which has the lowest probability of success
 #ties_prob drops the arm with the lowest pred prob estimate if there is a tie for which has the lowest probability of success
-ties <- "ties_prob" 
+ties <- "ties_opt" 
 #Run the trial
 #test <- list()
-for(j in c(1:10)){
-  test[[length(test)+1]] <- future_replicate(2500,future.seed=42L,runSimTrial(properties,mod,outdir,j,adaption,drop_cut,stop_cut,ties))
+for(j in c(1:60)){
+  test[[length(test)+1]] <- future_replicate(100,future.seed=42L,runSimTrial(properties,mod,outdir,j,adaption,drop_cut,stop_cut,ties))
 }
 #saveRDS(test,here("Data","adaptopt_sens2.RDS"))
 #Take out the trial properties
 trial_props <- list()
-for(j in 1){
-  for(i in seq(2,200,2)){ #the middle number is the total number of items in the list
+for(j in 1:60){
+  for(i in seq(3,7500,3)){ #the middle number is the total number of items in the list
     trial_props[[length(trial_props)+1]] <- test[[j]][[i]]
-    trial_props[[length(trial_props)]]$sim <- i/2
+    trial_props[[length(trial_props)]]$sim <- i/3
     trial_props[[length(trial_props)]]$property <- j
   }
 }
@@ -87,10 +82,10 @@ interim2 <- merge(interim,properties2,by.y=c("row"),by.x="property")
 
 #Take out the full analyses
 tempd <- list()
-for(j in c(1)){
-  for(i in seq(1,200,2)){ #the middle number is the total number of items in the list
+for(j in c(1:60)){
+  for(i in seq(2,300,3)){ #the middle number is the total number of items in the list
     tempd[[length(tempd)+1]] <- test[[j]][[i]]
-    tempd[[length(tempd)]]$sim <- (i+1)/2
+    tempd[[length(tempd)]]$sim <- (i+1)/3
     tempd[[length(tempd)]]$property <- j
   }
 }

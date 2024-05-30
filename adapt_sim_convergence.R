@@ -83,27 +83,28 @@ convergence <- merge(ESS,MCSE_power,by="property") %>%
 
 
 #LOOP PLOT
-plot_opt <- readRDS(here("Data","converg_opt.RDS"))
+#plot_opt <- readRDS(here("Data","converg_opt.RDS"))
 plot_prob <- readRDS(here("Data","converg_prob.RDS"))
 plot_nonadapt <- readRDS(here("Data","converg_nonadapt.RDS"))
 plot_interim <- readRDS(here("Data","converg_interim.RDS"))
 plot_nonadapt <- plot_nonadapt %>% filter(k %in% c(5,10), ctrl_prop == 0.1) %>%
   dplyr::select(m_ess_bulk,m_ess_bulk300,m_ess_tail,mrhat,trt_eff_scen,icc,n_per_k,k)
-plot_opt <- plot_opt %>% dplyr::select(m_ess_bulk,m_ess_bulk300,m_ess_tail,mrhat,trt_eff_scen,icc,n_per_k,k)
+#plot_opt <- plot_opt %>% dplyr::select(m_ess_bulk,m_ess_bulk300,m_ess_tail,mrhat,trt_eff_scen,icc,n_per_k,k)
 plot_prob <- plot_prob %>% dplyr::select(m_ess_bulk,m_ess_bulk300,m_ess_tail,mrhat,trt_eff_scen,icc,n_per_k,k)
 plot_interim <- plot_interim %>% dplyr::select(m_ess_bulk,m_ess_bulk300,m_ess_tail,mrhat,trt_eff_scen,icc,n_per_k,interim) %>%
   rename(k = interim)
 
 #combine the two datasets
-loop_plot <- inner_join(plot_prob,plot_opt,by=c("icc","trt_eff_scen","n_per_k","k")) %>%
-  rename(bulkopt = m_ess_bulk.y,
-         bulkprob = m_ess_bulk.x,
-         bulk300opt = m_ess_bulk300.y,
-         bulk300prob = m_ess_bulk300.x,
-         tailopt = m_ess_tail.y,
-         tailprob = m_ess_tail.x,
-         rhatopt = mrhat.y,
-         rhatprob = mrhat.x) %>%
+loop_plot <- #inner_join(plot_prob,plot_opt,by=c("icc","trt_eff_scen","n_per_k","k")) %>%
+  plot_prob %>%
+  rename(#bulkopt = m_ess_bulk.y,
+         bulkprob = m_ess_bulk,
+         #bulk300opt = m_ess_bulk300.y,
+         bulk300prob = m_ess_bulk300,
+         #tailopt = m_ess_tail.y,
+         tailprob = m_ess_tail,
+         #rhatopt = mrhat.y,
+         rhatprob = mrhat) %>%
   inner_join(plot_nonadapt) %>%
   rename(bulknonadapt = m_ess_bulk,
          bulk300nonadapt = m_ess_bulk300,
@@ -123,9 +124,8 @@ loop_plot <- inner_join(plot_prob,plot_opt,by=c("icc","trt_eff_scen","n_per_k","
 loop_plot$Scenario <- factor(loop_plot$Scenario, levels = c("Strong effect","Mid/Weak effect","Null effect"))
 
 #The graph
-loop_plot_bulk <- loop_plot %>% dplyr::select(bulkprob,bulkopt,bulknonadapt,ICC,k,n_per_k,Scenario) %>%
-  rename(`Probability ties` = bulkprob,
-         `Optimisation\nconstraint ties` = bulkopt,
+loop_plot_bulk <- loop_plot %>% dplyr::select(bulkprob,bulknonadapt,ICC,k,n_per_k,Scenario) %>%
+  rename(`Adaptive` = bulkprob,
          `Non-adaptive` = bulknonadapt)
 png(filename=here("Output","converge_bulk.png"),width=10,height=6,res=300,units="in")
 nested_loop_plot(resdf = loop_plot_bulk, 
@@ -142,14 +142,13 @@ nested_loop_plot(resdf = loop_plot_bulk,
                      axis.text.x = element_text(angle = -90, 
                                                 vjust = 0.5, 
                                                 size = 5)))) +
-  scale_colour_manual(values=c("#8D4585","#003151","orange","black")) +
-  labs(color="Adaptive design",shape="Adaptive design",linetype="Adaptive design",size="Adaptive design")
+  scale_colour_manual(values=c("#6d6d6d","black","black")) +
+  labs(color="Design",shape="Design",linetype="Design",size="Design")
 dev.off()
 
 #bulk 300 graph
-loop_plot_bulk300 <- loop_plot %>% dplyr::select(bulk300prob,bulk300opt,bulk300nonadapt,ICC,k,n_per_k,Scenario) %>%
-  rename(`Probability ties` = bulk300prob,
-         `Optimisation\nconstraint ties` = bulk300opt,
+loop_plot_bulk300 <- loop_plot %>% dplyr::select(bulk300prob,bulk300nonadapt,ICC,k,n_per_k,Scenario) %>%
+  rename(`Adaptive` = bulk300prob,
          `Non-adaptive` = bulk300nonadapt)
 png(filename=here("Output","converge_bulk300.png"),width=10,height=6,res=300,units="in")
 nested_loop_plot(resdf = loop_plot_bulk300, 
@@ -166,14 +165,13 @@ nested_loop_plot(resdf = loop_plot_bulk300,
                      axis.text.x = element_text(angle = -90, 
                                                 vjust = 0.5, 
                                                 size = 5)))) +
-  scale_colour_manual(values=c("#8D4585","#003151","orange","black")) +
-  labs(color="Adaptive design",shape="Adaptive design",linetype="Adaptive design",size="Adaptive design")
+  scale_colour_manual(values=c("#6d6d6d","black","black")) +
+  labs(color="Design",shape="Design",linetype="Design",size="Design")
 dev.off()
 
 #tail graph
-loop_plot_tail <- loop_plot %>% dplyr::select(tailprob,tailopt,tailnonadapt,ICC,k,n_per_k,Scenario) %>%
-  rename(`Probability ties` = tailprob,
-         `Optimisation\nconstraint ties` = tailopt,
+loop_plot_tail <- loop_plot %>% dplyr::select(tailprob,tailnonadapt,ICC,k,n_per_k,Scenario) %>%
+  rename(`Adaptive` = tailprob,
          `Non-adaptive` = tailnonadapt)
 png(filename=here("Output","converge_tail.png"),width=10,height=6,res=300,units="in")
 nested_loop_plot(resdf = loop_plot_tail, 
@@ -190,14 +188,13 @@ nested_loop_plot(resdf = loop_plot_tail,
                      axis.text.x = element_text(angle = -90, 
                                                 vjust = 0.5, 
                                                 size = 5)))) +
-  scale_colour_manual(values=c("#8D4585","#003151","orange","black")) +
-  labs(color="Adaptive design",shape="Adaptive design",linetype="Adaptive design",size="Adaptive design")
+  scale_colour_manual(values=c("#6d6d6d","black","black")) +
+  labs(color="Design",shape="Design",linetype="Design",size="Design")
 dev.off()
 
 #rhat
-loop_plot_rhat <- loop_plot %>% dplyr::select(rhatprob,rhatopt,rhatnonadapt,ICC,k,n_per_k,Scenario) %>%
-  rename(`Probability ties` = rhatprob,
-         `Optimisation\nconstraint ties` = rhatopt,
+loop_plot_rhat <- loop_plot %>% dplyr::select(rhatprob,rhatnonadapt,ICC,k,n_per_k,Scenario) %>%
+  rename(`Adaptive` = rhatprob,
          `Non-adaptive` = rhatnonadapt)
 png(filename=here("Output","converge_rhat.png"),width=10,height=6,res=300,units="in")
 nested_loop_plot(resdf = loop_plot_rhat, 
@@ -214,8 +211,8 @@ nested_loop_plot(resdf = loop_plot_rhat,
                      axis.text.x = element_text(angle = -90, 
                                                 vjust = 0.5, 
                                                 size = 5)))) +
-  scale_colour_manual(values=c("#8D4585","#003151","orange","black")) +
-  labs(color="Adaptive design",shape="Adaptive design",linetype="Adaptive design",size="Adaptive design")
+  scale_colour_manual(values=c("#6d6d6d","black","black")) +
+  labs(color="Design",shape="Design",linetype="Design",size="Design")
 dev.off()
 
 #interim

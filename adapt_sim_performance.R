@@ -60,24 +60,21 @@ outsim3 <- merge(outsim2,power,by="property") %>%
 
 
 #main datasets
-power_plot_opt <- readRDS(here("Data","power_plot_opt.RDS"))
+#power_plot_opt <- readRDS(here("Data","power_plot_opt.RDS"))
 power_plot_prob <- readRDS(here("Data","power_plot_prob.RDS"))
 nonadapt_power <- readRDS(here("Data","nonadapt_power.RDS"))
 nonadapt_plot <- nonadapt_power %>% ungroup() %>% filter(k %in% c(5,10), ctrl_prop == 0.1) %>%
   dplyr::select(trt_eff_scen,icc,n_per_k,k,bayesr) 
-nest_plot <- power_plot_opt %>% ungroup() %>% dplyr::select(trt_eff_scen,icc,n_per_k,k,bayesr)
+#nest_plot <- power_plot_opt %>% ungroup() %>% dplyr::select(trt_eff_scen,icc,n_per_k,k,bayesr)
 nest_plot_prob <- power_plot_prob %>% ungroup() %>% dplyr::select(trt_eff_scen,icc,n_per_k,k,bayesr)
 
 #combine the two datasets
-loop_plot <- inner_join(nest_plot,nonadapt_plot,by=c("icc","trt_eff_scen","n_per_k","k")) %>%
+loop_plot <- inner_join(nest_plot_prob,nonadapt_plot,by=c("icc","trt_eff_scen","n_per_k","k")) %>%
   rename(nonadapt = bayesr.y,
-         both = bayesr.x) %>%
-  inner_join(nest_plot_prob) %>%
-  rename(prob = bayesr) %>%
+         prob = bayesr.x) %>%
   mutate(k = fct_rev(factor(k))) %>%
-  rename(`Optimisation ties` = both,
-         `Non-adpative` = nonadapt,
-         `Probability ties` = prob,
+  rename(`Non-adpative` = nonadapt,
+         `Adaptive` = prob,
          ICC = icc,
          Scenario = trt_eff_scen) %>%
   mutate(Scenario = case_when(Scenario == 1 ~ "Strong effect",
@@ -103,8 +100,8 @@ nested_loop_plot(resdf = loop_plot_effs,
                          axis.text.x = element_text(angle = -90, 
                                                     vjust = 0.5, 
                                                     size = 5))))+
-  scale_colour_manual(values=c("#8D4585","#003151","orange"))+
-  labs(color="Adaptive design",shape="Adaptive design",linetype="Adaptive design",size="Adaptive design")
+  scale_colour_manual(values=c("#6d6d6d","black","black"))+
+  labs(color="Design",shape="Design",linetype="Design",size="Design")
 dev.off()
 
 #Graph for the null scenario
@@ -125,8 +122,8 @@ nested_loop_plot(resdf = loop_plot_null,
                      axis.text.x = element_text(angle = -90, 
                                                 vjust = 0.5, 
                                                 size = 5))))+
-  scale_colour_manual(values=c("#8D4585","#003151","orange"))+
-  labs(color="Adaptive design",shape="Adaptive design",linetype="Adaptive design",size="Adaptive design")
+  scale_colour_manual(values=c("#6d6d6d","black","black"))+
+  labs(color="Design",shape="Design",linetype="Design",size="Design")
 dev.off()
 
 #Trial properties

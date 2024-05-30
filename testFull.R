@@ -48,8 +48,8 @@ testFull <- function(t,expdat,rho,mod,outdir,int_dat,...){
     res <- mod$sample(
       data = data, 
       init = 0,
-      iter_warmup = 250,
-      iter_sampling = 250,
+      iter_warmup = 500,
+      iter_sampling = 500,
       chains = 4, 
       parallel_chains = 1,
       adapt_delta = 0.99,
