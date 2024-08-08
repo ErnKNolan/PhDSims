@@ -6,10 +6,9 @@
 
 pacman::p_load(here,future.apply,tictoc,car,ggforce,dplyr,cmdstanr,looplot,forcats,tidyr,gtsummary)
 
-#outsim2 <- readRDS(here("Data","adaptopt_outsim.RDS"))
 #outsim2 <- readRDS(here("Data","adaptprob_outsim.RDS"))
 #outsim2 <- readRDS(here("Data","outsim_nonadapt.RDS"))
-outsim2 <- readRDS(here("Data","outsim_interim.RDS"))
+#outsim2 <- readRDS(here("Data","outsim_interim.RDS"))
 properties2 <- readRDS(here("Data","properties2.RDS"))
 
 #missings--------------------------------------------
@@ -23,16 +22,16 @@ ESS <- outsim2 %>%
   filter(variable %in% c("beta_trt[2]","beta_trt[3]","beta_trt[4]")) %>%
   group_by(property,sim) %>%
   mutate(bess_bulk = ifelse(ess_bulk < 400 | is.na(ess_bulk),1,0), #currently treating missing ess as 'bad' but that isnt necessarily true
-         bess_tail = ifelse(ess_tail < 400 | is.na(ess_tail),1,0),
-         bess_bulk300 = ifelse(ess_bulk < 300 | is.na(ess_bulk),1,0),
-         brhat = ifelse(rhat > 1.05 | is.na(rhat),1,0),
-         sess_bulk = ifelse(sum(bess_bulk) >= 1,1,0),
-         sess_tail = ifelse(sum(bess_tail) >= 1,1,0),
-         sess_bulk300 = ifelse(sum(bess_bulk300) >= 1,1,0),
-         srhat = ifelse(sum(brhat) >= 1,1,0)) %>%
+         bess_tail = ifelse(ess_tail < 400 | is.na(ess_tail),1,0), #ess in the tail
+         bess_bulk300 = ifelse(ess_bulk < 300 | is.na(ess_bulk),1,0), #ess in the bulk less than 300
+         brhat = ifelse(rhat > 1.05 | is.na(rhat),1,0), #whether rhat greater than 1.05
+         sess_bulk = ifelse(sum(bess_bulk) >= 1,1,0), #proportion of ess bulk < 400
+         sess_tail = ifelse(sum(bess_tail) >= 1,1,0), #proportion of ess tail < 400
+         sess_bulk300 = ifelse(sum(bess_bulk300) >= 1,1,0), #proportion of ess bulk < 300
+         srhat = ifelse(sum(brhat) >= 1,1,0)) %>% #proportion of rhat > 1.05
   group_by(property) %>%
-  filter(variable == "beta_trt[4]") %>%
-  summarise(m_ess_bulk = mean(sess_bulk == 1),
+  filter(variable == "beta_trt[4]") %>% #keep just 1 row per simulation
+  summarise(m_ess_bulk = mean(sess_bulk == 1), #summarise by each property
             m_ess_tail = mean(sess_tail == 1),
             m_ess_bulk300 = mean(sess_bulk300 == 1),
             mrhat = mean(srhat == 1))
@@ -65,13 +64,13 @@ outsim2 %>%
 #Has to be done after POWER
 
 #Power for these sims-----------------------------------------------
-#Power defined as number of sims that the lower CrI of trt 1 greater than all other groups upper CrI
+#getting the post prob of max(trt eff) taken from Stan code
 trial_success <- outsim2 %>% 
   filter(variable %in% c("pp_trt2","pp_trt3","pp_trt4")) %>%
   pivot_wider(id_cols=c(property,sim,trt_eff_scen),names_from=variable,values_from=mean) %>%
   mutate(bayesr = ifelse(trt_eff_scen == 3 & (pp_trt2 >= 0.95 | pp_trt3 >= 0.95 | pp_trt4 >= 0.95),1,
                          ifelse(trt_eff_scen %in% c(1,2) & pp_trt4 >= 0.95,1,0))) 
-power <- trial_success %>% group_by(property) %>%
+power <- trial_success %>% group_by(property) %>% 
   summarise(bayesr = sum(bayesr)/n())
 
 #MC Error for power (ref Morris 2019 table 6)
@@ -83,27 +82,21 @@ convergence <- merge(ESS,MCSE_power,by="property") %>%
 
 
 #LOOP PLOT
-#plot_opt <- readRDS(here("Data","converg_opt.RDS"))
 plot_prob <- readRDS(here("Data","converg_prob.RDS"))
 plot_nonadapt <- readRDS(here("Data","converg_nonadapt.RDS"))
 plot_interim <- readRDS(here("Data","converg_interim.RDS"))
 plot_nonadapt <- plot_nonadapt %>% filter(k %in% c(5,10), ctrl_prop == 0.1) %>%
   dplyr::select(m_ess_bulk,m_ess_bulk300,m_ess_tail,mrhat,trt_eff_scen,icc,n_per_k,k)
-#plot_opt <- plot_opt %>% dplyr::select(m_ess_bulk,m_ess_bulk300,m_ess_tail,mrhat,trt_eff_scen,icc,n_per_k,k)
 plot_prob <- plot_prob %>% dplyr::select(m_ess_bulk,m_ess_bulk300,m_ess_tail,mrhat,trt_eff_scen,icc,n_per_k,k)
 plot_interim <- plot_interim %>% dplyr::select(m_ess_bulk,m_ess_bulk300,m_ess_tail,mrhat,trt_eff_scen,icc,n_per_k,interim) %>%
   rename(k = interim)
 
 #combine the two datasets
-loop_plot <- #inner_join(plot_prob,plot_opt,by=c("icc","trt_eff_scen","n_per_k","k")) %>%
+loop_plot <- 
   plot_prob %>%
-  rename(#bulkopt = m_ess_bulk.y,
-         bulkprob = m_ess_bulk,
-         #bulk300opt = m_ess_bulk300.y,
+  rename(bulkprob = m_ess_bulk,
          bulk300prob = m_ess_bulk300,
-         #tailopt = m_ess_tail.y,
          tailprob = m_ess_tail,
-         #rhatopt = mrhat.y,
          rhatprob = mrhat) %>%
   inner_join(plot_nonadapt) %>%
   rename(bulknonadapt = m_ess_bulk,
@@ -112,16 +105,11 @@ loop_plot <- #inner_join(plot_prob,plot_opt,by=c("icc","trt_eff_scen","n_per_k",
          rhatnonadapt = mrhat,
          ICC = icc,
          Scenario = trt_eff_scen) %>%
-#  inner_join(plot_interim) %>%
-#  rename(bulkinterim = m_ess_bulk,
-#         bulk300interim = m_ess_bulk300,
-#         tailinterim = m_ess_tail,
-#         rhatinterim = mrhat) %>%
   mutate(k = fct_rev(factor(k)),
          Scenario = case_when(Scenario == 1 ~ "Strong effect",
-                              Scenario == 2 ~ "Mid/Weak effect",
+                              Scenario == 2 ~ "Moderate effect",
                               Scenario == 3 ~ "Null effect"))
-loop_plot$Scenario <- factor(loop_plot$Scenario, levels = c("Strong effect","Mid/Weak effect","Null effect"))
+loop_plot$Scenario <- factor(loop_plot$Scenario, levels = c("Strong effect","Moderate effect","Null effect"))
 
 #The graph
 loop_plot_bulk <- loop_plot %>% dplyr::select(bulkprob,bulknonadapt,ICC,k,n_per_k,Scenario) %>%
@@ -225,9 +213,9 @@ plot_interim2 <- plot_interim %>%
          Scenario = trt_eff_scen) %>%
   mutate(k = fct_rev(factor(k)),
          Scenario = case_when(Scenario == 1 ~ "Strong effect",
-                              Scenario == 2 ~ "Mid/Weak effect",
+                              Scenario == 2 ~ "Moderate effect",
                               Scenario == 3 ~ "Null effect"))
-plot_interim2$Scenario <- factor(plot_interim2$Scenario, levels = c("Strong effect","Mid/Weak effect","Null effect"))
+plot_interim2$Scenario <- factor(plot_interim2$Scenario, levels = c("Strong effect","Moderate effect","Null effect"))
 
 png(filename=here("Output","converge_interim.png"),width=10,height=6,res=300,units="in")
 nested_loop_plot(resdf = plot_interim2, 

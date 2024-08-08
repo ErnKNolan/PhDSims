@@ -67,4 +67,4 @@ outsim <- bind_rows(tempd)
 
 properties2 <- properties %>% mutate(row = row_number()) 
 outsim2 <- merge(outsim,properties2,by.y=c("row"),by.x="property")
-#saveRDS(outsim2,file=here("Data","outsim_interim.RDS"))
+#saveRDS(outsim2,file=here("Data","outsim_nonadapt.RDS"))
