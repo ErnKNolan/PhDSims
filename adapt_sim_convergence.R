@@ -6,6 +6,8 @@
 
 pacman::p_load(here,future.apply,tictoc,car,ggforce,dplyr,cmdstanr,looplot,forcats,tidyr,gtsummary)
 
+#RUN THIS CODE UNTIL NEXT SECTION FOR EACH OUTSIM2
+
 #outsim2 <- readRDS(here("Data","adaptprob_outsim.RDS"))
 #outsim2 <- readRDS(here("Data","outsim_nonadapt.RDS"))
 #outsim2 <- readRDS(here("Data","outsim_interim.RDS"))
@@ -21,37 +23,31 @@ missings2 <- outsim2 %>%
 ESS <- outsim2 %>% 
   filter(variable %in% c("beta_trt[2]","beta_trt[3]","beta_trt[4]")) %>%
   group_by(property,sim) %>%
-  mutate(bess_bulk = ifelse(ess_bulk < 400 | is.na(ess_bulk),1,0), #currently treating missing ess as 'bad' but that isnt necessarily true
+  mutate(bess_bulk = ifelse(ess_bulk < 400 | is.na(ess_bulk),1,0), 
          bess_tail = ifelse(ess_tail < 400 | is.na(ess_tail),1,0), #ess in the tail
-         bess_bulk300 = ifelse(ess_bulk < 300 | is.na(ess_bulk),1,0), #ess in the bulk less than 300
          brhat = ifelse(rhat > 1.05 | is.na(rhat),1,0), #whether rhat greater than 1.05
          sess_bulk = ifelse(sum(bess_bulk) >= 1,1,0), #proportion of ess bulk < 400
          sess_tail = ifelse(sum(bess_tail) >= 1,1,0), #proportion of ess tail < 400
-         sess_bulk300 = ifelse(sum(bess_bulk300) >= 1,1,0), #proportion of ess bulk < 300
          srhat = ifelse(sum(brhat) >= 1,1,0)) %>% #proportion of rhat > 1.05
   group_by(property) %>%
   filter(variable == "beta_trt[4]") %>% #keep just 1 row per simulation
   summarise(m_ess_bulk = mean(sess_bulk == 1), #summarise by each property
             m_ess_tail = mean(sess_tail == 1),
-            m_ess_bulk300 = mean(sess_bulk300 == 1),
             mrhat = mean(srhat == 1))
 
 #by treatment group
 ESS_trt <- outsim2 %>% 
   filter(variable %in% c("beta_trt[2]","beta_trt[3]","beta_trt[4]")) %>%
   group_by(property,sim,variable) %>%
-  mutate(bess_bulk = ifelse(ess_bulk < 400 | is.na(ess_bulk),1,0), #currently treating missing ess as 'bad' but that isnt necessarily true
+  mutate(bess_bulk = ifelse(ess_bulk < 400 | is.na(ess_bulk),1,0), 
          bess_tail = ifelse(ess_tail < 400 | is.na(ess_tail),1,0),
-         bess_bulk300 = ifelse(ess_bulk < 300 | is.na(ess_bulk),1,0),
          brhat = ifelse(rhat > 1.05 | is.na(rhat),1,0),
          sess_bulk = ifelse(sum(bess_bulk) >= 1,1,0),
          sess_tail = ifelse(sum(bess_tail) >= 1,1,0),
-         sess_bulk300 = ifelse(sum(bess_bulk300) >= 1,1,0),
          srhat = ifelse(sum(brhat) >= 1,1,0)) %>%
   group_by(property,variable) %>%
   summarise(m_ess_bulk = mean(sess_bulk == 1),
             m_ess_tail = mean(sess_tail == 1),
-            m_ess_bulk300 = mean(sess_bulk300 == 1),
             mrhat = mean(srhat == 1))
 
 #Plot of ess
@@ -78,24 +74,24 @@ MCSE_power <- data.frame(MCSE = sqrt((power$bayesr*(1-power$bayesr))/ 2500), pro
 #Merge into ESS and rhat
 convergence <- merge(ESS,MCSE_power,by="property") %>%
   merge(properties2,by.x="property",by.y="row")
-#saveRDS(convergence,here("Data","converg_interim.RDS"))
+#saveRDS(convergence,here("Data","converg_XXXXX.RDS"))
 
-
+#THIS IS THE NEXT SECTION
+#PLOTTING-----------------------------------------------------------------------------
 #LOOP PLOT
 plot_prob <- readRDS(here("Data","converg_prob.RDS"))
 plot_nonadapt <- readRDS(here("Data","converg_nonadapt.RDS"))
 plot_interim <- readRDS(here("Data","converg_interim.RDS"))
 plot_nonadapt <- plot_nonadapt %>% filter(k %in% c(5,10), ctrl_prop == 0.1) %>%
-  dplyr::select(m_ess_bulk,m_ess_bulk300,m_ess_tail,mrhat,trt_eff_scen,icc,n_per_k,k)
-plot_prob <- plot_prob %>% dplyr::select(m_ess_bulk,m_ess_bulk300,m_ess_tail,mrhat,trt_eff_scen,icc,n_per_k,k)
-plot_interim <- plot_interim %>% dplyr::select(m_ess_bulk,m_ess_bulk300,m_ess_tail,mrhat,trt_eff_scen,icc,n_per_k,interim) %>%
+  dplyr::select(m_ess_bulk,m_ess_tail,mrhat,trt_eff_scen,icc,n_per_k,k)
+plot_prob <- plot_prob %>% dplyr::select(m_ess_bulk,m_ess_tail,mrhat,trt_eff_scen,icc,n_per_k,k)
+plot_interim <- plot_interim %>% dplyr::select(m_ess_bulk,m_ess_tail,mrhat,trt_eff_scen,icc,n_per_k,interim) %>%
   rename(k = interim)
 
 #combine the two datasets
 loop_plot <- 
   plot_prob %>%
   rename(bulkprob = m_ess_bulk,
-         bulk300prob = m_ess_bulk300,
          tailprob = m_ess_tail,
          rhatprob = mrhat) %>%
   inner_join(plot_nonadapt) %>%
@@ -120,29 +116,6 @@ nested_loop_plot(resdf = loop_plot_bulk,
                  x = "n_per_k", steps = c("ICC","k", "Scenario"),
                  steps_y_base = -0.1, steps_y_height = 0.1, steps_y_shift = 0.1,
                  x_name = "Sample size per cluster", y_name = "Proportion of trials where ESS bulk < 400",
-                 spu_x_shift = 50,
-                 line_alpha = 0.6,
-                 point_alpha = 0.6,
-                 steps_values_annotate = TRUE, steps_annotation_size = 2.5, 
-                 hline_intercept = c(0,1), 
-                 post_processing = list(
-                   add_custom_theme = list(
-                     axis.text.x = element_text(angle = -90, 
-                                                vjust = 0.5, 
-                                                size = 5)))) +
-  scale_colour_manual(values=c("#6d6d6d","black","black")) +
-  labs(color="Design",shape="Design",linetype="Design",size="Design")
-dev.off()
-
-#bulk 300 graph
-loop_plot_bulk300 <- loop_plot %>% dplyr::select(bulk300prob,bulk300nonadapt,ICC,k,n_per_k,Scenario) %>%
-  rename(`Adaptive` = bulk300prob,
-         `Non-adaptive` = bulk300nonadapt)
-png(filename=here("Output","converge_bulk300.png"),width=10,height=6,res=300,units="in")
-nested_loop_plot(resdf = loop_plot_bulk300, 
-                 x = "n_per_k", steps = c("ICC","k","Scenario"),
-                 steps_y_base = -0.05, steps_y_height = 0.05, steps_y_shift = 0.05,
-                 x_name = "Sample size per cluster", y_name = "Proportion of trials where ESS bulk < 300",
                  spu_x_shift = 50,
                  line_alpha = 0.6,
                  point_alpha = 0.6,
@@ -236,82 +209,3 @@ nested_loop_plot(resdf = plot_interim2,
   labs(color="Adaptive design",shape="Adaptive design",linetype="Adaptive design",size="Adaptive design")
 dev.off()
 
-
-
-#by trt group
-ess_trt_rhat <- ESS_trt %>% 
-  pivot_wider(id_cols=property,values_from = mrhat, names_from = variable) %>% 
-  merge(properties2, by.x="property",by.y = "row") %>%
-  dplyr::select(trt_eff_scen,icc,k,n_per_k,`beta_trt[2]`,`beta_trt[3]`,`beta_trt[4]`) %>%
-  rename(ICC = icc,
-         Scenario = trt_eff_scen)
-png(filename=here("Output","rhat_trt_nonadapt.png"),width=10,height=6,res=300,units="in")
-nested_loop_plot(resdf = ess_trt_rhat, 
-                 x = "n_per_k", steps = c("ICC","k", "Scenario"),
-                 steps_y_base = -0.025, steps_y_height = 0.025, steps_y_shift = 0.025,
-                 x_name = "Sample size per cluster", y_name = "Proportion of trials where Rhat > 1.05",
-                 spu_x_shift = 50,
-                 line_alpha = 0.6,
-                 point_alpha = 0.6,
-                 steps_values_annotate = TRUE, steps_annotation_size = 2.5, 
-                 hline_intercept = c(0,1), 
-                 ylim = c(-0.2,0.15),
-                 y_breaks = c(0,0.05,0.1,0.15),
-                 post_processing = list(
-                   add_custom_theme = list(
-                     axis.text.x = element_text(angle = -90, 
-                                                vjust = 0.5, 
-                                                size = 5)))) +
-  scale_colour_manual(values=c("#8D4585","#003151","orange","black")) +
-  labs(color="Treatment group",shape="Treatment group",linetype="Treatment group",size="Treatment group")
-dev.off()
-
-ess_trt_bulk <- ESS_trt %>% 
-  pivot_wider(id_cols=property,values_from = m_ess_bulk, names_from = variable) %>% 
-  merge(properties2, by.x="property",by.y = "row") %>%
-  dplyr::select(trt_eff_scen,icc,k,n_per_k,`beta_trt[2]`,`beta_trt[3]`,`beta_trt[4]`)
-png(filename=here("Output","essbulk_trt_nonadapt.png"),width=10,height=6,res=300,units="in")
-nested_loop_plot(resdf = ess_trt_bulk, 
-                 x = "n_per_k", steps = c("icc","k", "trt_eff_scen"),
-                 steps_y_base = -0.05, steps_y_height = 0.05, steps_y_shift = 0.05,
-                 x_name = "Sample size per cluster", y_name = "Proportion of trials where ESS bulk < 400",
-                 spu_x_shift = 50,
-                 line_alpha = 0.6,
-                 point_alpha = 0.6,
-                 steps_values_annotate = TRUE, steps_annotation_size = 2.5, 
-                 hline_intercept = c(0,1), 
-                 ylim = c(-0.35,0.6),
-                 y_breaks = c(0,0.2,0.4,0.6),
-                 post_processing = list(
-                   add_custom_theme = list(
-                     axis.text.x = element_text(angle = -90, 
-                                                vjust = 0.5, 
-                                                size = 5)))) +
-  scale_colour_manual(values=c("#8D4585","#003151","orange","black")) +
-  labs(color="Treatment group",shape="Treatment group",linetype="Treatment group",size="Treatment group")
-dev.off()
-
-ess_trt_tail <- ESS_trt %>% 
-  pivot_wider(id_cols=property,values_from = m_ess_tail, names_from = variable) %>% 
-  merge(properties2, by.x="property",by.y = "row") %>%
-  dplyr::select(trt_eff_scen,icc,k,n_per_k,`beta_trt[2]`,`beta_trt[3]`,`beta_trt[4]`)
-png(filename=here("Output","esstail_trt_nonadapt.png"),width=10,height=6,res=300,units="in")
-nested_loop_plot(resdf = ess_trt_tail, 
-                 x = "n_per_k", steps = c("icc","k", "trt_eff_scen"),
-                 steps_y_base = -0.025, steps_y_height = 0.025, steps_y_shift = 0.025,
-                 x_name = "Sample size per cluster", y_name = "Proportion of trials where ESS tail < 400",
-                 spu_x_shift = 50,
-                 line_alpha = 0.6,
-                 point_alpha = 0.6,
-                 steps_values_annotate = TRUE, steps_annotation_size = 2.5, 
-                 hline_intercept = c(0,1), 
-                 ylim = c(-0.2,0.15),
-                 y_breaks = c(0,0.05,0.1,0.15),
-                 post_processing = list(
-                   add_custom_theme = list(
-                     axis.text.x = element_text(angle = -90, 
-                                                vjust = 0.5, 
-                                                size = 5)))) +
-  scale_colour_manual(values=c("#8D4585","#003151","orange","black")) +
-  labs(color="Treatment group",shape="Treatment group",linetype="Treatment group",size="Treatment group")
-dev.off()

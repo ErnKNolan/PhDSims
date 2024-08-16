@@ -46,8 +46,8 @@ testss <- function(t,expdat,rho,mod,outdir,...){
     res <- mod$sample(
       data = data, 
       init = 0,
-      iter_warmup = 1000,
-      iter_sampling = 1000,
+      iter_warmup = 500,
+      iter_sampling = 500,
       chains = 4, 
       parallel_chains = 1,
       adapt_delta = 0.99,

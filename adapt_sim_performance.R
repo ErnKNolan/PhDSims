@@ -59,7 +59,7 @@ power_plot_prob <- outsim3 %>%
 #nest_plot <- power_plot_opts %>% ungroup() %>% dplyr::select(trt_eff_scen,icc,n_per_k,k,bayesr)
 #nest_plot_prob <- power_plot_probs %>% ungroup() %>% dplyr::select(trt_eff_scen,icc,n_per_k,k,bayesr)
 
-
+#THIS IS THE NEXT SECTION
 #PLOTTING-----------------------------------------------------------------------------
 #RUN THESE ONCE EACH 'OUTSIM2' DATASET IS CLEANED ABOVE
 #main datasets
@@ -159,7 +159,7 @@ trial_drops <- merge(trial_drops,stops,by="property") %>%
 trial_drops$Scenario <- factor(trial_drops$Scenario, levels = c("Strong effect","Moderate effect","Null effect"))
 
 #Make the loop plot of adaptive design decisions
-png(filename=here("Output","trialprobprob_drops.png"),width=9,height=6,res=300,units="in")
+png(filename=here("Output","trialprob_drops.png"),width=9,height=6,res=300,units="in")
 nested_loop_plot(resdf = trial_drops, 
                  x = "n_per_k", steps = c("ICC","k","Scenario"),
                  steps_y_base = -0.1, steps_y_height = 0.1, steps_y_shift = 0.1,

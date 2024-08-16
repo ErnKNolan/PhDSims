@@ -1,17 +1,20 @@
 #AUTHOR: Erin Nolan
-#TITLE: PROJECT 2 NON-ADAPTIVE SIMULATION
+#TITLE: NON-ADAPTIVE SIMULATIONS FOR OPTIMISING IMPLEMENTATION STRATEGIES
 #PURPOSE: RUNS THE SIMULATIONS FOR MULTIARM cRCT UNDER VARIOUS PROPERTIES
 
 #Run the functions defined in make_clusters and fit_bae
 pacman::p_load(here,future.apply,tictoc,car,ggforce,rsimsum,dplyr,cmdstanr,rstan)
 
-source(here("Programs","make_clusters.R"))
-source(here("Programs","fit_bae.R"))
+source("make_clusters.R")
+source("fit_bae.R")
 
-#PROJECT 2 
 #The different trial properties
 set.seed(580208819)
-#The first interim is after either 3 or 5 clusters (out of 5 and 10)
+#trt_eff_scen = the treatment scenario
+#ctrl_prop = the baseline proportion of the event of interest
+#icc = intra-class correlation
+#n_per_k = number of participants per cluster
+#k = number of clusters
 properties <- expand.grid(trt_eff_scen = c(1,2,3), ctrl_prop = c(0.1), icc = c(0.05,0.2), n_per_k = c(5,25,50,75,100), k = c(5,10))
 
 #bind to properties
@@ -35,25 +38,24 @@ for(j in 1:nrow(properties)){
 }
 j <- 1
 #set how many workers you want to use
-plan(multisession,workers=20)
+plan(multisession,workers=20) 
 
- #Home computer
- baepath <- "D:/Programs/PhDProject2/Programs/adapt_arm.stan"
- set_cmdstan_path(path="C:/Users/nolan/Documents/.cmdstan/cmdstan-2.33.1")
- outdir <- "J:/Sims"
- 
-#run the code
-#test <- list()
+#Put in the paths for the simulation
+baepath <- "adapt_arm.stan" #the file path for the Stan model code
+set_cmdstan_path(path="/root/.cmdstan/cmdstan-2.33.1") #where cmdstan is located
+outdir <- "SimTrash" #where the stan files will be output
 mod <- cmdstan_model(baepath, pedantic = F, compile=T)
-#test <- readRDS(here("Data","nonadapt.RDS"))
-#THIS IS LEFT ON WHAT I RAN LAST
-for(j in 30){
+
+#run the trial
+test <- list() #test is the list of all the output from the simulated trials
+for(j in 1:60){ #loops through properties 1 to 60
   test[[length(test)+1]] <- future_replicate(2500,testss(expdat=outdat[[j]],t=4,mod=mod,outdir=outdir,
                                            rho=properties$icc[j],t1=properties$t1[j],t2=properties$t2[j],t3=properties$t3[j],t4=properties$t4[j]),
                                  future.seed = 42L)
 }
+#save the output for the non-adaptive trial simulations
+#saveRDS(test,"nonadapt.RDS")
 
-#saveRDS(test,here("Data","interim3.RDS"))
 #Reframe the output for use
 tempd <- test
 for(j in c(1:60)){
@@ -64,7 +66,8 @@ for(j in c(1:60)){
 }
 
 outsim <- bind_rows(tempd)
-
 properties2 <- properties %>% mutate(row = row_number()) 
 outsim2 <- merge(outsim,properties2,by.y=c("row"),by.x="property")
 #saveRDS(outsim2,file=here("Data","outsim_nonadapt.RDS"))
+
+#USE THIS OUTPUT (WITH THE ADAPTIVE DESIGN OUTPUT) IN adapt_sim_convergence and adapt_sim_performance
