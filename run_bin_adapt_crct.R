@@ -39,7 +39,7 @@ saveRDS(properties,here("Data","properties.RDS"))
 
 #Put in the paths and options for the trial
 plan(multisession,workers=20) #running the model in parallel
-baepath <- "adapt_arm.stan" #the file path for the Stan model code
+baepath <- "adapt_arm2.stan" #the file path for the Stan model code
 set_cmdstan_path(path="/root/.cmdstan/cmdstan-2.33.1") #where cmdstan is located
 outdir <- "SimTrash" #where the stan files will be output
 mod <- cmdstan_model(baepath, pedantic = F, compile=T)
