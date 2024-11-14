@@ -20,7 +20,7 @@ set.seed(580208819) #main seed
 #icc = intra-class correlation
 #n_per_k = number of participants per cluster
 #k = number of clusters
-properties <- expand.grid(trt_eff_scen = c(1,2,3), ctrl_prop = c(0.1), icc = c(0.05,0.2), n_per_k = c(5,25,50,75,100), k = c(5,10))
+properties <- expand.grid(trt_eff_scen = c(1,2,3), ctrl_prop = c(0.1), icc = c(0.05,0.2), n_per_k = c(5,25,50), k = c(5,10))
 
 #bind to properties
 properties <- rbind(properties) %>%
@@ -53,8 +53,9 @@ ties <- "ties_prob"
 
 #Run the trial
 test <- list() #test is the list of all the output from the simulated trials
-for(j in c(1:60)){
+for(j in c(1:36)){
   test[[length(test)+1]] <- future_replicate(2500,future.seed=42L,runSimTrial(properties,mod,outdir,j,adaption,drop_cut,stop_cut,ties))
+  saveRDS(test,"adaptprob.RDS")
 }
 #save the output for the adaptive trial simulations
 #saveRDS(test,"adaptprob.RDS")
