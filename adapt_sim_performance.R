@@ -9,9 +9,9 @@ pacman::p_load(here,future.apply,tictoc,car,ggforce,dplyr,cmdstanr,looplot,forca
 #RUN THIS CODE UNTIL NEXT SECTION FOR EACH OUTSIM2
 
 #read in the data
-#outsim2 <- readRDS(here("Data","adaptprob_outsim.RDS"))
-#outsim2 <- readRDS(here("Data","outsim_nonadapt.RDS"))
-#properties2 <- readRDS(here("Data","properties2.RDS"))
+#outsim2 <- readRDS(here("adapt_outsim.RDS"))
+#outsim2 <- readRDS(here("outsim_nonadapt.RDS"))
+properties2 <- readRDS(here("properties2.RDS"))
 
 #sensitivity datasets
 #outsim2 <- readRDS(here("Data","adaptopt_sens2_outsim.RDS"))
@@ -38,7 +38,7 @@ outsim3 <- merge(outsim2,power,by="property") %>%
 
 #plot the power over different features
 #setting up the data
-power_plot_prob <- outsim3 %>%
+nonadapt_power <- outsim3 %>%
   mutate(join = paste0("n per k=",n_per_k,", k=",k),
          sample_n = n_per_k*k, #total sample size
          deff = 1+icc*((n_per_k)-1), #design effect
@@ -49,7 +49,7 @@ power_plot_prob <- outsim3 %>%
          kf = factor(k))
 
 #save the power plot
-#saveRDS(power_plot_prob,here("Data","power_plot_prob.RDS"))
+#saveRDS(nonadapt_power,here("nonadapt_power.RDS"))
 
 #graph comparing adaptive and non-adaptive
 #cleaning the datasets
@@ -63,18 +63,18 @@ power_plot_prob <- outsim3 %>%
 #PLOTTING-----------------------------------------------------------------------------
 #RUN THESE ONCE EACH 'OUTSIM2' DATASET IS CLEANED ABOVE
 #main datasets
-power_plot_prob <- readRDS(here("Data","power_plot_prob.RDS"))
-nonadapt_power <- readRDS(here("Data","nonadapt_power.RDS"))
+power_plot_prob <- readRDS(here("power_plot_prob.RDS"))
+nonadapt_power <- readRDS(here("nonadapt_power.RDS"))
 nonadapt_plot <- nonadapt_power %>% ungroup() %>% filter(k %in% c(5,10), ctrl_prop == 0.1) %>%
   dplyr::select(trt_eff_scen,icc,n_per_k,k,bayesr) 
-#nest_plot <- power_plot_opt %>% ungroup() %>% dplyr::select(trt_eff_scen,icc,n_per_k,k,bayesr)
 nest_plot_prob <- power_plot_prob %>% ungroup() %>% dplyr::select(trt_eff_scen,icc,n_per_k,k,bayesr)
 
 #combine the two datasets
 loop_plot <- inner_join(nest_plot_prob,nonadapt_plot,by=c("icc","trt_eff_scen","n_per_k","k")) %>%
   rename(nonadapt = bayesr.y,
          prob = bayesr.x) %>%
-  mutate(k = fct_rev(factor(k))) %>%
+  #mutate(k = fct_rev(factor(k)),
+  #       icc = fct_rev(factor(icc))) %>%
   rename(`Non-adpative` = nonadapt,
          `Adaptive` = prob,
          ICC = icc,
@@ -83,56 +83,57 @@ loop_plot <- inner_join(nest_plot_prob,nonadapt_plot,by=c("icc","trt_eff_scen","
                             Scenario == 2 ~ "Moderate effect",
                             Scenario == 3 ~ "Null effect"))
 loop_plot$Scenario <- factor(loop_plot$Scenario, levels = c("Strong effect","Moderate effect","Null effect"))
+loop_plot$Scenario <- fct_rev(loop_plot$Scenario)
 loop_plot_effs <- loop_plot %>% filter(Scenario != "Null effect")
 loop_plot_null <- loop_plot %>% filter(Scenario =="Null effect") %>% dplyr::select(-Scenario)
 
 #The graph
-png(filename=here("Output","nest_loop.png"),width=8,height=6,res=300,units="in")
+png(filename=here("nest_loop.png"),width=8,height=6,res=300,units="in")
 nested_loop_plot(resdf = loop_plot_effs, 
                      x = "n_per_k", steps = c("ICC","k", "Scenario"),
                      steps_y_base = -0.1, steps_y_height = 0.1, steps_y_shift = 0.1,
                      x_name = "Sample size per cluster", y_name = "Power",
-                     spu_x_shift = 50,
+                     spu_x_shift = 25,
                      line_alpha = 0.6,
                      point_alpha = 0.6,
                      y_breaks = c(0,0.25,0.5,0.75,1),
                      ylim = c(-0.6,1),
                      steps_values_annotate = TRUE, steps_annotation_size = 3, 
-                     hline_intercept = c(0,1), 
+                     hline_intercept = c(0,0.25,0.5,0.75,1), 
                      post_processing = list(
                        add_custom_theme = list(
                          axis.text.x = element_text(angle = -90, 
                                                     vjust = 0.5, 
                                                     size = 7))))+
-  scale_colour_manual(values=c("#6d6d6d","black","black"))+
+  scale_colour_manual(values=c("#6d6d6d","black"))+
   labs(color="Design",shape="Design",linetype="Design",size="Design")
 dev.off()
 
 #Graph for the null scenario
-png(filename=here("Output","nest_loop_null.png"),width=8,height=6,res=300,units="in")
+png(filename=here("nest_loop_null.png"),width=8,height=6,res=300,units="in")
 nested_loop_plot(resdf = loop_plot_null, 
                  x = "n_per_k", steps = c("ICC","k"),
                  steps_y_base = -0.025, steps_y_height = 0.025, steps_y_shift = 0.025,
                  x_name = "Sample size per cluster", y_name = "Type 1 error",
-                 spu_x_shift = 50,
+                 spu_x_shift = 25,
                  line_alpha = 0.6,
                  point_alpha = 0.6,
                  steps_values_annotate = TRUE, steps_annotation_size = 3, 
-                 hline_intercept = c(0), 
-                 ylim = c(-0.1,0.25),
-                 y_breaks = c(0,0.05,0.1,0.15,0.2,0.25),
+                 hline_intercept = c(0,0.05), 
+                 ylim = c(-0.1,0.1),
+                 y_breaks = c(0,0.05,0.1),
                  post_processing = list(
                    add_custom_theme = list(
                      axis.text.x = element_text(angle = -90, 
                                                 vjust = 0.5, 
                                                 size = 7))))+
-  scale_colour_manual(values=c("#6d6d6d","black","black"))+
+  scale_colour_manual(values=c("#6d6d6d","black"))+
   labs(color="Design",shape="Design",linetype="Design",size="Design")
 dev.off()
 
 #ADAPTIVE DESIGN DECISIONS-------------------------------------------------------------
 #Read in the adaptive design decisions
-trial_props <- readRDS(here("Data","adaptprob_trial_props.RDS"))
+trial_props <- readRDS(here("adapt_trial_props.RDS"))
 
 #summarising proportion of each decision
 stops <- trial_props %>% group_by(property) %>% summarise(stops = (sum(stop)/n()))
@@ -146,7 +147,7 @@ trial_drops <- merge(trial_drops,stops,by="property") %>%
   merge(trt3drps,by="property") %>%
   merge(trt4drps,by="property") %>%
   dplyr::select(trt_eff_scen,icc,n_per_k,k,stops,trt2drps,trt3drps,trt4drps) %>%
-  mutate(k = fct_rev(factor(k))) %>% 
+  #mutate(k = fct_rev(factor(k))) %>% 
   rename(`Stop for futility` = stops,
          `Arm 2 dropped` = trt2drps,
          `Arm 3 dropped` = trt3drps,
@@ -157,16 +158,16 @@ trial_drops <- merge(trial_drops,stops,by="property") %>%
                               Scenario == 2 ~ "Moderate effect",
                               Scenario == 3 ~ "Null effect"))
 trial_drops$Scenario <- factor(trial_drops$Scenario, levels = c("Strong effect","Moderate effect","Null effect"))
-
+trial_drops$Scenario <- fct_rev(trial_drops$Scenario)
 #Make the loop plot of adaptive design decisions
-png(filename=here("Output","trialprob_drops.png"),width=9,height=6,res=300,units="in")
+png(filename=here("trialprob_drops.png"),width=9,height=6,res=300,units="in")
 nested_loop_plot(resdf = trial_drops, 
                  x = "n_per_k", steps = c("ICC","k","Scenario"),
                  steps_y_base = -0.1, steps_y_height = 0.1, steps_y_shift = 0.1,
                  x_name = "Sample size per cluster", y_name = "Proportion",
                  spu_x_shift = 30,
                  steps_values_annotate = TRUE, steps_annotation_size = 3, 
-                 hline_intercept = c(0), 
+                 hline_intercept = c(0,0.5,1), 
                  ylim = c(-0.75,1),
                  y_breaks = c(0,0.25,0.5,0.75,1),
                  post_processing = list(
