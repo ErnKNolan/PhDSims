@@ -83,4 +83,6 @@ droparm <- armdrop %>% group_by(property,trt_eff_scen,icc,n_per_k,k) %>%
             armdrop3_cut10 = sum(armdrop3_cut10)/n(),
             armdrop4_cut10 = sum(armdrop4_cut10)/n())
 
+#save the results
+write.csv(droparm,"droparm.csv")
 
