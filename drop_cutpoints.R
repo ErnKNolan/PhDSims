@@ -52,19 +52,19 @@ armdrop <- outsim2 %>% filter(variable %in% c("pp_trt2","pp_trt3",'pp_trt4',
          arm_drop4 = ifelse(arm2drop_cut05 + arm3drop_cut05 + arm4drop_cut05 >= 1 & pp_trt4 == min(pp_trt2,pp_trt3,pp_trt4),1,0),
          #if there is a tie for pp_trt then judges from pred_prob_trt, if theres no tie then just checking it is the min pp_trt
          armdrop2_cut05 = ifelse((arm_drop2 + arm_drop3 + arm_drop4 > 1 & `pred_prob_trt[2]` == min(`pred_prob_trt[2]`,`pred_prob_trt[3]`,`pred_prob_trt[4]`)) | 
-                              (arm_drop2 + arm_drop3 + arm_drop4 == 1 & arm_drop2 == 1),1,0),
+                                   (arm_drop2 + arm_drop3 + arm_drop4 == 1 & arm_drop2 == 1),1,0),
          armdrop3_cut05 = ifelse((arm_drop2 + arm_drop3 + arm_drop4 > 1 & `pred_prob_trt[3]` == min(`pred_prob_trt[2]`,`pred_prob_trt[3]`,`pred_prob_trt[4]`)) | 
-                              (arm_drop2 + arm_drop3 + arm_drop4 == 1 & arm_drop3 == 1),1,0),
+                                   (arm_drop2 + arm_drop3 + arm_drop4 == 1 & arm_drop3 == 1),1,0),
          armdrop4_cut05 = ifelse((arm_drop2 + arm_drop3 + arm_drop4 > 1 & `pred_prob_trt[4]` == min(`pred_prob_trt[2]`,`pred_prob_trt[3]`,`pred_prob_trt[4]`)) | 
-                              (arm_drop2 + arm_drop3 + arm_drop4 == 1 & arm_drop4 == 1),1,0)) %>%
+                                   (arm_drop2 + arm_drop3 + arm_drop4 == 1 & arm_drop4 == 1),1,0)) %>%
   dplyr::select(-arm_drop2,-arm_drop3,-arm_drop4) %>%
   #same rules again but this time with a cutpoint of 0.1
   mutate(arm2drop_cut10 = ifelse(pp_trt2 <= 0.1,1,0),
          arm3drop_cut10 = ifelse(pp_trt3 <= 0.1,1,0),
          arm4drop_cut10 = ifelse(pp_trt4 <= 0.1,1,0),
-         arm_drop2 = ifelse(arm2drop_cut05 + arm3drop_cut10 + arm4drop_cut10 >= 1 & pp_trt2 == min(pp_trt2,pp_trt3,pp_trt4),1,0),
-         arm_drop3 = ifelse(arm2drop_cut05 + arm3drop_cut10 + arm4drop_cut10 >= 1 & pp_trt3 == min(pp_trt2,pp_trt3,pp_trt4),1,0),
-         arm_drop4 = ifelse(arm2drop_cut05 + arm3drop_cut10 + arm4drop_cut10 >= 1 & pp_trt4 == min(pp_trt2,pp_trt3,pp_trt4),1,0),
+         arm_drop2 = ifelse(arm2drop_cut10 + arm3drop_cut10 + arm4drop_cut10 >= 1 & pp_trt2 == min(pp_trt2,pp_trt3,pp_trt4),1,0),
+         arm_drop3 = ifelse(arm2drop_cut10 + arm3drop_cut10 + arm4drop_cut10 >= 1 & pp_trt3 == min(pp_trt2,pp_trt3,pp_trt4),1,0),
+         arm_drop4 = ifelse(arm2drop_cut10 + arm3drop_cut10 + arm4drop_cut10 >= 1 & pp_trt4 == min(pp_trt2,pp_trt3,pp_trt4),1,0),
          armdrop2_cut10 = ifelse((arm_drop2 + arm_drop3 + arm_drop4 > 1 & `pred_prob_trt[2]` == min(`pred_prob_trt[2]`,`pred_prob_trt[3]`,`pred_prob_trt[4]`)) | 
                                    (arm_drop2 + arm_drop3 + arm_drop4 == 1 & arm_drop2 == 1),1,0),
          armdrop3_cut10 = ifelse((arm_drop2 + arm_drop3 + arm_drop4 > 1 & `pred_prob_trt[3]` == min(`pred_prob_trt[2]`,`pred_prob_trt[3]`,`pred_prob_trt[4]`)) | 
@@ -72,7 +72,33 @@ armdrop <- outsim2 %>% filter(variable %in% c("pp_trt2","pp_trt3",'pp_trt4',
          armdrop4_cut10 = ifelse((arm_drop2 + arm_drop3 + arm_drop4 > 1 & `pred_prob_trt[4]` == min(`pred_prob_trt[2]`,`pred_prob_trt[3]`,`pred_prob_trt[4]`)) | 
                                    (arm_drop2 + arm_drop3 + arm_drop4 == 1 & arm_drop4 == 1),1,0)) %>%
   dplyr::select(-arm_drop2,-arm_drop3,-arm_drop4,-arm2drop_cut05,-arm3drop_cut05,-arm4drop_cut05,
-                -arm2drop_cut10,-arm3drop_cut10,-arm4drop_cut10)
+                -arm2drop_cut10,-arm3drop_cut10,-arm4drop_cut10) %>%
+  #same rules again but this time with a cutpoint of 0.15
+  mutate(arm2drop_cut15 = ifelse(pp_trt2 <= 0.15,1,0),
+         arm3drop_cut15 = ifelse(pp_trt3 <= 0.15,1,0),
+         arm4drop_cut15 = ifelse(pp_trt4 <= 0.15,1,0),
+         arm_drop2 = ifelse(arm2drop_cut15 + arm3drop_cut15 + arm4drop_cut15 >= 1 & pp_trt2 == min(pp_trt2,pp_trt3,pp_trt4),1,0),
+         arm_drop3 = ifelse(arm2drop_cut15 + arm3drop_cut15 + arm4drop_cut15 >= 1 & pp_trt3 == min(pp_trt2,pp_trt3,pp_trt4),1,0),
+         arm_drop4 = ifelse(arm2drop_cut15 + arm3drop_cut15 + arm4drop_cut15 >= 1 & pp_trt4 == min(pp_trt2,pp_trt3,pp_trt4),1,0),
+         armdrop2_cut15 = ifelse((arm_drop2 + arm_drop3 + arm_drop4 > 1 & `pred_prob_trt[2]` == min(`pred_prob_trt[2]`,`pred_prob_trt[3]`,`pred_prob_trt[4]`)) | 
+                                   (arm_drop2 + arm_drop3 + arm_drop4 == 1 & arm_drop2 == 1),1,0),
+         armdrop3_cut15 = ifelse((arm_drop2 + arm_drop3 + arm_drop4 > 1 & `pred_prob_trt[3]` == min(`pred_prob_trt[2]`,`pred_prob_trt[3]`,`pred_prob_trt[4]`)) | 
+                                   (arm_drop2 + arm_drop3 + arm_drop4 == 1 & arm_drop3 == 1),1,0),
+         armdrop4_cut15 = ifelse((arm_drop2 + arm_drop3 + arm_drop4 > 1 & `pred_prob_trt[4]` == min(`pred_prob_trt[2]`,`pred_prob_trt[3]`,`pred_prob_trt[4]`)) | 
+                                   (arm_drop2 + arm_drop3 + arm_drop4 == 1 & arm_drop4 == 1),1,0)) %>%
+  #same rules again but this time with a cutpoint of 0.2
+  mutate(arm2drop_cut2 = ifelse(pp_trt2 <= 0.2,1,0),
+         arm3drop_cut2 = ifelse(pp_trt3 <= 0.2,1,0),
+         arm4drop_cut2 = ifelse(pp_trt4 <= 0.2,1,0),
+         arm_drop2 = ifelse(arm2drop_cut2 + arm3drop_cut2 + arm4drop_cut2 >= 1 & pp_trt2 == min(pp_trt2,pp_trt3,pp_trt4),1,0),
+         arm_drop3 = ifelse(arm2drop_cut2 + arm3drop_cut2 + arm4drop_cut2 >= 1 & pp_trt3 == min(pp_trt2,pp_trt3,pp_trt4),1,0),
+         arm_drop4 = ifelse(arm2drop_cut2 + arm3drop_cut2 + arm4drop_cut2 >= 1 & pp_trt4 == min(pp_trt2,pp_trt3,pp_trt4),1,0),
+         armdrop2_cut2 = ifelse((arm_drop2 + arm_drop3 + arm_drop4 > 1 & `pred_prob_trt[2]` == min(`pred_prob_trt[2]`,`pred_prob_trt[3]`,`pred_prob_trt[4]`)) | 
+                                   (arm_drop2 + arm_drop3 + arm_drop4 == 1 & arm_drop2 == 1),1,0),
+         armdrop3_cut2 = ifelse((arm_drop2 + arm_drop3 + arm_drop4 > 1 & `pred_prob_trt[3]` == min(`pred_prob_trt[2]`,`pred_prob_trt[3]`,`pred_prob_trt[4]`)) | 
+                                   (arm_drop2 + arm_drop3 + arm_drop4 == 1 & arm_drop3 == 1),1,0),
+         armdrop4_cut2 = ifelse((arm_drop2 + arm_drop3 + arm_drop4 > 1 & `pred_prob_trt[4]` == min(`pred_prob_trt[2]`,`pred_prob_trt[3]`,`pred_prob_trt[4]`)) | 
+                                   (arm_drop2 + arm_drop3 + arm_drop4 == 1 & arm_drop4 == 1),1,0))
 
 #summarise the data to see proportion of trials that dropped which arm
 droparm <- armdrop %>% group_by(property,trt_eff_scen,icc,n_per_k,k) %>% 
@@ -81,7 +107,13 @@ droparm <- armdrop %>% group_by(property,trt_eff_scen,icc,n_per_k,k) %>%
             armdrop4_cut05 = sum(armdrop4_cut05)/n(),
             armdrop2_cut10 = sum(armdrop2_cut10)/n(),
             armdrop3_cut10 = sum(armdrop3_cut10)/n(),
-            armdrop4_cut10 = sum(armdrop4_cut10)/n())
+            armdrop4_cut10 = sum(armdrop4_cut10)/n(),
+            armdrop2_cut15 = sum(armdrop2_cut15)/n(),
+            armdrop3_cut15 = sum(armdrop3_cut15)/n(),
+            armdrop4_cut15 = sum(armdrop4_cut15)/n(),
+            armdrop2_cut2 = sum(armdrop2_cut2)/n(),
+            armdrop3_cut2 = sum(armdrop3_cut2)/n(),
+            armdrop4_cut2 = sum(armdrop4_cut2)/n())
 
 #save the results
 write.csv(droparm,"droparm.csv")
