@@ -2,6 +2,7 @@
 #test multiple cutpoints for trials with 3 and 5 clusters at interim
 #e.g. the non-adaptive results at 5 clusters are the same as the adaptive results at their 5 cluster interim
 #read in data AFTER compiling the results for non-adaptive designs at k clusters max
+pacman::p_load(here,dplyr,tidyr)
 
 #read in the results at 3 and 5 clusters
 interim3 <- readRDS("outsim_interim3.RDS")
