@@ -36,17 +36,16 @@ parameters {
   vector[N_trt_groups-1] theta_trt; //beta coefficients for each treatment group
   vector[N_site] alpha_site_raw; //random effect coefficients for site
 
-  real mu_alpha;
   real<lower=0> sigma_alpha;
 }
 
 transformed parameters {   
- vector[N_site] b0_site = b0 + mu_alpha + sigma_alpha*alpha_site_raw;//implies: random intercept for site is sampled from multivariate normal with mean 0 and 100 SD
+ vector[N_site] b0_site = b0 + sigma_alpha*alpha_site_raw;//implies: random intercept for site is sampled from multivariate normal with mean 0 and 0.2 SD
  
  
 }
 model {
-  mu_alpha~normal(0, 1);
+
   sigma_alpha~normal(0, 0.2);
 
   b0~normal(0,2);
