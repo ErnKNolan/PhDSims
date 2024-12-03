@@ -29,29 +29,36 @@ transformed data {
   R_ast_inverse = inverse(R_ast);
 
 
+  matrix[N_site, N_site] A = diag_matrix(rep_vector(1, N_site));
+  matrix[N_site, N_site - 1] A_qr;
+  for (i in 1:N_site - 1) A[N_site, i] = -1;
+  A[N_site, N_site] = 0;
+  A_qr = qr_Q(A)[ , 1:(N_site - 1)];
+
+
 
 }
 parameters {
   real b0;
   vector[N_trt_groups-1] theta_trt; //beta coefficients for each treatment group
-  vector[N_site] alpha_site_raw; //random effect coefficients for site
+  vector[N_site - 1] alpha_site_raw_qr; //random effect coefficients for site
 
   real<lower=0> sigma_alpha;
 }
 
 transformed parameters {   
- vector[N_site] b0_site = b0 + sigma_alpha*alpha_site_raw;//implies: random intercept for site is sampled from multivariate normal with mean 0 and 0.2 SD
+vector[N_site] alpha_site_raw =  A_qr * alpha_site_raw_qr;
+vector[N_site] b0_site = b0 + sigma_alpha*alpha_site_raw;//implies: random intercept for site is sampled from multivariate normal with mean 0 and 100 SD
  
  
 }
 model {
-
   sigma_alpha~normal(0, 0.2);
 
   b0~normal(0,2);
   theta_trt[1:N_trt_groups-1]~normal(0,2);
 
-  alpha_site_raw~std_normal();
+  alpha_site_raw_qr~normal(0, inv(sqrt(1 - inv(N_site))));;
   
   resp ~ bernoulli_logit( Q_ast * theta_trt + Z_matrix*b0_site);
 }
