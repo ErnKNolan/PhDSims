@@ -20,7 +20,7 @@ set.seed(580208819) #main seed
 #icc = intra-class correlation
 #n_per_k = number of participants per cluster
 #k = number of clusters
-properties <- expand.grid(trt_eff_scen = c(1,2,3), ctrl_prop = c(0.1), icc = c(0.05,0.2), n_per_k = c(5,25,50), k = c(5,10))
+properties <- expand.grid(trt_eff_scen = c(1,2,3), ctrl_prop = c(0.1), icc = c(0.05,0.1,0.2), n_per_k = c(5,25,50), k = c(5,10))
 
 #bind to properties
 properties <- rbind(properties) %>%
@@ -45,7 +45,7 @@ outdir <- "SimTrash" #where the stan files will be output
 mod <- cmdstan_model(baepath, pedantic = F, compile=T)
 adaption <- "both" #this can be early_stopping, arm_dropping, or both
 drop_cut <- 0.05 #cutpoint for dropping an arm
-stop_cut <- 0.15 #cutpoint for stopping for futility
+stop_cut <- 0.3 #cutpoint for stopping for futility
 
 #this can be ties_prob or ties_opt. Ties opt drops the highest constraint arm if there is a tie for which has the lowest probability of success
 #ties_prob drops the arm with the lowest pred prob estimate if there is a tie for which has the lowest probability of success
@@ -53,7 +53,7 @@ ties <- "ties_prob"
 
 #Run the trial
 test <- list() #test is the list of all the output from the simulated trials
-for(j in c(1:36)){
+for(j in c(1:54)){
   test[[length(test)+1]] <- future_replicate(2500,future.seed=42L,runSimTrial(properties,mod,outdir,j,adaption,drop_cut,stop_cut,ties))
   saveRDS(test,"adaptprob.RDS")
 }
