@@ -21,21 +21,25 @@ testInterim <- function(t,expdat,rho,mod,outdir,int_dat,...){
   #when modelling, factor variable of trt
   sigma2 <- (pi ^ 2) / 3
   theta <- sqrt((rho*sigma2)/(1-rho))
-  names(theta)<-c("site.(Intercept)")
+  
+  names(theta)<-c("ascendsite.(Intercept)")
   #fitting model
+  
   results <- vector()
-  return <- tryCatch({
-    
-    resp <- suppressMessages(simulate.formula( ~ factor(trt) + (1|site), nsim = 1, family = binomial, 
-                                               newdata = expdat,newparams = list(beta=beta, theta=theta)))
-    
-    resp <- as.vector(resp[,1])
-    N_obs <- dim(expdat)[1]
-    N_site <- length(unique(expdat$site))
-    N_trt_groups <- length(unique(expdat$trt))
-    data <- list(N_obs = N_obs, N_site = N_site, N_trt_groups = N_trt_groups, 
-                 site = expdat$site, trt = as.numeric(expdat$trt), resp = resp)
-    
+  #make a unique site number
+  expdat$siteunique <- paste0(expdat$trt,expdat$site)
+  expdat$ascendsite <- as.integer(factor(expdat$siteunique,levels=unique(expdat$siteunique)))
+  
+  resp <- suppressMessages(simulate.formula( ~ factor(trt) + (1|ascendsite), nsim = 1, family = binomial, 
+                                             newdata = expdat,newparams = list(beta=beta, theta=theta)))
+  
+  resp <- as.vector(resp[,1])
+  N_obs <- dim(expdat)[1]
+  N_site <- length(unique(expdat$ascendsite))
+  N_trt_groups <- length(unique(expdat$trt))
+  data <- list(N_obs = N_obs, N_site = N_site, N_trt_groups = N_trt_groups, 
+               site =  expdat$ascendsite, trt = as.numeric(expdat$trt), resp = resp)   
+  
     res <- mod$sample(
       data = data, 
       init = 0,
@@ -53,15 +57,7 @@ testInterim <- function(t,expdat,rho,mod,outdir,int_dat,...){
     time <- toc()
     time <- time$toc - time$tic
     #pp_trt1 etc are the predictive prob that the treatment has the largest beta
-    results <- list(data.frame(res$summary(variables=c("pred_prob_trt","beta_trt","pp_trt2","pp_trt3","pp_trt4",,"probd_trt2","probd_trt3","probd_trt4")),time=time),resp=list(resp))
-    
-  },
-  
-  error=function(e) { message(conditionMessage(e)) 
-    res <- list(data.frame(variable=NA,mean=NA,median=NA,sd=NA,mad=NA,q5=NA,q95=NA,rhat=NA,ess_bulk=NA,ess_tail=NA,time=NA))
-  })
-  
+    results <- list(data.frame(res$summary(variables=c("pred_prob_trt","beta_trt","pp_trt2","pp_trt3","pp_trt4","probd_trt2","probd_trt3","probd_trt4")),time=time),resp=list(resp))
   return(results)
   
 }
-
