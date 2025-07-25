@@ -24,27 +24,36 @@ testFull <- function(t,expdat,rho,mod,outdir,int_dat,...){
   #when modelling, factor variable of trt
   sigma2 <- (pi ^ 2) / 3
   theta <- sqrt((rho*sigma2)/(1-rho))
-  names(theta)<-c("site.(Intercept)")
+
+  names(theta)<-c("ascendsite.(Intercept)")
   #fitting model
   results <- vector()
-  return <- tryCatch({
-    
-    resp <- suppressMessages(simulate.formula( ~ factor(trt) + (1|site), nsim = 1, family = binomial, 
-                                               newdata = expdat,newparams = list(beta=beta, theta=theta)))
-    resp_dat <- cbind(expdat,resp) 
-    names(resp_dat) <- c("iid","site","trt","resp")
-    resp_dat <- merge(resp_dat,int_dat,by=c("iid","site","trt"),all.x=TRUE) %>%
-      within(., resp <- ifelse(!is.na(resp.y), resp.y, resp.x)) %>%
-      dplyr::select(-resp.x,-resp.y) %>% 
-      arrange(site)
-
-    resp <- as.vector(resp_dat[,4])
-    N_obs <- dim(expdat)[1]
-    N_site <- length(unique(expdat$site))
-    N_trt_groups <- length(unique(expdat$trt))
-    data <- list(N_obs = N_obs, N_site = N_site, N_trt_groups = N_trt_groups, 
-                 site = expdat$site, trt = as.numeric(expdat$trt), resp = resp)
-    
+  #make a unique site number
+  expdat$siteunique <- paste0(expdat$trt,expdat$site)
+  expdat$ascendsite <- as.integer(factor(expdat$siteunique,levels=unique(expdat$siteunique)))
+  
+  resp <- suppressMessages(simulate.formula( ~ factor(trt) + (1|ascendsite), nsim = 1, family = binomial, 
+                                             newdata = expdat,newparams = list(beta=beta, theta=theta)))
+  
+  resp_dat <- cbind(expdat,resp) 
+  #need to remove them to merge, then regenerate
+  resp_dat <- resp_dat %>% dplyr::select(-siteunique,-ascendsite)
+  resp_dat <- resp_dat %>% rename(resp = sim_1)
+  resp_dat <- merge(resp_dat,int_dat,by=c("iid","site","trt"),all.x=TRUE) %>%
+    within(., resp <- ifelse(!is.na(resp.y), resp.y, resp.x)) %>%
+    dplyr::select(-resp.x,-resp.y) %>% 
+    arrange(trt,site)
+  
+  #making unique site again to make the merging above work (we drop them previously)
+  resp_dat$siteunique <- paste0(resp_dat$trt,resp_dat$site)
+  resp_dat$ascendsite <- as.integer(factor(resp_dat$siteunique,levels=unique(resp_dat$siteunique)))
+  #preparing the data to read into stan
+  N_obs <- dim(resp_dat)[1]
+  N_site <- length(unique(resp_dat$ascendsite))
+  N_trt_groups <- length(unique(resp_dat$trt))
+  data <- list(N_obs = N_obs, N_site = N_site, N_trt_groups = N_trt_groups, 
+               site = resp_dat$ascendsite, trt = as.numeric(resp_dat$trt), resp = resp_dat$resp)
+  
     res <- mod$sample(
       data = data, 
       init = 0,
@@ -61,14 +70,8 @@ testFull <- function(t,expdat,rho,mod,outdir,int_dat,...){
     print(j)
     time <- toc()
     time <- time$toc - time$tic
-    results <- list(data.frame(res$summary(variables=c("pred_prob_trt","beta_trt","pp_trt2","pp_trt3","pp_trt4","probd_trt2","probd_trt3","probd_trt4")),time=time))
-  },
-  
-  error=function(e) { message(conditionMessage(e)) 
-    res <- list(data.frame(variable=NA,mean=NA,median=NA,sd=NA,mad=NA,q5=NA,q95=NA,rhat=NA,ess_bulk=NA,ess_tail=NA,time=NA))
-  })
-  
+    
+    results <- list(data.frame(res$summary(variables=c("pred_prob_trt","beta_trt","pp_trt2","pp_trt3","pp_trt4","probd_trt2","probd_trt3","probd_trt4"))))
   return(results)
   
 }
-
