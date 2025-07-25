@@ -15,7 +15,7 @@ set.seed(580208819)
 #icc = intra-class correlation
 #n_per_k = number of participants per cluster
 #k = number of clusters
-properties <- expand.grid(trt_eff_scen = c(1,2,3), ctrl_prop = c(0.1), icc = c(0.05,0.2), n_per_k = c(5,25,50), k = c(5,10))
+properties <- expand.grid(trt_eff_scen = c(1,2,3), ctrl_prop = c(0.1), icc = c(0.05,0.1,0.2), n_per_k = c(5,25,50), k = c(5,10))
 
 #bind to properties
 properties <- rbind(properties) %>%
